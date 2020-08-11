@@ -8,8 +8,10 @@
 </listAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.wudsn.tools.thecartstudio.TheCartStudio"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\ActivisionCollection.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\Darrens.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\Shooter.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\8Multi4.atr&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="com.wudsn.productions.atari800.thecartstudio"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\ActivisionCollection.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\DarrensArcade.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\Shooter.atr&quot; -addEntries:&quot;C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\AtariMax\ATR\8Multi4 (maxflash image).atr&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="com.wudsn.productions.atari800.thecartstudio"/>
 </launchConfiguration>

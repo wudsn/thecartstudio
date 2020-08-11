@@ -8,6 +8,7 @@
 </listAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.wudsn.tools.thecartstudio.TheCartStudio"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-help -createSampleFiles:C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples\ROMs\UnitTest"/>
