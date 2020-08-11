@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 - 2019 <a href="http://www.wudsn.com" target="_top">Peter Dell</a>
+ * Copyright (C) 2013 - 2020 <a href="https://www.wudsn.com" target="_top">Peter Dell</a>
  *
  * This file is part of The!Cart Studio distribution.
  * 
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with The!Cart Studio. If not, see <http://www.gnu.org/licenses/>.
+ * along with The!Cart Studio. If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.wudsn.tools.thecartstudio.model.maxflash;
@@ -222,7 +222,7 @@ public final class MaxflashMenu extends ImportableMenu {
 				// But due to a missing warning in Maxflash studio, the title
 				// space can overwrite the entry space if many long titles are
 				// used. See
-				// http://www.atarimax.com/flashcart/forum/viewtopic.php?f=3&t=1473
+				// https://www.atarimax.com/flashcart/forum/viewtopic.php?f=3&t=1473
 				menuEntriesCount = Math.min(menuEntriesCount, 127);
 				boolean corruptedEndFound = false;
 				for (int j = 0; j < menuEntriesCount && !corruptedEndFound; j++) {

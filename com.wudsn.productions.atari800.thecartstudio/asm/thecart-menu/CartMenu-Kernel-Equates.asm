@@ -273,7 +273,7 @@ end_of_code
 ;; ATARI 800 SYSTEM EQUATE LISTING
 ;;
 ;; Tranferred to ATASM format by JAC! on 2010-11-11 based on
-;; http://evilbill.org/old/orig/Atari/8-Bit/Refman/appendixB.html.
+;; https://evilbill.org/old/orig/Atari/8-Bit/Refman/appendixB.html.
 ;; Formatted using tabs for a tab width of 8 characters.
 ;; Last update on 2010-11-11.
 ;;

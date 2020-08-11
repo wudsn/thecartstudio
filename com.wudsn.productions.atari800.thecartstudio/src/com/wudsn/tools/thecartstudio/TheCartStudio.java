@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 - 2019 <a href="http://www.wudsn.com" target="_top">Peter Dell</a>
+ * Copyright (C) 2013 - 2020 <a href="https://www.wudsn.com" target="_top">Peter Dell</a>
  *
  * This file is part of The!Cart Studio distribution.
  * 
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with The!Cart Studio. If not, see <http://www.gnu.org/licenses/>.
+ * along with The!Cart Studio. If not, see <https://www.gnu.org/licenses/>.
  */
 package com.wudsn.tools.thecartstudio;
 
@@ -99,7 +99,7 @@ import com.wudsn.tools.thecartstudio.ui.WorkbookOptionsDialog;
  * to be known, this would also allow for autostart XEX without INIADR/RUNADR
  * segments<<br/>
  * TODO Allow setting of one cart as the "Autorun" default, see
- * http://atariage.com/forums/user/8819-ebiguy message.<br/>
+ * https://atariage.com/forums/user/8819-ebiguy message.<br/>
  * TODO Add support for "AtariMax" & "MegaCart" Bankswitching in the extended
  * menu<br/>
  * Actually typing in "P M", "Pac Man" or "Man Pac * " should find it. Only
@@ -310,7 +310,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 
 		Application
 			.createInstance(
-				"http://www.wudsn.com/productions/atari800/thecartstudio/thecartstudio.zip",
+				"https://www.wudsn.com/productions/atari800/thecartstudio/thecartstudio.zip",
 				"TheCartStudio.jar",
 				"com/wudsn/tools/thecartstudio/TheCartStudio.version");
 		instance = new TheCartStudio();

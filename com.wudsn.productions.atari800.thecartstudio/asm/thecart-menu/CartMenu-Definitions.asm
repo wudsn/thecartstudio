@@ -4,7 +4,7 @@
 ;	@com.wudsn.ide.asm.mainsourcefile=CartMenu-Extended.asm
 
 ; The following jump vectors ar available in bank 0 of the "cartmenu.rom".
-; See "cartmenu.src" of the "http://www.horus.com/~hias/thecart/software/".
+; See "cartmenu.src" of the "https://www.horus.com/~hias/thecart/software/".
 ;
 ;$A000: Start CartMenu - ruft "mein" CartMenu auf
 ;
