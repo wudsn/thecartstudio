@@ -12,11 +12,11 @@
 
 	<target name="init">
 		<property name="year" value="2020" />
-		<property name="toolsFolder" value="../../WUDSN-Tools" />
+		<property name="toolsFolder" value="../../WUDSN-Base" />
 		<property name="examplesFolder" value="C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples" />
 		<property name="productionsFolder" value="C:\jac\system\WWW\Sites\www.wudsn.com\productions" />
 	</target>
-	
+
 	<target name="create_binaries" depends="init">
 
 		<!-- Assemble studio unit test files -->
@@ -168,12 +168,11 @@
 		<replace file="${productionFolder}\help\TheCartStudio.html" token="10px;" value="12px">
 		</replace>
 
-		<echo message="Opening ${productionFolder}." />
-		<exec executable="explorer.exe">
+		<echo message="Opening ${productionFolder}. You can ignore the RC 1 below." />
+		<exec executable="explorer.exe" resultproperty="explorerReturnCode">
 			<arg value="${productionFolder}" />
 		</exec>
-
-		<echo message="File in the ${productionFolder} are ready for upload." />
+		<echo message="Files in the ${productionFolder} folder are ready for upload." />
 
 	</target>
 </project>
