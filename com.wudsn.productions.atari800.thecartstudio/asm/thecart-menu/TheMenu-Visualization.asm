@@ -113,7 +113,8 @@ clear_sm
 	sta pcolor1
 	sta gractl			;Reset PM graphics
 	sta grafp0
-	sta grafp1	
+	sta grafp1
+	sta pmbase
 	rts
 
 	.endp

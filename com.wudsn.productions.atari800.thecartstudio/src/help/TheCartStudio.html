@@ -115,7 +115,13 @@
 				<a href="#AdvancedTopics ">Advanced Topics</a>
 			</li>
 			<li>
-				<a href="#Appendix">Appendix</a>
+				<a href="#RelatedLinks">Related Links</a>
+			</li>
+			<li>
+				<a href="#CompatibilityPatches">Compatibility Patches</a>
+			</li>
+			<li>
+				<a href="#ChangeHistory">Change History</a>
 			</li>
 		</ul>
 		<h2>
@@ -808,7 +814,7 @@
 						it will not work with program where the code that calls the SIO
 						vectors is packed or encrypted in the ATR disk image. The
 						following parameters are supported. Numbers are given in
-						hexadecimal notation and are just example values. In the appendix
+						hexadecimal notation and are just example values. In the
 						<a href="#CompatibilityPatches">Compatibility Patches</a>
 						you can find a list of known parameter combinations for programs
 						that don't work with the default parameters.
@@ -1551,11 +1557,8 @@
 			and flash the cartridge again.
 		</p>
 		<h2>
-			<a name="Appendix">Appendix</a>
-		</h2>
-		<h3>
 			<a name="RelatedLinks">Related Links</a>
-		</h3>
+		</h2>
 		<ul>
 			<li>
 				<a href="https://www.horus.com/~hias/atari/#thecart"
@@ -1593,9 +1596,9 @@
 				is a web site with program compilations in ATR disk image format.
 			</li>
 		</ul>
-		<h3>
+		<h2>
 			<a name="CompatibilityPatches">Compatibility Patches</a>
-		</h3>
+		</h2>
 		<p>This is a list of patches for programs that don't work out of the
 			box with newer or non-standard Operating Systems or with the ATR
 			loader of The!Cart. For them you can adapt the default parameters
@@ -1662,9 +1665,19 @@
 				<td>base=$0400, $011d=siov, $1101a=$ea, $1101b=$ea, $1101c=$ea</td>
 			</tr>
 		</table>
-		<h3 id="ChangeHistory">
+		<h2 id="ChangeHistory">
 			<a name="ChangeHistory">Change History</a>
-		</h3>
+		</h2>
+		<h4>2020-08-13</h4>
+		<div>
+			<ul>
+				<li>Initialize PMBASE ($d407) to $00 before starting the selected entry. This
+					fixes player missle display issues with programs which rely on
+					being started on a freshly booted system. For example the "Moon
+					Patrol Redux" on "GAMES449.atr".
+				</li>
+			</ul>
+		</div>
 		<h4>2020-05-21</h4>
 		<div>
 			<ul>
