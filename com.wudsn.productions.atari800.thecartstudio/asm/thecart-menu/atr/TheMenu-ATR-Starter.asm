@@ -339,7 +339,8 @@ jsr_siov
 	inw daux1
 	dec dbsect
 	bne sector_loop
-
+	
+	mwa #$0400 dbuflo		;Set to the value the OS would have used
 jsr_bootini
 	jsr jump_bootini		;Must be relocated
 jsr_dosini

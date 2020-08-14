@@ -19,4 +19,4 @@ cart_ptr  		= $36	;Word, LTEMP, normally used by SIOV
 buffer_len		= $38	;Word, BUFRFL, normally used by SIOV
 empty_dl   		= $3a	;3 bytes, RECVDN/XMTDON/CHKSNT, normally used by SIOV
 fmszpg			= $43	;7 bytes reserved for the File Managing System (FMS)
-boot_buffer 		= $700
+boot_buffer 		= $700  ;$80 bytes at $00 to be compatible with what the OS boot does
