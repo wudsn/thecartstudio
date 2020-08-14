@@ -1671,10 +1671,17 @@
 		<h4>2020-08-13</h4>
 		<div>
 			<ul>
-				<li>Initialize PMBASE ($d407) to $00 before starting the selected entry. This
-					fixes player missle display issues with programs which rely on
-					being started on a freshly booted system. For example the "Moon
-					Patrol Redux" on "GAMES449.atr".
+				<li>Initialize PMBASE ($d407) to $00 before starting the selected
+					entry. This fixes player missile display issues with programs which
+					rely on being started on a freshly booted system. For example the
+					"Moon Patrol Redux" on "GAMES449.atr".
+				</li>
+				<li>During the export of Maxflash entries, the title of the entry in
+					no longer replaced by version of the MaxFlash menu (e.g.
+					"MaxflashMenu-$1f47-$ffffffff"). Instead the title is now kept and
+					the version information is stored as comment in the parameters of
+					the entry (e.g. "comment=MaxflashMenu-$1f47-$ffffffff"). This way
+					the entries keep their original or user defined title.
 				</li>
 			</ul>
 		</div>
