@@ -58,27 +58,20 @@ public final class OptionsDialog extends ModalDialog {
 	public OptionsDialog(JFrame parent) {
 		super(parent, Texts.OptionsDialog_Title);
 
-		languageField = SpringUtilities.createValueSetField(fieldsPane,
-				DataTypes.Preferences_Language, Language.class);
+		languageField = SpringUtilities.createValueSetField(fieldsPane, DataTypes.Preferences_Language, Language.class);
 		updateCheckIndicatorField = SpringUtilities.createCheckBox(fieldsPane,
 				DataTypes.Preferences_UpdateCheckIndicator);
-		emulatorExecuablePathField = SpringUtilities.createTextField(
-				fieldsPane, DataTypes.Preferences_EmulatorExecutablePath);
-		freeBankColorField = SpringUtilities.createColorField(fieldsPane,
-				DataTypes.Preferences_FreeBankColor);
-		reservedBankColorField = SpringUtilities.createColorField(fieldsPane,
-				DataTypes.Preferences_ReservedBankColor);
-		reservedUserSpaceBankColorField = SpringUtilities.createColorField(
-				fieldsPane, DataTypes.Preferences_ReservedUserSpaceBankColor);
-		usedOddBankColorField = SpringUtilities.createColorField(fieldsPane,
-				DataTypes.Preferences_UsedOddBankColor);
-		usedEvenBankColorField = SpringUtilities.createColorField(fieldsPane,
-				DataTypes.Preferences_UsedEvenBankColor);
-		conflictBankColorField = SpringUtilities.createColorField(fieldsPane,
-				DataTypes.Preferences_ConflictBankColor);
+		emulatorExecuablePathField = SpringUtilities.createTextField(fieldsPane,
+				DataTypes.Preferences_EmulatorExecutablePath);
+		freeBankColorField = SpringUtilities.createColorField(fieldsPane, DataTypes.Preferences_FreeBankColor);
+		reservedBankColorField = SpringUtilities.createColorField(fieldsPane, DataTypes.Preferences_ReservedBankColor);
+		reservedUserSpaceBankColorField = SpringUtilities.createColorField(fieldsPane,
+				DataTypes.Preferences_ReservedUserSpaceBankColor);
+		usedOddBankColorField = SpringUtilities.createColorField(fieldsPane, DataTypes.Preferences_UsedOddBankColor);
+		usedEvenBankColorField = SpringUtilities.createColorField(fieldsPane, DataTypes.Preferences_UsedEvenBankColor);
+		conflictBankColorField = SpringUtilities.createColorField(fieldsPane, DataTypes.Preferences_ConflictBankColor);
 
-		JButton resetButton = ElementFactory.createButton(
-				Actions.Preferences_ButtonBar_Reset, true);
+		JButton resetButton = ElementFactory.createButton(Actions.Preferences_ButtonBar_Reset, true);
 		resetButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -92,8 +85,7 @@ public final class OptionsDialog extends ModalDialog {
 
 	public boolean showModal(Preferences preferences) {
 		if (preferences == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'preferences' must not be null.");
+			throw new IllegalArgumentException("Parameter 'preferences' must not be null.");
 		}
 
 		SpringUtilities.makeCompactGrid(fieldsPane, ROWS, 2, // rows, cols
@@ -112,15 +104,11 @@ public final class OptionsDialog extends ModalDialog {
 	@Override
 	protected void dataFromUi() {
 		preferences.setLanguage(languageField.getValue());
-		preferences.setUpdateCheckIndicator(updateCheckIndicatorField
-				.isSelected());
-		preferences.setEmulatorExecutablePath(emulatorExecuablePathField
-				.getText());
+		preferences.setUpdateCheckIndicator(updateCheckIndicatorField.isSelected());
+		preferences.setEmulatorExecutablePath(emulatorExecuablePathField.getText());
 		preferences.setFreeBankColor(freeBankColorField.getValue());
 		preferences.setReservedBankColor(reservedBankColorField.getValue());
-		preferences
-				.setReservedUserSpaceBankColor(reservedUserSpaceBankColorField
-						.getValue());
+		preferences.setReservedUserSpaceBankColor(reservedUserSpaceBankColorField.getValue());
 		preferences.setUsedOddBankColor(usedOddBankColorField.getValue());
 		preferences.setUsedEvenBankColor(usedEvenBankColorField.getValue());
 		preferences.setConflictBankColor(conflictBankColorField.getValue());
@@ -130,14 +118,11 @@ public final class OptionsDialog extends ModalDialog {
 	@Override
 	protected void dataToUi() {
 		languageField.setValue(preferences.getLanguage());
-		updateCheckIndicatorField.setSelected(preferences
-				.getUpdateCheckIndicator());
-		emulatorExecuablePathField.setText(preferences
-				.getEmulatorExecutablePath());
+		updateCheckIndicatorField.setSelected(preferences.getUpdateCheckIndicator());
+		emulatorExecuablePathField.setText(preferences.getEmulatorExecutablePath());
 		freeBankColorField.setValue(preferences.getFreeBankColor());
 		reservedBankColorField.setValue(preferences.getReservedBankColor());
-		reservedUserSpaceBankColorField.setValue(preferences
-				.getReservedUserSpaceBankColor());
+		reservedUserSpaceBankColorField.setValue(preferences.getReservedUserSpaceBankColor());
 		usedOddBankColorField.setValue(preferences.getUsedOddBankColor());
 		usedEvenBankColorField.setValue(preferences.getUsedEvenBankColor());
 		conflictBankColorField.setValue(preferences.getConflictBankColor());

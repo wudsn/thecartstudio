@@ -39,8 +39,7 @@ public final class WorkbookGenre {
 
 		public static final String ELEMENT_NAME = "genre";
 
-		public static final Attribute NAME = new Attribute("name",
-				DataTypes.WorkbookGenre_Name);
+		public static final Attribute NAME = new Attribute("name", DataTypes.WorkbookGenre_Name);
 
 	}
 
@@ -56,24 +55,21 @@ public final class WorkbookGenre {
 
 	public void setName(String name) {
 		if (name == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'name' must not be null.");
+			throw new IllegalArgumentException("Parameter 'name' must not be null.");
 		}
 		this.name = name.trim();
 	}
 
 	final void serialize(Element element) {
 		if (element == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'element' must not be null.");
+			throw new IllegalArgumentException("Parameter 'element' must not be null.");
 		}
 		Attributes.NAME.serializeString(element, getName());
 	}
 
 	final void deserialize(org.xml.sax.Attributes attributes) {
 		if (attributes == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'attributes' must not be null.");
+			throw new IllegalArgumentException("Parameter 'attributes' must not be null.");
 		}
 
 		String value;
@@ -97,8 +93,7 @@ public final class WorkbookGenre {
 
 	public boolean equals(WorkbookGenre other) {
 		if (other == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'other' must not be null.");
+			throw new IllegalArgumentException("Parameter 'other' must not be null.");
 		}
 		return other.name.equals(name);
 	}

@@ -44,8 +44,7 @@ public final class WorkbookBank {
 
 		public static final String ELEMENT_NAME = "bank";
 
-		public static final Attribute NUMBER = new Attribute("number",
-				DataTypes.WorkbookBank_Number);
+		public static final Attribute NUMBER = new Attribute("number", DataTypes.WorkbookBank_Number);
 	}
 
 	private int number;
@@ -54,9 +53,7 @@ public final class WorkbookBank {
 
 	WorkbookBank(int number) {
 		if (number < 0) {
-			throw new IllegalArgumentException(
-					"Bank number must not be negative. Specified value is "
-							+ number + ".");
+			throw new IllegalArgumentException("Bank number must not be negative. Specified value is " + number + ".");
 		}
 		this.number = number;
 		this.reservedContentProvider = null;
@@ -76,8 +73,8 @@ public final class WorkbookBank {
 	/**
 	 * Determines if the bank is reserved and must not be occupied by entries.
 	 * 
-	 * @return <code>true</code> if the bank is reserved and must not be
-	 *         occupied by entries.
+	 * @return <code>true</code> if the bank is reserved and must not be occupied by
+	 *         entries.
 	 */
 	public boolean isReserved() {
 		return reservedContentProvider != null;
@@ -88,8 +85,7 @@ public final class WorkbookBank {
 	 * 
 	 * @param reservedContentProvider
 	 */
-	final void setReservedContentProvider(
-			ReservedContentProvider reservedContentProvider) {
+	final void setReservedContentProvider(ReservedContentProvider reservedContentProvider) {
 		this.reservedContentProvider = reservedContentProvider;
 	}
 
@@ -105,16 +101,16 @@ public final class WorkbookBank {
 	/**
 	 * Gets the modifiable list of workbook entries assigned to the bank.
 	 * 
-	 * @return The modifiable list of workbook entries assigned to the bank, may
-	 *         be empty, not <code>null</code>.
+	 * @return The modifiable list of workbook entries assigned to the bank, may be
+	 *         empty, not <code>null</code>.
 	 */
 	public List<WorkbookEntry> getEntries() {
 		return entries;
 	}
 
 	/**
-	 * Determines if the bank is used, i.e. is reserved or has at least one
-	 * workbook entry assigned.
+	 * Determines if the bank is used, i.e. is reserved or has at least one workbook
+	 * entry assigned.
 	 * 
 	 * @return <code>true</code> if the bank is used.
 	 */
@@ -124,7 +120,7 @@ public final class WorkbookBank {
 
 	@Override
 	public String toString() {
-		return "number=" + number + " reservedContentProvider=["
-				+ reservedContentProvider + "] entries=" + entries.toString();
+		return "number=" + number + " reservedContentProvider=[" + reservedContentProvider + "] entries="
+				+ entries.toString();
 	}
 }

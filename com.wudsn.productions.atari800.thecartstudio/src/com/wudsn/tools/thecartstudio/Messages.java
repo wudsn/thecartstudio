@@ -70,7 +70,6 @@ public final class Messages extends NLS {
 	public static Message E137;
 	public static Message I138;
 
-
 	// Console messages
 	public static Message I140;
 	public static Message E141;

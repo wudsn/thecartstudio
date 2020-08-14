@@ -67,11 +67,10 @@ public abstract class WorkbookAddEntriesCallback {
 
 	}
 
-	public abstract int confirmAdd(String existingEntryTitle,
-			String existingFileName, String newFilePath, String renamedFileName);
+	public abstract int confirmAdd(String existingEntryTitle, String existingFileName, String newFilePath,
+			String renamedFileName);
 
-	public abstract int confirmUseTitleFromCartridgeDatabase(
-			String entryFileName, String cartridgeDatabaseEntryTitle);
+	public abstract int confirmUseTitleFromCartridgeDatabase(String entryFileName, String cartridgeDatabaseEntryTitle);
 
 	public final int getAddedEntriesCount() {
 		return addedEntriesCount;
@@ -86,7 +85,6 @@ public abstract class WorkbookAddEntriesCallback {
 	}
 
 	public boolean isCancelled() {
-		return lastAddResult == AddResult.CANCEL
-				|| lastUseTitleResult == UseTitleResult.CANCEL;
+		return lastAddResult == AddResult.CANCEL || lastUseTitleResult == UseTitleResult.CANCEL;
 	}
 }

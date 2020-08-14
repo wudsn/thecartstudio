@@ -57,8 +57,7 @@ public final class FileHeaderType extends ValueSet {
 
 	private static FileHeaderType add(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 
 		FileHeaderType result = new FileHeaderType(id);
@@ -72,8 +71,7 @@ public final class FileHeaderType extends ValueSet {
 	 * @return The unmodifiable list of all values, not <code>null</code>.
 	 */
 	public static List<FileHeaderType> getValues() {
-		return Collections.unmodifiableList(new ArrayList<FileHeaderType>(
-				values.values()));
+		return Collections.unmodifiableList(new ArrayList<FileHeaderType>(values.values()));
 	}
 
 	/**
@@ -85,8 +83,7 @@ public final class FileHeaderType extends ValueSet {
 	 */
 	public static FileHeaderType getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return values.get(id);
 	}
@@ -97,7 +94,6 @@ public final class FileHeaderType extends ValueSet {
 	 * @return The size of the header, a non-negative integer.
 	 */
 	public int getHeaderSize() {
-		return this == FileHeaderType.CART ? CartridgeFileUtility.CART_HEADER_SIZE
-				: 0;
+		return this == FileHeaderType.CART ? CartridgeFileUtility.CART_HEADER_SIZE : 0;
 	}
 }

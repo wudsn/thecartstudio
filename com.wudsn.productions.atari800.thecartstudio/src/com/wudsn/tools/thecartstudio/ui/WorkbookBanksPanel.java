@@ -58,19 +58,15 @@ public class WorkbookBanksPanel extends JPanel {
 	private int rows;
 	private int barSize;
 
-	public WorkbookBanksPanel(TheCartStudio studio, Preferences preferences,
-			Workbook workbook) {
+	public WorkbookBanksPanel(TheCartStudio studio, Preferences preferences, Workbook workbook) {
 		if (studio == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'studio' must not be null.");
+			throw new IllegalArgumentException("Parameter 'studio' must not be null.");
 		}
 		if (preferences == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'preferences' must not be null.");
+			throw new IllegalArgumentException("Parameter 'preferences' must not be null.");
 		}
 		if (workbook == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'workbook' must not be null.");
+			throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 		}
 		this.studio = studio;
 		this.preferences = preferences;
@@ -170,8 +166,7 @@ public class WorkbookBanksPanel extends JPanel {
 		boolean lastColorToggle = false;
 		int bankNumber = 0;
 		for (int positionY = 0; positionY < rows; positionY++) {
-			for (int positionX = 0; positionX < banksPerRow
-					&& bankNumber < banksList.size();) {
+			for (int positionX = 0; positionX < banksPerRow && bankNumber < banksList.size();) {
 
 				WorkbookBank bank = banksList.get(bankNumber);
 
@@ -182,15 +177,12 @@ public class WorkbookBanksPanel extends JPanel {
 
 				if (bank.isReserved()) {
 					fillColor = preferences.getReservedBankColor();
-					ReservedContentProvider reservedContentProvider = bank
-							.getReservedContentProvider();
+					ReservedContentProvider reservedContentProvider = bank.getReservedContentProvider();
 					if (reservedContentProvider instanceof UserSpaceContentProvider) {
 						fillColor = preferences.getReservedUserSpaceBankColor();
 					}
-					usedBanksCount = reservedContentProvider
-							.getStartBankNumber()
-							+ reservedContentProvider.getRequiredBanksCount()
-							- bankNumber;
+					usedBanksCount = reservedContentProvider.getStartBankNumber()
+							+ reservedContentProvider.getRequiredBanksCount() - bankNumber;
 					if (usedBanksCount > banksPerRow - positionX) {
 						usedBanksCount = banksPerRow - positionX;
 					}
@@ -206,8 +198,7 @@ public class WorkbookBanksPanel extends JPanel {
 						break;
 					case 1:
 						WorkbookEntry entry = bank.getEntries().get(0);
-						usedBanksCount = entry.getStartBankNumber()
-								+ entry.getRequiredBanksCount() - bankNumber;
+						usedBanksCount = entry.getStartBankNumber() + entry.getRequiredBanksCount() - bankNumber;
 						if (usedBanksCount > banksPerRow - positionX) {
 							usedBanksCount = banksPerRow - positionX;
 						}
@@ -238,8 +229,7 @@ public class WorkbookBanksPanel extends JPanel {
 				if (barSize > minBarSize) {
 					if (fillColor != null) {
 						g.setColor(fillColor);
-						g.fillRect(cellX + 1, cellY + 1, fillWidth - 3,
-								barSize - 3);
+						g.fillRect(cellX + 1, cellY + 1, fillWidth - 3, barSize - 3);
 					}
 					for (int j = 1; j < usedBanksCount; j++) {
 						g.setColor(BankColorUtility.getLineColor(fillColor));
@@ -267,8 +257,8 @@ public class WorkbookBanksPanel extends JPanel {
 	}
 
 	/**
-	 * Computes the bank number which corresponds to the mouse position of a
-	 * mouse event.
+	 * Computes the bank number which corresponds to the mouse position of a mouse
+	 * event.
 	 * 
 	 * @param e
 	 *            The mouse event, not <code>null</code>.
@@ -277,8 +267,7 @@ public class WorkbookBanksPanel extends JPanel {
 	 */
 	private WorkbookBank getBankAt(MouseEvent e) {
 		if (e == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'e' must not be null.");
+			throw new IllegalArgumentException("Parameter 'e' must not be null.");
 		}
 		if (barSize > 0) {
 			Point p = e.getPoint();
@@ -306,8 +295,7 @@ public class WorkbookBanksPanel extends JPanel {
 	 */
 	void computeToolTipText(MouseEvent e) {
 		if (e == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'e' must not be null.");
+			throw new IllegalArgumentException("Parameter 'e' must not be null.");
 		}
 		String text;
 		text = null;
@@ -323,28 +311,22 @@ public class WorkbookBanksPanel extends JPanel {
 			int flashBlockSize = root.getCartridgeType().getFlashBlockSize();
 			String bankOffsetText;
 			if (flashBlockSize == 0) {
-				bankOffsetText = Messages.I127.format(TextUtility
-						.formatAsHexaDecimal(bankOffsetStart,
-								maxBankOffsetValue), TextUtility
-						.formatAsHexaDecimal(bankOffsetStart + bankSize - 1,
-								maxBankOffsetValue));
+				bankOffsetText = Messages.I127.format(
+						TextUtility.formatAsHexaDecimal(bankOffsetStart, maxBankOffsetValue),
+						TextUtility.formatAsHexaDecimal(bankOffsetStart + bankSize - 1, maxBankOffsetValue));
 			} else {
 				int blockNumber = bankOffsetStart / flashBlockSize;
-				bankOffsetText = Messages.I128.format(TextUtility
-						.formatAsHexaDecimal(bankOffsetStart,
-								maxBankOffsetValue), TextUtility
-						.formatAsHexaDecimal(bankOffsetStart + bankSize - 1,
-								maxBankOffsetValue), TextUtility
-						.formatAsDecimal(blockNumber));
+				bankOffsetText = Messages.I128.format(
+						TextUtility.formatAsHexaDecimal(bankOffsetStart, maxBankOffsetValue),
+						TextUtility.formatAsHexaDecimal(bankOffsetStart + bankSize - 1, maxBankOffsetValue),
+						TextUtility.formatAsDecimal(blockNumber));
 			}
 
-			ReservedContentProvider reservedContentProvider = bank
-					.getReservedContentProvider();
+			ReservedContentProvider reservedContentProvider = bank.getReservedContentProvider();
 			if (entries.isEmpty()) {
 				if (bank.isReserved()) {
 					// INFO: ROM bank {0} is reserved for '{1}'<br/>{2}
-					text = Messages.I121.format(bankNumberText,
-							reservedContentProvider.getTitle(), bankOffsetText);
+					text = Messages.I121.format(bankNumberText, reservedContentProvider.getTitle(), bankOffsetText);
 				} else {
 					// INFO: ROM bank {0} is free<br/>{1}
 					text = Messages.I120.format(bankNumberText, bankOffsetText);
@@ -352,8 +334,7 @@ public class WorkbookBanksPanel extends JPanel {
 			} else {
 				if (bank.isReserved()) {
 					// INFO: ROM bank {0} is reserved for '{1}'<br/>{2}
-					text = Messages.I121.format(bankNumberText,
-							reservedContentProvider.getTitle(), "");
+					text = Messages.I121.format(bankNumberText, reservedContentProvider.getTitle(), "");
 				} else {
 					text = "";
 				}
@@ -361,17 +342,13 @@ public class WorkbookBanksPanel extends JPanel {
 					WorkbookEntry entry = entries.get(0);
 					// INFO: ROM bank {0} contains entry
 					// {1}<br/>{2}<br/>{3}<br/>Entry bank {4} of {5}
-					text += Messages.I122.format(bankNumberText, entry
-							.getTitle(), bankOffsetText, entry.getFileName(),
-							TextUtility.formatAsDecimal(bankNumber + 1
-									- entry.getStartBankNumber()), TextUtility
-									.formatAsDecimal(entry
-											.getRequiredBanksCount()));
+					text += Messages.I122.format(bankNumberText, entry.getTitle(), bankOffsetText, entry.getFileName(),
+							TextUtility.formatAsDecimal(bankNumber + 1 - entry.getStartBankNumber()),
+							TextUtility.formatAsDecimal(entry.getRequiredBanksCount()));
 				} else {
 					// INFO: ROM bank {0} is assigned to multiple
 					// entries<br/>{1}
-					text += Messages.I123
-							.format(bankNumberText, bankOffsetText);
+					text += Messages.I123.format(bankNumberText, bankOffsetText);
 				}
 			}
 			text = "<html>" + text + "</html>";
@@ -382,13 +359,11 @@ public class WorkbookBanksPanel extends JPanel {
 
 	void showWorkbookEntry(MouseEvent e) {
 		if (e == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'e' must not be null.");
+			throw new IllegalArgumentException("Parameter 'e' must not be null.");
 		}
 		WorkbookBank bank = getBankAt(e);
 		if (bank != null && bank.getEntries().size() == 1) {
-			studio.performShowWorkbookEntry(bank.getEntries().get(0),
-					WorkbookEntry.Attributes.ID);
+			studio.performShowWorkbookEntry(bank.getEntries().get(0), WorkbookEntry.Attributes.ID);
 		}
 
 	}

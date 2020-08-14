@@ -57,27 +57,23 @@ public final class AtrLoader {
 		 * Creates a new patch range.
 		 * 
 		 * @param startOffset
-		 *            The inclusive start offset of the relevant area, a
-		 *            non-negative integer.
+		 *            The inclusive start offset of the relevant area, a non-negative
+		 *            integer.
 		 * @param endOffset
-		 *            The inclusive end offset of the relevant area, a
-		 *            non-negative integer not less than the startOffset.
+		 *            The inclusive end offset of the relevant area, a non-negative
+		 *            integer not less than the startOffset.
 		 */
 		public PatchRange(int startOffset, int endOffset) {
 			if (startOffset < 0)
 				throw new IllegalArgumentException(
-						"Parameter startOffset must not be negative. Specified value is "
-								+ startOffset + ".");
+						"Parameter startOffset must not be negative. Specified value is " + startOffset + ".");
 			if (endOffset < 0)
 				throw new IllegalArgumentException(
-						"Parameter endOffset must not be negative. Specified value is "
-								+ endOffset + ".");
+						"Parameter endOffset must not be negative. Specified value is " + endOffset + ".");
 			if (startOffset > endOffset)
 				throw new IllegalArgumentException(
 						"Parameter startOffset must be larger then endOffset. Specified value for startOffset is "
-								+ startOffset
-								+ ". Specified endOffset is "
-								+ endOffset + ".");
+								+ startOffset + ". Specified endOffset is " + endOffset + ".");
 
 			this.startOffset = startOffset;
 			this.endOffset = endOffset;
@@ -86,13 +82,11 @@ public final class AtrLoader {
 		public boolean isContained(int offset) {
 			if (offset < 0)
 				throw new IllegalArgumentException(
-						"Parameter offset must not be negative. Specified value is "
-								+ offset + ".");
+						"Parameter offset must not be negative. Specified value is " + offset + ".");
 			return startOffset <= offset && offset <= endOffset;
 		}
 
-		public static boolean isContained(int offset,
-				List<PatchRange> patchRanges) {
+		public static boolean isContained(int offset, List<PatchRange> patchRanges) {
 			for (PatchRange patchRange : patchRanges) {
 				if (patchRange.isContained(offset)) {
 					return true;
@@ -103,8 +97,8 @@ public final class AtrLoader {
 
 		@Override
 		public String toString() {
-			return "[0x" + HexUtility.getLongValueHexString(startOffset)
-					+ ",0x" + HexUtility.getLongValueHexString(endOffset) + "]";
+			return "[0x" + HexUtility.getLongValueHexString(startOffset) + ",0x"
+					+ HexUtility.getLongValueHexString(endOffset) + "]";
 		}
 	}
 
@@ -126,8 +120,8 @@ public final class AtrLoader {
 		 * @param pattern
 		 *            The byte sequence with the JSR or JMP to the vector.
 		 * @param patchOffset
-		 *            The patch offset relative to the location where the
-		 *            pattern was found.
+		 *            The patch offset relative to the location where the pattern was
+		 *            found.
 		 * @param absolute
 		 *            <code>true</code> if the absoluteAddress is relevant,
 		 *            <code>false</code> if baseOffset is relevant.
@@ -136,15 +130,13 @@ public final class AtrLoader {
 		 * @param baseOffset
 		 *            The execution offset relative to the BASE address.
 		 */
-		public PatchLocation(String name, byte[] pattern, int patchOffset,
-				boolean absolute, int absoluteAddress, int baseOffset) {
+		public PatchLocation(String name, byte[] pattern, int patchOffset, boolean absolute, int absoluteAddress,
+				int baseOffset) {
 			if (name == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'name' must not be null.");
+				throw new IllegalArgumentException("Parameter 'name' must not be null.");
 			}
 			if (pattern == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'pattern' must not be null.");
+				throw new IllegalArgumentException("Parameter 'pattern' must not be null.");
 			}
 			this.name = name;
 			this.pattern = pattern;
@@ -167,23 +159,22 @@ public final class AtrLoader {
 		// Build the list of SIO entry points to be intercepted.
 		patchLocations = new ArrayList<PatchLocation>();
 
-		patchLocations.add(new PatchLocation(Constants.DSKINV, new byte[] {
-				(byte) 0x20, (byte) 0x53, (byte) 0xe4 }, 1, false, -1, 3));
-		patchLocations.add(new PatchLocation(Constants.DSKINV, new byte[] {
-				(byte) 0x4c, (byte) 0x53, (byte) 0xe4 }, 1, false, -1, 3));
-		patchLocations.add(new PatchLocation(Constants.SIOV, new byte[] {
-				(byte) 0x20, (byte) 0x59, (byte) 0xe4 }, 1, false, -1, 6));
-		patchLocations.add(new PatchLocation(Constants.SIOV, new byte[] {
-				(byte) 0x4c, (byte) 0x59, (byte) 0xe4 }, 1, false, -1, 6));
+		patchLocations.add(new PatchLocation(Constants.DSKINV, new byte[] { (byte) 0x20, (byte) 0x53, (byte) 0xe4 }, 1,
+				false, -1, 3));
+		patchLocations.add(new PatchLocation(Constants.DSKINV, new byte[] { (byte) 0x4c, (byte) 0x53, (byte) 0xe4 }, 1,
+				false, -1, 3));
+		patchLocations.add(new PatchLocation(Constants.SIOV, new byte[] { (byte) 0x20, (byte) 0x59, (byte) 0xe4 }, 1,
+				false, -1, 6));
+		patchLocations.add(new PatchLocation(Constants.SIOV, new byte[] { (byte) 0x4c, (byte) 0x59, (byte) 0xe4 }, 1,
+				false, -1, 6));
 
 		// Add symbolic patch locations
-		patchLocations.add(new PatchLocation(Constants.SELECTED_ITEM_NUMBER,
-				new byte[0], 0, true, 0x0000, 0));
+		patchLocations.add(new PatchLocation(Constants.SELECTED_ITEM_NUMBER, new byte[0], 0, true, 0x0000, 0));
 	}
 
 	/**
-	 * Sets the default parameters based on the importable ATR file menu
-	 * (optional) and the content of the ATR.
+	 * Sets the default parameters based on the importable ATR file menu (optional)
+	 * and the content of the ATR.
 	 * 
 	 * @param entry
 	 *            The workbook entry to be updated.
@@ -193,19 +184,15 @@ public final class AtrLoader {
 	 *            The ATR content to be analyzed, may be empty, not
 	 *            <code>null</code>.
 	 */
-	public static void setDefaultParameters(WorkbookEntry entry,
-			AtrFileMenu atrFileMenu, byte[] content) {
+	public static void setDefaultParameters(WorkbookEntry entry, AtrFileMenu atrFileMenu, byte[] content) {
 		if (entry == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'entry' must not be null.");
+			throw new IllegalArgumentException("Parameter 'entry' must not be null.");
 		}
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		if (!AtrFile.isHeader(content)) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must be an ATR file");
+			throw new IllegalArgumentException("Parameter 'content' must be an ATR file");
 		}
 
 		List<PatchRange> patchRanges = new ArrayList<PatchRange>();
@@ -216,8 +203,7 @@ public final class AtrLoader {
 		}
 
 		// Get actual SIO patch locations
-		List<Parameter> parameters = determineDefaultParameters(content,
-				patchRanges);
+		List<Parameter> parameters = determineDefaultParameters(content, patchRanges);
 
 		// Add default base parameter.
 		parameters.add(new Parameter(Constants.BASE, Constants.DEFAULT_BASE));
@@ -231,15 +217,12 @@ public final class AtrLoader {
 		entry.setParameters(Parameter.getParametersString(parameters));
 	}
 
-	private static List<Parameter> determineDefaultParameters(byte[] content,
-			List<PatchRange> patchRanges) {
+	private static List<Parameter> determineDefaultParameters(byte[] content, List<PatchRange> patchRanges) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		if (!AtrFile.isHeader(content)) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must be an ATR file");
+			throw new IllegalArgumentException("Parameter 'content' must be an ATR file");
 		}
 		int startOffset = AtrFile.HEADER_SIZE;
 		List<Parameter> result = new ArrayList<Parameter>();
@@ -248,15 +231,11 @@ public final class AtrLoader {
 			if (patchLocation.hasPattern()) {
 				// Only search in actual content
 				int offset = startOffset;
-				while (offset >= 0 && offset < content.length
-						&& PatchRange.isContained(offset, patchRanges)) {
-					offset = ByteArrayUtility
-							.getIndexOf(content, offset, content.length
-									- startOffset, patchLocation.pattern);
-					if (offset >= 0
-							&& PatchRange.isContained(offset, patchRanges)) {
-						result.add(new Parameter(offset
-								+ patchLocation.patchOffset, patchLocation.name));
+				while (offset >= 0 && offset < content.length && PatchRange.isContained(offset, patchRanges)) {
+					offset = ByteArrayUtility.getIndexOf(content, offset, content.length - startOffset,
+							patchLocation.pattern);
+					if (offset >= 0 && PatchRange.isContained(offset, patchRanges)) {
+						result.add(new Parameter(offset + patchLocation.patchOffset, patchLocation.name));
 						offset += patchLocation.pattern.length;
 					}
 				}
@@ -274,15 +253,16 @@ public final class AtrLoader {
 	 */
 	public static int getBaseAddress(WorkbookEntry entry) {
 		if (entry == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'entry' must not be null.");
+			throw new IllegalArgumentException("Parameter 'entry' must not be null.");
 		}
 		// Parse assignments.
 		int base = -1;
-		for (Parameter parameter : entry.getParametersList()) {
-			if (parameter.key.equals(Constants.BASE)) {
-				if (parameter.isValueInteger()) {
-					base = parameter.getValueAsInteger();
+		if (entry.getParametersList() != null) {
+			for (Parameter parameter : entry.getParametersList()) {
+				if (parameter.key.equals(Constants.BASE)) {
+					if (parameter.isValueInteger()) {
+						base = parameter.getValueAsInteger();
+					}
 				}
 			}
 		}
@@ -303,16 +283,13 @@ public final class AtrLoader {
 	 */
 	public static byte[] modifyContent(WorkbookEntry entry, byte[] content) {
 		if (entry == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'parametersList' must not be null.");
+			throw new IllegalArgumentException("Parameter 'parametersList' must not be null.");
 		}
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		if (!AtrFile.isHeader(content)) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must be an ATR file");
+			throw new IllegalArgumentException("Parameter 'content' must be an ATR file");
 		}
 		// Get base address from parameters.
 		int base = getBaseAddress(entry);
@@ -322,8 +299,7 @@ public final class AtrLoader {
 
 			// Apply parameters that are direct patches.
 			if (parameter.isKeyInteger() && parameter.isValueInteger()) {
-				modifyContent(content, parameter.getKeyAsInteger(),
-						parameter.getValueAsInteger() & 0xff);
+				modifyContent(content, parameter.getKeyAsInteger(), parameter.getValueAsInteger() & 0xff);
 			}
 
 			// Apply parameters that are SIO patches.
@@ -338,8 +314,7 @@ public final class AtrLoader {
 				if (mode != 0) {
 					value = value.substring(1);
 				}
-				if (parameter.isKeyInteger()
-						&& value.equals(patchLocation.name)) {
+				if (parameter.isKeyInteger() && value.equals(patchLocation.name)) {
 					int offset = parameter.getKeyAsInteger();
 					if (offset < content.length) {
 						// Compute target address.
@@ -350,8 +325,7 @@ public final class AtrLoader {
 						switch (mode) {
 						case 0:
 							modifyContent(content, offset, address & 0xff);
-							modifyContent(content, offset + 1,
-									address >>> 8 & 0xff);
+							modifyContent(content, offset + 1, address >>> 8 & 0xff);
 							break;
 						case 1:
 							modifyContent(content, offset, address & 0xff);
@@ -360,8 +334,7 @@ public final class AtrLoader {
 							modifyContent(content, offset, address >>> 8 & 0xff);
 							break;
 						default:
-							throw new RuntimeException("Undefined mode " + mode
-									+ ".");
+							throw new RuntimeException("Undefined mode " + mode + ".");
 						}
 						break; // for patchLocation
 					}
@@ -386,23 +359,18 @@ public final class AtrLoader {
 		System.arraycopy(content, 0, result, 0, AtrFile.HEADER_SIZE);
 
 		// Copy sectors
-		System.arraycopy(content, AtrFile.HEADER_SIZE, result,
-				AtrFile.SECTOR_SIZE_SD, content.length - AtrFile.HEADER_SIZE);
+		System.arraycopy(content, AtrFile.HEADER_SIZE, result, AtrFile.SECTOR_SIZE_SD,
+				content.length - AtrFile.HEADER_SIZE);
 		return result;
 	}
 
 	private static void modifyContent(byte[] content, int offset, int value) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
-		Log.logInfo(
-				"Replacing {0} with {1} at offset {2}",
-				new Object[] {
-						HexUtility
-								.getByteValueHexString(content[offset] & 0xff),
-						HexUtility.getByteValueHexString(value),
-						HexUtility.getLongValueHexString(offset) });
+		Log.logInfo("Replacing {0} with {1} at offset {2}",
+				new Object[] { HexUtility.getByteValueHexString(content[offset] & 0xff),
+						HexUtility.getByteValueHexString(value), HexUtility.getLongValueHexString(offset) });
 
 		content[offset] = (byte) (value & 0xff);
 	}

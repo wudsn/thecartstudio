@@ -58,8 +58,7 @@ public final class ExportFormat {
 		case ATR_IMAGES:
 			return FileExtensions.ATR_IMAGE;
 		default:
-			throw new IllegalArgumentException("Unsupported export format "
-					+ exportFormat + ".");
+			throw new IllegalArgumentException("Unsupported export format " + exportFormat + ".");
 		}
 	}
 
@@ -75,8 +74,7 @@ public final class ExportFormat {
 			return Texts.ExportFormat_ATR_IMAGES_FileFilterDescription;
 
 		default:
-			throw new RuntimeException("Unknown export format " + exportFormat
-					+ ".");
+			throw new RuntimeException("Unknown export format " + exportFormat + ".");
 		}
 
 	}

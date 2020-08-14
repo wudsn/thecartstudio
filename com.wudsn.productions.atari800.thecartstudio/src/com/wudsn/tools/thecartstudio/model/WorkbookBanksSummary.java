@@ -65,7 +65,6 @@ public final class WorkbookBanksSummary {
 	 * @return The number of banks, a non-negative integer.
 	 */
 	public int getTotalBanks() {
-		return Math.max(definedBanksCount, reservedBanksCount
-				+ requiredBanksCount);
+		return Math.max(definedBanksCount, reservedBanksCount + requiredBanksCount);
 	}
 }

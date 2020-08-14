@@ -58,8 +58,7 @@ public final class Language extends ValueSet {
 
 	private static Language add(String id, int sortKey) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 
 		Language result = new Language(id, sortKey);
@@ -73,8 +72,7 @@ public final class Language extends ValueSet {
 	 * @return The unmodifiable list of all values, not <code>null</code>.
 	 */
 	public static List<Language> getValues() {
-		return Collections.unmodifiableList(new ArrayList<Language>(values
-				.values()));
+		return Collections.unmodifiableList(new ArrayList<Language>(values.values()));
 	}
 
 	/**
@@ -86,8 +84,7 @@ public final class Language extends ValueSet {
 	 */
 	public static Language getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return values.get(id);
 	}

@@ -45,27 +45,23 @@ public final class MegacartMenu extends ImportableMenu {
 
 	@Override
 	public boolean hasMenuEntries() {
-		return ByteArrayUtility.getIndexOf(content, 0x0000,
-				MENU_CONTENT_LENGTH, MENU_TEXT_BYTES) >= 0;
+		return ByteArrayUtility.getIndexOf(content, 0x0000, MENU_CONTENT_LENGTH, MENU_TEXT_BYTES) >= 0;
 	}
 
 	@Override
 	public int collectMenuEntries(Object owner, Collector collector) {
 		if (owner == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'owner' must not be null.");
+			throw new IllegalArgumentException("Parameter 'owner' must not be null.");
 		}
 		if (collector == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'collector' must not be null.");
+			throw new IllegalArgumentException("Parameter 'collector' must not be null.");
 		}
 
 		if (content.length > MENU_CONTENT_LENGTH) {
 
 			// Find signature.
 			byte[] signature = MENU_TEXT_BYTES;
-			int signatureIndex = ByteArrayUtility.getIndexOf(content, 0,
-					MENU_CONTENT_LENGTH, signature);
+			int signatureIndex = ByteArrayUtility.getIndexOf(content, 0, MENU_CONTENT_LENGTH, signature);
 
 			if (signatureIndex == -1) {
 				return Result.NOT_SUPPORTED_MENU_VERSION_FOUND;
@@ -74,10 +70,8 @@ public final class MegacartMenu extends ImportableMenu {
 			int menuEntriesCount = 0;
 			int menuVersion;
 			// stx $7c20, lda $7c20, then the start is at signatureIndex+3
-			signature = new byte[] { (byte) 0xAE, (byte) 0x20, (byte) 0x7C,
-					(byte) 0x8E, (byte) 0x20, (byte) 0x7C };
-			signatureIndex = ByteArrayUtility.getIndexOf(content, 0,
-					MENU_CONTENT_LENGTH, signature);
+			signature = new byte[] { (byte) 0xAE, (byte) 0x20, (byte) 0x7C, (byte) 0x8E, (byte) 0x20, (byte) 0x7C };
+			signatureIndex = ByteArrayUtility.getIndexOf(content, 0, MENU_CONTENT_LENGTH, signature);
 			if (signatureIndex == 0x37ea) {
 				menuVersion = Version.MEGACART;
 			} else {
@@ -85,8 +79,7 @@ public final class MegacartMenu extends ImportableMenu {
 			}
 			int offset = 0x7;
 
-			collector.collectMenu(owner, "MegacartMenu: signatureIndex="
-					+ Integer.toHexString(signatureIndex));
+			collector.collectMenu(owner, "MegacartMenu: signatureIndex=" + Integer.toHexString(signatureIndex));
 
 			for (int j = 0; j < 254; j++) {
 				menuEntriesCount = j;
@@ -94,14 +87,12 @@ public final class MegacartMenu extends ImportableMenu {
 				if (getByte(offset) == 0xff) {
 					break; // break for loop
 				}
-				StringBuilder titleBuilder = new StringBuilder(
-						WorkbookEntry.TITLE_LENGTH);
+				StringBuilder titleBuilder = new StringBuilder(WorkbookEntry.TITLE_LENGTH);
 				for (int i = 0; i < 33; i++) {
 					char c = ATASCII[getByte(offset + i)];
 					titleBuilder.append(c);
 				}
-				collector.collectMenuEntry(owner, menuVersion, j,
-						titleBuilder.toString());
+				collector.collectMenuEntry(owner, menuVersion, j, titleBuilder.toString());
 				offset += 40;
 			}
 

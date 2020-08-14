@@ -38,18 +38,15 @@ public final class WorkbookGenreValidation {
 
 	public void validateSave(WorkbookRoot root, MessageQueue messageQueue) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 		// Check the genres
 		int size = root.getUnmodifiableGenresList().size();
 		if (size > WorkbookRoot.MAX_GENRE_COUNT) {
-			messageQueue.sendMessage(root, null, Messages.E427,
-					TextUtility.formatAsDecimal(size),
+			messageQueue.sendMessage(root, null, Messages.E427, TextUtility.formatAsDecimal(size),
 					TextUtility.formatAsDecimal(WorkbookRoot.MAX_GENRE_COUNT));
 		}
 		for (WorkbookGenre genre : root.getUnmodifiableGenresList()) {
@@ -58,29 +55,23 @@ public final class WorkbookGenreValidation {
 	}
 
 	@SuppressWarnings("static-method")
-	public void validateSave(WorkbookRoot root, WorkbookGenre genre,
-			MessageQueue messageQueue) {
+	public void validateSave(WorkbookRoot root, WorkbookGenre genre, MessageQueue messageQueue) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (genre == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'genre' must not be null.");
+			throw new IllegalArgumentException("Parameter 'genre' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
-		RepositoryValidation rv = RepositoryValidation
-				.createInstance(messageQueue);
+		RepositoryValidation rv = RepositoryValidation.createInstance(messageQueue);
 		String name = genre.getName();
 		if (rv.isStringSpecified(genre, Attributes.NAME, name)) {
 			if (name.equalsIgnoreCase(WorkbookGenre.ALL)) {
 				// ERROR: Name '{0}' of the genre defined in the workbook is
 				// reserved. Choose another name for the genre.
-				messageQueue.sendMessage(genre, Attributes.NAME, Messages.E426,
-						WorkbookGenre.ALL);
+				messageQueue.sendMessage(genre, Attributes.NAME, Messages.E426, WorkbookGenre.ALL);
 			} else {
 				rv.isStringValid(genre, Attributes.NAME, genre.getName());
 			}
@@ -88,19 +79,15 @@ public final class WorkbookGenreValidation {
 	}
 
 	@SuppressWarnings("static-method")
-	public void validateExport(WorkbookRoot root, WorkbookGenre genre,
-			MessageQueue messageQueue) {
+	public void validateExport(WorkbookRoot root, WorkbookGenre genre, MessageQueue messageQueue) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (genre == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'genre' must not be null.");
+			throw new IllegalArgumentException("Parameter 'genre' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 	}
 }

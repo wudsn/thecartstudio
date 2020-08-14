@@ -55,14 +55,12 @@ public final class CartDef {
 	public final static int IMG_TIMESTAMP_LEN = 20;
 
 	// cart info is stored in the HASH area
-	public final static int CARTINFO_OFS = (HASH_BLOCK_START * BLOCKSIZE + HASH_BLOCK_START
-			* HASH_LEN);
+	public final static int CARTINFO_OFS = (HASH_BLOCK_START * BLOCKSIZE + HASH_BLOCK_START * HASH_LEN);
 
 	// signature
 	public final static int SIGNATURE_OFS = CARTINFO_OFS;
 	public final static int SIGNATURE_LEN = 16;
-	public final static byte[] SIGNATURE_DATA = ASCIIString
-			.getBytes("The!CartCSUM0100");
+	public final static byte[] SIGNATURE_DATA = ASCIIString.getBytes("The!CartCSUM0100");
 
 	// number of allocated blocks
 	public final static int BLOCKUSE_OFS = (CARTINFO_OFS + 16);
@@ -77,8 +75,7 @@ public final class CartDef {
 	// signature identifying programming file
 	public final static int HDR_SIGNATURE_OFS = 0;
 	public final static int HDR_SIGNATURE_LEN = 16;
-	public final static byte[] HDR_SIGNATURE_DATA = ASCIIString
-			.getBytes("The!CartPROG0100");
+	public final static byte[] HDR_SIGNATURE_DATA = ASCIIString.getBytes("The!CartPROG0100");
 
 	// total 64k blocks in this programming (multi-) file
 	public final static int HDR_BLOCKS_OFS = 16;

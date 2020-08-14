@@ -72,17 +72,12 @@ public final class FlashTargetType extends ValueSet {
 		supportedContentTypes.add(ContentType.CARTRIDGE_STD_16);
 		supportedContentTypes.add(ContentType.CARTRIDGE_ATMAX_128);
 
-		int[] exportFormats = new int[] { ExportFormat.BIN_IMAGE,
-				ExportFormat.CAR_IMAGE };
-		ATMAX_128 = add("ATMAX_128", sortKey++,
-				CartridgeType.CARTRIDGE_ATMAX_128, 0, 0,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
+		int[] exportFormats = new int[] { ExportFormat.BIN_IMAGE, ExportFormat.CAR_IMAGE };
+		ATMAX_128 = add("ATMAX_128", sortKey++, CartridgeType.CARTRIDGE_ATMAX_128, 0, 0, supportedCartridgeMenuTypes,
+				supportedContentTypes, exportFormats);
 		supportedContentTypes.add(ContentType.CARTRIDGE_ATMAX_1024);
-		ATMAX_1024 = add("ATMAX_1024", sortKey++,
-				CartridgeType.CARTRIDGE_ATMAX_1024, 0, 0,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
+		ATMAX_1024 = add("ATMAX_1024", sortKey++, CartridgeType.CARTRIDGE_ATMAX_1024, 0, 0, supportedCartridgeMenuTypes,
+				supportedContentTypes, exportFormats);
 
 		// MegaCart 4 MB.
 		supportedCartridgeMenuTypes.clear();
@@ -90,12 +85,9 @@ public final class FlashTargetType extends ValueSet {
 		supportedContentTypes.clear();
 		supportedContentTypes.add(ContentType.CARTRIDGE_STD_8);
 		supportedContentTypes.add(ContentType.CARTRIDGE_STD_16);
-		exportFormats = new int[] { ExportFormat.BIN_IMAGE,
-				ExportFormat.CAR_IMAGE };
-		MEGA_4096 = add("MEGA_4096", sortKey++,
-				CartridgeType.CARTRIDGE_MEGA_4096, 0, 0,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
+		exportFormats = new int[] { ExportFormat.BIN_IMAGE, ExportFormat.CAR_IMAGE };
+		MEGA_4096 = add("MEGA_4096", sortKey++, CartridgeType.CARTRIDGE_MEGA_4096, 0, 0, supportedCartridgeMenuTypes,
+				supportedContentTypes, exportFormats);
 
 		// The!Cart 128 MB
 		supportedCartridgeMenuTypes.clear();
@@ -112,21 +104,14 @@ public final class FlashTargetType extends ValueSet {
 			}
 		}
 
-		exportFormats = new int[] { ExportFormat.BIN_IMAGE,
-				ExportFormat.CAR_IMAGE, ExportFormat.ATR_IMAGE,
+		exportFormats = new int[] { ExportFormat.BIN_IMAGE, ExportFormat.CAR_IMAGE, ExportFormat.ATR_IMAGE,
 				ExportFormat.ATR_IMAGES };
-		THECART_32MB = add("THECART_32MB", sortKey++,
-				CartridgeType.CARTRIDGE_THECART_32M, 4096, 8192,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
-		THECART_64MB = add("THECART_64MB", sortKey++,
-				CartridgeType.CARTRIDGE_THECART_64M, 8192, 8192,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
-		THECART_128MB = add("THECART_128MB", sortKey++,
-				CartridgeType.CARTRIDGE_THECART_128M, 0, 0,
-				supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
+		THECART_32MB = add("THECART_32MB", sortKey++, CartridgeType.CARTRIDGE_THECART_32M, 4096, 8192,
+				supportedCartridgeMenuTypes, supportedContentTypes, exportFormats);
+		THECART_64MB = add("THECART_64MB", sortKey++, CartridgeType.CARTRIDGE_THECART_64M, 8192, 8192,
+				supportedCartridgeMenuTypes, supportedContentTypes, exportFormats);
+		THECART_128MB = add("THECART_128MB", sortKey++, CartridgeType.CARTRIDGE_THECART_128M, 0, 0,
+				supportedCartridgeMenuTypes, supportedContentTypes, exportFormats);
 
 		// TurboFreezer 2005.
 		supportedCartridgeMenuTypes.clear();
@@ -138,9 +123,8 @@ public final class FlashTargetType extends ValueSet {
 		supportedContentTypes.add(ContentType.CARTRIDGE_SDX_64);
 
 		exportFormats = new int[] { ExportFormat.BIN_IMAGE };
-		TURBO_FREEZER_2005_448 = add("TURBO_FREEZER_2005_448", sortKey++,
-				CartridgeType.UNKNOWN, 56, 8192, supportedCartridgeMenuTypes,
-				supportedContentTypes, exportFormats);
+		TURBO_FREEZER_2005_448 = add("TURBO_FREEZER_2005_448", sortKey++, CartridgeType.UNKNOWN, 56, 8192,
+				supportedCartridgeMenuTypes, supportedContentTypes, exportFormats);
 
 		// User defined
 		supportedCartridgeMenuTypes.clear();
@@ -150,27 +134,23 @@ public final class FlashTargetType extends ValueSet {
 		supportedContentTypes.clear();
 		supportedContentTypes.addAll(ContentType.getValues());
 
-		exportFormats = new int[] { ExportFormat.BIN_IMAGE,
-				ExportFormat.CAR_IMAGE, ExportFormat.ATR_IMAGE,
+		exportFormats = new int[] { ExportFormat.BIN_IMAGE, ExportFormat.CAR_IMAGE, ExportFormat.ATR_IMAGE,
 				ExportFormat.ATR_IMAGES };
-		USER_DEFINED = add("USER_DEFINED", sortKey++, CartridgeType.UNKNOWN,
-				128, 8192, supportedCartridgeMenuTypes, supportedContentTypes,
-				exportFormats);
+		USER_DEFINED = add("USER_DEFINED", sortKey++, CartridgeType.UNKNOWN, 128, 8192, supportedCartridgeMenuTypes,
+				supportedContentTypes, exportFormats);
 
 		values = Collections.unmodifiableList(values);
 
 		initializeClass(FlashTargetType.class, ValueSets.class);
 	}
 
-	private FlashTargetType(String id, int sortKey,
-			CartridgeType cartridgeType, int bankCount, int bankSize,
-			List<CartridgeMenuType> supportedCartridgeMenuTypes,
-			List<ContentType> supportedContentTypes, int[] supportedExportFormats) {
+	private FlashTargetType(String id, int sortKey, CartridgeType cartridgeType, int bankCount, int bankSize,
+			List<CartridgeMenuType> supportedCartridgeMenuTypes, List<ContentType> supportedContentTypes,
+			int[] supportedExportFormats) {
 		super(id, sortKey);
 		this.cartridgeType = cartridgeType;
 		if (cartridgeType.getSizeInKB() > 0 && bankCount == 0 && bankSize == 0) {
-			this.bankCount = cartridgeType.getSizeInKB() * KB
-					/ cartridgeType.getBankSize();
+			this.bankCount = cartridgeType.getSizeInKB() * KB / cartridgeType.getBankSize();
 			this.bankSize = cartridgeType.getBankSize();
 
 		} else {
@@ -179,25 +159,20 @@ public final class FlashTargetType extends ValueSet {
 		}
 
 		this.supportedCartridgeMenuTypes = Collections
-				.unmodifiableList(new ArrayList<CartridgeMenuType>(
-						supportedCartridgeMenuTypes));
-		this.supportedContentTypes = Collections
-				.unmodifiableList(new ArrayList<ContentType>(supportedContentTypes));
+				.unmodifiableList(new ArrayList<CartridgeMenuType>(supportedCartridgeMenuTypes));
+		this.supportedContentTypes = Collections.unmodifiableList(new ArrayList<ContentType>(supportedContentTypes));
 		this.supportedExportFormats = supportedExportFormats;
 
 	}
 
-	private static FlashTargetType add(String id, int sortKey,
-			CartridgeType cartridgeType, int bankCount, int bankSize,
-			List<CartridgeMenuType> supportedCartridgeMenuTypes,
-			List<ContentType> supportedFileTypes, int[] supportedExportFormats) {
+	private static FlashTargetType add(String id, int sortKey, CartridgeType cartridgeType, int bankCount, int bankSize,
+			List<CartridgeMenuType> supportedCartridgeMenuTypes, List<ContentType> supportedFileTypes,
+			int[] supportedExportFormats) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		if (cartridgeType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'cartridgeType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'cartridgeType' must not be null.");
 		}
 		if (cartridgeType.getSizeInKB() == 0 && bankCount < 1) {
 			throw new IllegalArgumentException(
@@ -206,18 +181,14 @@ public final class FlashTargetType extends ValueSet {
 		}
 
 		if (supportedFileTypes == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'supportedContentTypes' must not be null.");
+			throw new IllegalArgumentException("Parameter 'supportedContentTypes' must not be null.");
 		}
 		if (supportedExportFormats == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'supportedExportFormats' must not be null.");
+			throw new IllegalArgumentException("Parameter 'supportedExportFormats' must not be null.");
 		}
 
-		FlashTargetType result = new FlashTargetType(id, sortKey,
-				cartridgeType, bankCount, bankSize,
-				supportedCartridgeMenuTypes, supportedFileTypes,
-				supportedExportFormats);
+		FlashTargetType result = new FlashTargetType(id, sortKey, cartridgeType, bankCount, bankSize,
+				supportedCartridgeMenuTypes, supportedFileTypes, supportedExportFormats);
 		values.add(result);
 		map.put(id, result);
 		return result;
@@ -241,18 +212,17 @@ public final class FlashTargetType extends ValueSet {
 	 */
 	public static FlashTargetType getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return map.get(id);
 	}
 
 	/**
-	 * Gets the {@link CartridgeType} which can is used by default to export
-	 * this target type as ".CAR" file.
+	 * Gets the {@link CartridgeType} which can is used by default to export this
+	 * target type as ".CAR" file.
 	 * 
-	 * @return The cartridge type or {@link CartridgeType#UNKNOWN} if there is
-	 *         not suitable cartridge type.
+	 * @return The cartridge type or {@link CartridgeType#UNKNOWN} if there is not
+	 *         suitable cartridge type.
 	 */
 	public CartridgeType getCartridgeType() {
 		return cartridgeType;
@@ -277,8 +247,7 @@ public final class FlashTargetType extends ValueSet {
 	}
 
 	/**
-	 * Determines if a given export format is supported by this flash target
-	 * type.
+	 * Determines if a given export format is supported by this flash target type.
 	 * 
 	 * @param exportFormat
 	 *            The export format, see {@link ExportFormat}
@@ -295,19 +264,16 @@ public final class FlashTargetType extends ValueSet {
 	}
 
 	/**
-	 * Determines if a cartridge menu type is supported by the flash target
-	 * type.
+	 * Determines if a cartridge menu type is supported by the flash target type.
 	 * 
 	 * @param cartridgeMenuType
 	 *            The cartridge menu type, not <code>null</code>.
 	 * @return <code>true</code> if the cartridge menu type is supported by the
 	 *         flash target type, <code>false</code> otherwise.
 	 */
-	public boolean isCartridgeMenuTypeSupported(
-			CartridgeMenuType cartridgeMenuType) {
+	public boolean isCartridgeMenuTypeSupported(CartridgeMenuType cartridgeMenuType) {
 		if (cartridgeMenuType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'cartridgeMenuType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'cartridgeMenuType' must not be null.");
 		}
 		return supportedCartridgeMenuTypes.contains(cartridgeMenuType);
 	}
@@ -315,8 +281,8 @@ public final class FlashTargetType extends ValueSet {
 	/**
 	 * Gets the unmodifiable list of supported cartridge menu types.
 	 * 
-	 * @return The unmodifiable list of supported cartridge menu types, not
-	 *         empty and not <code>null</code>.
+	 * @return The unmodifiable list of supported cartridge menu types, not empty
+	 *         and not <code>null</code>.
 	 * 
 	 */
 	public List<CartridgeMenuType> getSupportedCartridgeMenuTypes() {
@@ -333,8 +299,7 @@ public final class FlashTargetType extends ValueSet {
 	 */
 	public boolean isContentTypeSupported(ContentType contentType) {
 		if (contentType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'fileType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'fileType' must not be null.");
 		}
 		return supportedContentTypes.contains(contentType);
 	}

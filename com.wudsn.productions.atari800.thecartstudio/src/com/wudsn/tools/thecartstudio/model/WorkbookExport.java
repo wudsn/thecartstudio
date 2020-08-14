@@ -40,12 +40,10 @@ public final class WorkbookExport {
 
 	public WorkbookExport(Workbook workbook, byte[] data) {
 		if (workbook == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'workbook' must not be null.");
+			throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 		}
 		if (data == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'data' must not be null.");
+			throw new IllegalArgumentException("Parameter 'data' must not be null.");
 		}
 		this.workbook = workbook;
 		this.data = data;
@@ -62,8 +60,7 @@ public final class WorkbookExport {
 
 	public void print(PrintWriter writer) {
 		if (writer == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'writer' must not be null.");
+			throw new IllegalArgumentException("Parameter 'writer' must not be null.");
 		}
 		WorkbookRoot root = workbook.getRoot();
 		writer.println(root.getTitle());
@@ -84,8 +81,7 @@ public final class WorkbookExport {
 
 	void setMenuEntries(List<WorkbookMenuEntry> menuEntries) {
 		if (menuEntries == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'menuEntries' must not be null.");
+			throw new IllegalArgumentException("Parameter 'menuEntries' must not be null.");
 		}
 		this.menuEntries = Collections.unmodifiableList(menuEntries);
 	}

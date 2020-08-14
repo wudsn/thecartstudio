@@ -57,8 +57,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 
 		public void printfln(String text, String... parameters) {
 			if (text == null) {
-				throw new IllegalArgumentException(
-						"Parameter text must not be null.");
+				throw new IllegalArgumentException("Parameter text must not be null.");
 			}
 			text = TextUtility.format(text, parameters);
 			byte[] bytes = ASCIIString.getBytesCentered(text, screenWidth);
@@ -71,48 +70,39 @@ public final class CartridgeTypeSampleCreator extends Main {
 	private Map<Platform, byte[]> binaries;
 	private int fileCount;
 
-	private void writeFile(String subFolderName, String fileName,
-			CartridgeType cartridgeType, String extension, byte[] header,
-			byte[] content) throws CoreException {
+	private void writeFile(String subFolderName, String fileName, CartridgeType cartridgeType, String extension,
+			byte[] header, byte[] content) throws CoreException {
 		if (subFolderName == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'subFolderName' must not be null.");
+			throw new IllegalArgumentException("Parameter 'subFolderName' must not be null.");
 		}
 		if (cartridgeType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'fileType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'fileType' must not be null.");
 		}
 		if (extension == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'extension' must not be null.");
+			throw new IllegalArgumentException("Parameter 'extension' must not be null.");
 		}
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		File subFolder = new File(folder, subFolderName);
 		if (!subFolder.exists()) {
 			if (!subFolder.mkdir()) {
 				// ERROR: Cannot create folder '{0}'.
-				throw new CoreException(com.wudsn.tools.base.Messages.E202,
-						subFolder.getAbsolutePath());
+				throw new CoreException(com.wudsn.tools.base.Messages.E202, subFolder.getAbsolutePath());
 			}
 		}
 		File file;
 		if (fileName == null) {
-			file = new File(subFolder, cartridgeType.getText() + " ("
-					+ cartridgeType.getNumericId() + ")" + extension);
+			file = new File(subFolder, cartridgeType.getText() + " (" + cartridgeType.getNumericId() + ")" + extension);
 		} else {
 			file = new File(subFolder, fileName + extension);
 		}
 		OutputStream outputStream = FileUtility.openOutputStream(file);
 		try {
 			if (header != null) {
-				FileUtility.writeBytes(file, outputStream, header, 0,
-						header.length);
+				FileUtility.writeBytes(file, outputStream, header, 0, header.length);
 			}
-			FileUtility.writeBytes(file, outputStream, content, 0,
-					content.length);
+			FileUtility.writeBytes(file, outputStream, content, 0, content.length);
 		} finally {
 			FileUtility.closeOutputStream(file, outputStream);
 		}
@@ -122,14 +112,12 @@ public final class CartridgeTypeSampleCreator extends Main {
 
 	public void run(File folder) throws CoreException {
 		if (folder == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'folder' must not be null.");
+			throw new IllegalArgumentException("Parameter 'folder' must not be null.");
 		}
 		folder = folder.getAbsoluteFile();
 		if (!folder.exists()) {
 			// ERROR: Folder '{0} does not exist.
-			throw new CoreException(com.wudsn.tools.base.Messages.E200,
-					folder.getAbsolutePath());
+			throw new CoreException(com.wudsn.tools.base.Messages.E200, folder.getAbsolutePath());
 		}
 
 		this.folder = folder;
@@ -143,19 +131,16 @@ public final class CartridgeTypeSampleCreator extends Main {
 			if (StringUtility.isEmpty(resourcePath)) {
 				continue;
 			}
-			byte[] binary = ResourceUtility
-					.loadResourceAsByteArray(resourcePath);
+			byte[] binary = ResourceUtility.loadResourceAsByteArray(resourcePath);
 			if (binary == null) {
 				// ERROR: Cannot open resource '{0}' for reading. Check
 				// class path and its contents.
-				throw new CoreException(com.wudsn.tools.base.Messages.E216,
-						resourcePath);
+				throw new CoreException(com.wudsn.tools.base.Messages.E216, resourcePath);
 			}
 			binaries.put(platform, binary);
 		}
 
-		println("Generating sample files in folder '"
-				+ folder.getAbsolutePath() + "'.");
+		println("Generating sample files in folder '" + folder.getAbsolutePath() + "'.");
 
 		// Optionally set this filter for debugging.
 		CartridgeType singleCartridgeType = CartridgeType.UNKNOWN; // CartridgeType.CARTRIDGE_MEGA_2048;
@@ -178,8 +163,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 				}
 			}
 
-			println("Generating content sample files for cartridge type '"
-					+ cartridgeType.getText() + " ("
+			println("Generating content sample files for cartridge type '" + cartridgeType.getText() + " ("
 					+ cartridgeType.getNumericId() + ")'.");
 
 			// For The!Cart only a correct .CAR and .ROM is created, because of
@@ -187,169 +171,120 @@ public final class CartridgeTypeSampleCreator extends Main {
 			if (cartridgeType != CartridgeType.CARTRIDGE_THECART_128M) {
 
 				String context = "ROM-Correct";
-				content = createContent(cartridgeType, FileHeaderType.NONE,
-						sizeInBytes, true, context);
+				content = createContent(cartridgeType, FileHeaderType.NONE, sizeInBytes, true, context);
 				header = null;
 				writeFile(context, null, cartridgeType, ".rom", header, content);
 
 				context = "ROM-Size-Too-Small";
-				content = createContent(cartridgeType, FileHeaderType.NONE,
-						sizeInBytes - 1, false, context);
+				content = createContent(cartridgeType, FileHeaderType.NONE, sizeInBytes - 1, false, context);
 				writeFile(context, null, cartridgeType, ".rom", header, content);
 
 				context = "ROM-Size-Too-Large";
-				content = createContent(cartridgeType, FileHeaderType.NONE,
-						sizeInBytes + 1, true, context);
+				content = createContent(cartridgeType, FileHeaderType.NONE, sizeInBytes + 1, true, context);
 				writeFile(context, null, cartridgeType, ".rom", header, content);
 
 				context = "CAR-Correct";
 				int cartridgeTypeNumericId = cartridgeType.getNumericId();
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
 				// Create special sub-folder for all types that are supported by
 				// The!Cart.
-				ContentType contentType = ContentType.getInstance(cartridgeType
-						.getId());
+				ContentType contentType = ContentType.getInstance(cartridgeType.getId());
 				if (contentType == null) {
 					throw new RuntimeException(
-							"No content type defined for cartridge type '"
-									+ cartridgeType.getId() + "'.");
+							"No content type defined for cartridge type '" + cartridgeType.getId() + "'.");
 				}
 				if (contentType.getTheCartMode() != TheCartMode.TC_MODE_NOT_SUPPORTED) {
 					context = "CAR-Correct-Supported";
-					content = createContent(cartridgeType, FileHeaderType.CART,
-							sizeInBytes, true, context);
-					header = CartridgeFileUtility
-							.createCartridgeHeaderWithCheckSum(
-									cartridgeTypeNumericId, content);
-					writeFile(context, null, cartridgeType, ".car", header,
-							content);
+					content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+					header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
+					writeFile(context, null, cartridgeType, ".car", header, content);
 				}
 
 				context = "CAR-Size-Too-Small";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes - 1, false, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes - 1, false, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
 				context = "CAR-Size-Too-Large";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes + 1, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes + 1, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
 				context = "CAR-Wrong-Header";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				content[3] = 'Z';
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
 				context = "CAR-CartridgeType-Too-Small";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(-1, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(-1, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
 				context = "CAR-CartridgeType-Too-Large";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(Integer.MAX_VALUE,
-								content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(Integer.MAX_VALUE, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, "Wrong");
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, "Wrong");
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				content[8]++;
-				writeFile("CAR-Wrong-Checksum", null, cartridgeType, ".car",
-						header, content);
+				writeFile("CAR-Wrong-Checksum", null, cartridgeType, ".car", header, content);
 
 			} else {
 				int cartridgeTypeNumericId = cartridgeType.getNumericId();
 
 				String context = "ROM-Correct";
-				content = createContent(cartridgeType, FileHeaderType.NONE,
-						sizeInBytes, true, context);
+				content = createContent(cartridgeType, FileHeaderType.NONE, sizeInBytes, true, context);
 				header = null;
 				writeFile(context, null, cartridgeType, ".rom", header, content);
 
 				context = "CAR-Correct";
-				content = createContent(cartridgeType, FileHeaderType.CART,
-						sizeInBytes, true, context);
-				header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeTypeNumericId, content);
+				content = createContent(cartridgeType, FileHeaderType.CART, sizeInBytes, true, context);
+				header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeTypeNumericId, content);
 				writeFile(context, null, cartridgeType, ".car", header, content);
 			}
 		}
 
 		if (singleCartridgeType.equals(CartridgeType.UNKNOWN)) {
 			// General sample for testing The!Cart Studio itself.
-			writeNumberSamples("CAR-Correct-Small",
-					CartridgeType.CARTRIDGE_STD_8, FileHeaderType.CART, "ROM",
-					16385);
-			writeNumberSamples("CAR-Correct-Large",
-					CartridgeType.CARTRIDGE_ATMAX_1024, FileHeaderType.CART,
-					"ROM", 129);
+			writeNumberSamples("CAR-Correct-Small", CartridgeType.CARTRIDGE_STD_8, FileHeaderType.CART, "ROM", 16385);
+			writeNumberSamples("CAR-Correct-Large", CartridgeType.CARTRIDGE_ATMAX_1024, FileHeaderType.CART, "ROM",
+					129);
 
 			// Special samples for creating specific workbooks.
-			writeNumberSamples("ROM-Correct-Small-Atarimax-Short-Titles",
-					CartridgeType.CARTRIDGE_STD_8, FileHeaderType.NONE,
-					"ROM", 127);
-			writeNumberSamples("ROM-Correct-Small-Atarimax-Long-Titles",
-					CartridgeType.CARTRIDGE_STD_8, FileHeaderType.NONE,
-					"Atarimax ROM", 127);
-			writeNumberSamples("ROM-Correct-Small-MegaCart",
-					CartridgeType.CARTRIDGE_STD_16, FileHeaderType.NONE,
+			writeNumberSamples("ROM-Correct-Small-Atarimax-Short-Titles", CartridgeType.CARTRIDGE_STD_8,
+					FileHeaderType.NONE, "ROM", 127);
+			writeNumberSamples("ROM-Correct-Small-Atarimax-Long-Titles", CartridgeType.CARTRIDGE_STD_8,
+					FileHeaderType.NONE, "Atarimax ROM", 127);
+			writeNumberSamples("ROM-Correct-Small-MegaCart", CartridgeType.CARTRIDGE_STD_16, FileHeaderType.NONE,
 					"MegaCart ROM", 127);
 		}
 
-		println(fileCount + " sample files created in the sub-folders of '"
-				+ folder.getAbsolutePath() + "'.");
+		println(fileCount + " sample files created in the sub-folders of '" + folder.getAbsolutePath() + "'.");
 	}
 
-	private void writeNumberSamples(String subFolderName,
-			CartridgeType cartridgeType, FileHeaderType fileHeaderType,
+	private void writeNumberSamples(String subFolderName, CartridgeType cartridgeType, FileHeaderType fileHeaderType,
 			String prefix, int totalNumber) throws CoreException {
 		if (subFolderName == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'subFolderName' must not be null.");
+			throw new IllegalArgumentException("Parameter 'subFolderName' must not be null.");
 		}
 		if (cartridgeType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'cartridgeType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'cartridgeType' must not be null.");
 		}
 		if (fileHeaderType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'fileHeaderType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'fileHeaderType' must not be null.");
 		}
-		println("Generating " + totalNumber
-				+ " number sample files for cartridge type '"
-				+ cartridgeType.getText() + " (" + cartridgeType.getNumericId()
-				+ ")' with file header type '" + fileHeaderType.getText()
-				+ "'.");
+		println("Generating " + totalNumber + " number sample files for cartridge type '" + cartridgeType.getText()
+				+ " (" + cartridgeType.getNumericId() + ")' with file header type '" + fileHeaderType.getText() + "'.");
 
 		String totalNumberString = Integer.toString(totalNumber);
 		int digits = totalNumberString.length();
 		for (int i = 0; i < totalNumber; i++) {
-			StringBuilder numberStringBuilder = new StringBuilder(
-					Integer.toString(i + 1));
+			StringBuilder numberStringBuilder = new StringBuilder(Integer.toString(i + 1));
 			while (numberStringBuilder.length() < digits) {
 				numberStringBuilder.insert(0, '0');
 			}
@@ -357,36 +292,28 @@ public final class CartridgeTypeSampleCreator extends Main {
 			String fileName = prefix + "-" + numberString;
 			String title = fileName + "/" + totalNumberString;
 			byte[] content = createContent(cartridgeType, fileHeaderType,
-					cartridgeType.getSizeInKB() * ByteArrayUtility.KB, true,
-					title);
+					cartridgeType.getSizeInKB() * ByteArrayUtility.KB, true, title);
 			if (fileHeaderType.equals(FileHeaderType.CART)) {
-				byte[] header = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeType.getNumericId(), content);
-				writeFile(subFolderName, fileName, cartridgeType, ".car",
-						header, content);
-			} else {
-				writeFile(subFolderName, fileName, cartridgeType, ".rom", null,
+				byte[] header = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(cartridgeType.getNumericId(),
 						content);
+				writeFile(subFolderName, fileName, cartridgeType, ".car", header, content);
+			} else {
+				writeFile(subFolderName, fileName, cartridgeType, ".rom", null, content);
 
 			}
 		}
 	}
 
-	private byte[] createContent(CartridgeType cartridgeType,
-			FileHeaderType fileHeaderType, int sizeInBytes,
+	private byte[] createContent(CartridgeType cartridgeType, FileHeaderType fileHeaderType, int sizeInBytes,
 			boolean withVectors, String title) {
 		if (cartridgeType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'cartridgeType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'cartridgeType' must not be null.");
 		}
 		if (fileHeaderType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'fileHeaderType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'fileHeaderType' must not be null.");
 		}
 		if (title == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'title' must not be null.");
+			throw new IllegalArgumentException("Parameter 'title' must not be null.");
 		}
 		int startBankOffset = cartridgeType.getInitialBankOffset();
 		int bankSize = cartridgeType.getBankSize();
@@ -395,48 +322,37 @@ public final class CartridgeTypeSampleCreator extends Main {
 		byte[] content = new byte[sizeInBytes];
 		byte[] binary = binaries.get(cartridgeType.getPlatform());
 		if (binary == null) {
-			throw new RuntimeException("No binary for platform '"
-					+ cartridgeType + "'.");
+			throw new RuntimeException("No binary for platform '" + cartridgeType + "'.");
 		}
 		int atariMaxFix = 6;
 		startAddress = startAddress + atariMaxFix;
 		int highByteOffset = startBankOffset + atariMaxFix + 1;
-		int textOffset = startBankOffset + (binary[atariMaxFix + 3] & 0xff)
-				+ 256 * (binary[atariMaxFix + 4] & 0xff);
+		int textOffset = startBankOffset + (binary[atariMaxFix + 3] & 0xff) + 256 * (binary[atariMaxFix + 4] & 0xff);
 
 		System.arraycopy(binary, 0, content, startBankOffset, binary.length);
 
 		int numericId = cartridgeType.getNumericId();
-		ContentType contentType = ContentType
-				.getInstanceByCartridgeType(numericId);
+		ContentType contentType = ContentType.getInstanceByCartridgeType(numericId);
 		String theCartMode = contentType.getTheCartMode() == 0 ? "NONE"
-				: TextUtility.formatAsDecimal(contentType.getTheCartMode())
-						+ "/$"
-						+ HexUtility.getByteValueHexString(contentType
-								.getTheCartMode());
+				: TextUtility.formatAsDecimal(contentType.getTheCartMode()) + "/$"
+						+ HexUtility.getByteValueHexString(contentType.getTheCartMode());
 		LinePrinter linePrinter = new LinePrinter(content, textOffset, 40);
 		linePrinter.printfln("{0}", title);
-		linePrinter.printfln("{0} ({1})", cartridgeType.getText(),
-				TextUtility.formatAsDecimal(numericId));
-		linePrinter.printfln("{0} / {1}", fileHeaderType.getText(),
-				TextUtility.formatAsMemorySize(sizeInBytes));
-		linePrinter.printfln(
-				"Banks:{0} Size:{1}",
-				TextUtility.formatAsDecimal(cartridgeType.getSizeInKB()
-						* ByteArrayUtility.KB / bankSize),
+		linePrinter.printfln("{0} ({1})", cartridgeType.getText(), TextUtility.formatAsDecimal(numericId));
+		linePrinter.printfln("{0} / {1}", fileHeaderType.getText(), TextUtility.formatAsMemorySize(sizeInBytes));
+		linePrinter.printfln("Banks:{0} Size:{1}",
+				TextUtility.formatAsDecimal(cartridgeType.getSizeInKB() * ByteArrayUtility.KB / bankSize),
 				TextUtility.formatAsMemorySize(bankSize));
-		linePrinter.printfln("Initial Bank:{0} Address:${1}", TextUtility
-				.formatAsDecimal(cartridgeType.getInitialBankNumber()),
-				HexUtility.getLongValueHexString(cartridgeType
-						.getInitialBankAddress()));
+		linePrinter.printfln("Initial Bank:{0} Address:${1}",
+				TextUtility.formatAsDecimal(cartridgeType.getInitialBankNumber()),
+				HexUtility.getLongValueHexString(cartridgeType.getInitialBankAddress()));
 		linePrinter.printfln("The!Cart Mode: {0}", theCartMode);
 
 		// Set high byte the actual start address at offset 1.
 		content[highByteOffset] = (byte) (startAddress / 256);
 
 		if (withVectors) {
-			CartridgeUtility.setCartridgeVectors(content, startBankOffset,
-					bankSize, 0, startAddress, 0x0000);
+			CartridgeUtility.setCartridgeVectors(content, startBankOffset, bankSize, 0, startAddress, 0x0000);
 		}
 
 		if (cartridgeType == CartridgeType.CARTRIDGE_ATRAX_SDX_64
@@ -452,13 +368,12 @@ public final class CartridgeTypeSampleCreator extends Main {
 	/**
 	 * Encoded Atrax SDX ROMs use an interleaved address and data bus.
 	 * 
-	 * Addresses: A0 - A6, A1 - A7, A2 - A12, A3 - A15, A4 - A14, A5 - A13, A6 -
-	 * A8, A7 - A5, A8 - A4, A9 - A3, A10 - A0, A11 - A1, A12 - A2, A13 - A9
-	 * (bank select), A14 - A11 (bank select), A15 - A10 (bank select), A16 -
-	 * A16 (bank select)
+	 * Addresses: A0 - A6, A1 - A7, A2 - A12, A3 - A15, A4 - A14, A5 - A13, A6 - A8,
+	 * A7 - A5, A8 - A4, A9 - A3, A10 - A0, A11 - A1, A12 - A2, A13 - A9 (bank
+	 * select), A14 - A11 (bank select), A15 - A10 (bank select), A16 - A16 (bank
+	 * select)
 	 * 
-	 * Data: D0 - Q4, D1 - Q0, D2 - Q5, D3 - Q1, D4 - Q7, D5 - Q6, D6 - Q3, D7 -
-	 * Q2
+	 * Data: D0 - Q4, D1 - Q0, D2 - Q5, D3 - Q1, D4 - Q7, D5 - Q6, D6 - Q3, D7 - Q2
 	 * 
 	 * @param content
 	 *            The original content, not <code>null</code>.
@@ -466,8 +381,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 	 */
 	private static byte[] createInterleavedAtraxSDXContent(byte[] content) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		byte[] result = new byte[content.length];
 		for (int a0 = 0; a0 < content.length; a0++) {
@@ -539,13 +453,12 @@ public final class CartridgeTypeSampleCreator extends Main {
 	/**
 	 * Encoded Atrax 128 ROMs use an interleaved address and data bus.
 	 * 
-	 * Addresses: A0 - A5, A1 - A6, A2 - A7, A3 - A12, A4 - A0, A5 - A1, A6 -
-	 * A2, A7 - A3, A8 - A4, A9 - A8, A10 - A10, A11 - A11, A12 - A9, A13 - A13
-	 * (bank select), A14 - A14 (bank select), A15 - A15 (bank select), A16 -
-	 * A16 (bank select)
+	 * Addresses: A0 - A5, A1 - A6, A2 - A7, A3 - A12, A4 - A0, A5 - A1, A6 - A2, A7
+	 * - A3, A8 - A4, A9 - A8, A10 - A10, A11 - A11, A12 - A9, A13 - A13 (bank
+	 * select), A14 - A14 (bank select), A15 - A15 (bank select), A16 - A16 (bank
+	 * select)
 	 * 
-	 * Data: D0 - Q5, D1 - Q6, D2 - Q2, D3 - Q4, D4 - Q0, D5 - Q1, D6 - Q7, D7 -
-	 * Q3
+	 * Data: D0 - Q5, D1 - Q6, D2 - Q2, D3 - Q4, D4 - Q0, D5 - Q1, D6 - Q7, D7 - Q3
 	 * 
 	 * 
 	 * @param content
@@ -554,8 +467,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 	 */
 	private static byte[] createInterleavedAtrax128Content(byte[] content) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		byte[] result = new byte[content.length];
 		for (int a0 = 0; a0 < content.length; a0++) {

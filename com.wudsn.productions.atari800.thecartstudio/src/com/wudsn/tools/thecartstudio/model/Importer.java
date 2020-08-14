@@ -37,64 +37,58 @@ import com.wudsn.tools.thecartstudio.model.williams.WilliamsImporter;
  */
 public abstract class Importer {
 
-    public static final class ImportResult {
-	public CartridgeDatabaseEntry cartridgeDatabaseEntry;
-	public File convertedFile;
-	public CoreException convertedFileException;
-    }
-
-    protected Importer() {
-
-    }
-
-    public abstract void importFile(Workbook workbook, File file,
-	    ImportResult result);
-
-    /**
-     * Automatically convert a file before it is added. The new file is created
-     * in the source file folder. Existing target files are overwritten
-     * silently. If conversion is required but the new file cannot be created,
-     * an error is reported.
-     * 
-     * @param workbook
-     *            The workbook, not <code>null</code>,
-     * @param file
-     *            The file, not <code>null</code>.
-     * @param messageQueue
-     *            The message queue, not <code>null</code>. Will contain error
-     *            messages if the file does not exist or cannot be read.
-     * 
-     * @return The import result. If old file, the new file or <code>null</code>
-     *         if the new file could not be created.
-     */
-    public static ImportResult autoConvertFile(Workbook workbook, File file,
-	    MessageQueue messageQueue) {
-	if (workbook == null) {
-	    throw new IllegalArgumentException(
-		    "Parameter 'workbook' must not be null.");
-	}
-	if (file == null) {
-	    throw new IllegalArgumentException(
-		    "Parameter 'file' must not be null.");
+	public static final class ImportResult {
+		public CartridgeDatabaseEntry cartridgeDatabaseEntry;
+		public File convertedFile;
+		public CoreException convertedFileException;
 	}
 
-	if (messageQueue == null) {
-	    throw new IllegalArgumentException(
-		    "Parameter 'messageQueue' must not be null.");
-	}
-	List<Importer> importers = new ArrayList<Importer>();
-	importers.add(new MaxflashImporter());
-	importers.add(new WilliamsImporter());
-	ImportResult result = new ImportResult();
+	protected Importer() {
 
-	for (Importer importer : importers) {
-	    importer.importFile(workbook, file, result);
-	    if (result.convertedFile != null
-		    || result.convertedFileException != null) {
+	}
+
+	public abstract void importFile(Workbook workbook, File file, ImportResult result);
+
+	/**
+	 * Automatically convert a file before it is added. The new file is created in
+	 * the source file folder. Existing target files are overwritten silently. If
+	 * conversion is required but the new file cannot be created, an error is
+	 * reported.
+	 * 
+	 * @param workbook
+	 *            The workbook, not <code>null</code>,
+	 * @param file
+	 *            The file, not <code>null</code>.
+	 * @param messageQueue
+	 *            The message queue, not <code>null</code>. Will contain error
+	 *            messages if the file does not exist or cannot be read.
+	 * 
+	 * @return The import result. If old file, the new file or <code>null</code> if
+	 *         the new file could not be created.
+	 */
+	public static ImportResult autoConvertFile(Workbook workbook, File file, MessageQueue messageQueue) {
+		if (workbook == null) {
+			throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
+		}
+		if (file == null) {
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
+		}
+
+		if (messageQueue == null) {
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
+		}
+		List<Importer> importers = new ArrayList<Importer>();
+		importers.add(new MaxflashImporter());
+		importers.add(new WilliamsImporter());
+		ImportResult result = new ImportResult();
+
+		for (Importer importer : importers) {
+			importer.importFile(workbook, file, result);
+			if (result.convertedFile != null || result.convertedFileException != null) {
+				return result;
+			}
+		}
 		return result;
-	    }
 	}
-	return result;
-    }
 
 }

@@ -98,8 +98,7 @@ public final class Exporter {
 
 		public RomTool(WorkbookExport workbookExport) {
 			if (workbookExport == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'workbookExport' must not be null.");
+				throw new IllegalArgumentException("Parameter 'workbookExport' must not be null.");
 			}
 
 			this.data = workbookExport.getData();
@@ -119,10 +118,9 @@ public final class Exporter {
 			// Compute highest used bank and block.
 			int maxBank = 0;
 			for (WorkbookBank bank : root.getBanksList()) {
-				ReservedContentProvider reservedContentProvider = bank
-						.getReservedContentProvider();
-				boolean relevant = (reservedContentProvider != null && reservedContentProvider
-						.isReservedForSystem()) || !bank.getEntries().isEmpty();
+				ReservedContentProvider reservedContentProvider = bank.getReservedContentProvider();
+				boolean relevant = (reservedContentProvider != null && reservedContentProvider.isReservedForSystem())
+						|| !bank.getEntries().isEmpty();
 				if (relevant) {
 					maxBank = bank.getNumber() + 1;
 				}
@@ -146,8 +144,7 @@ public final class Exporter {
 
 		private void setImageName(String name) {
 			if (name == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'name' must not be null.");
+				throw new IllegalArgumentException("Parameter 'name' must not be null.");
 			}
 			int index = 0;
 			int dst = 0;
@@ -165,8 +162,7 @@ public final class Exporter {
 		}
 
 		private void setImageTimeStamp() {
-			byte[] dateTime = ASCIIString.getBytes(DateUtility
-					.getCurrentDateTimeString());
+			byte[] dateTime = ASCIIString.getBytes(DateUtility.getCurrentDateTimeString());
 			System.arraycopy(dateTime, 0, imageTimeStamp, 0, dateTime.length);
 			imageTimeStamp[imageTimeStamp.length - 1] = EOL;
 		}
@@ -174,8 +170,7 @@ public final class Exporter {
 		private void calculateHashes() {
 			for (int i = 0; i < maxBlock; i++) {
 				// No hash value for hash blocks.
-				if (i >= HASH_BLOCK_START
-						&& i < HASH_BLOCK_START + HASH_BLOCK_COUNT) {
+				if (i >= HASH_BLOCK_START && i < HASH_BLOCK_START + HASH_BLOCK_COUNT) {
 					continue;
 				}
 				int hashOffset = HASH_BLOCK_START * BLOCKSIZE + i * HASH_LEN;
@@ -183,8 +178,7 @@ public final class Exporter {
 			}
 		}
 
-		private void computeSHA512(byte[] source, int sourceOffset, int size,
-				byte[] dest, int destOffset) {
+		private void computeSHA512(byte[] source, int sourceOffset, int size, byte[] dest, int destOffset) {
 			sha512.reset();
 			sha512.update(source, sourceOffset, size);
 			byte[] hash = sha512.digest();
@@ -193,8 +187,7 @@ public final class Exporter {
 		}
 
 		private void addTheCartSignature() {
-			System.arraycopy(SIGNATURE_DATA, 0, data, SIGNATURE_OFS,
-					SIGNATURE_LEN);
+			System.arraycopy(SIGNATURE_DATA, 0, data, SIGNATURE_OFS, SIGNATURE_LEN);
 			data[BLOCKUSE_OFS] = (byte) (maxBlock & 0xff);
 			data[BLOCKUSE_OFS + 1] = (byte) (maxBlock >> 8);
 			System.arraycopy(imageName, 0, data, IMGNAME_OFS, IMG_NAME_LEN);
@@ -222,10 +215,8 @@ public final class Exporter {
 		}
 
 		private void setupBaseHeader() {
-			computeSHA512(data, HASH_BLOCK_START * BLOCKSIZE, HASH_BLOCK_COUNT
-					* BLOCKSIZE, imageHeader, HDR_HASH_OFS);
-			System.arraycopy(HDR_SIGNATURE_DATA, 0, imageHeader,
-					HDR_SIGNATURE_OFS, HDR_SIGNATURE_LEN);
+			computeSHA512(data, HASH_BLOCK_START * BLOCKSIZE, HASH_BLOCK_COUNT * BLOCKSIZE, imageHeader, HDR_HASH_OFS);
+			System.arraycopy(HDR_SIGNATURE_DATA, 0, imageHeader, HDR_SIGNATURE_OFS, HDR_SIGNATURE_LEN);
 			imageHeader[HDR_BLOCKS_OFS] = (byte) (maxBlock & 0xff);
 			imageHeader[HDR_BLOCKS_OFS + 1] = (byte) (maxBlock >> 8);
 			imageHeader[HDR_TOTAL_PARTS_OFS] = 1;
@@ -233,10 +224,8 @@ public final class Exporter {
 			imageHeader[HDR_CS_START_OFS] = HASH_BLOCK_START & 0xff;
 			imageHeader[HDR_CS_START_OFS + 1] = HASH_BLOCK_START >> 8;
 			imageHeader[HDR_CS_COUNT_OFS] = HASH_BLOCK_COUNT;
-			System.arraycopy(imageName, 0, imageHeader, HDR_NAME_OFS,
-					IMG_NAME_LEN);
-			System.arraycopy(imageTimeStamp, 0, imageHeader, HDR_TIMESTAMP_OFS,
-					IMG_TIMESTAMP_LEN);
+			System.arraycopy(imageName, 0, imageHeader, HDR_NAME_OFS, IMG_NAME_LEN);
+			System.arraycopy(imageTimeStamp, 0, imageHeader, HDR_TIMESTAMP_OFS, IMG_TIMESTAMP_LEN);
 
 			calculateUsageMap();
 		}
@@ -249,12 +238,10 @@ public final class Exporter {
 
 	public Exporter(WorkbookExport workbookExport, MessageQueue messageQueue) {
 		if (workbookExport == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'workbookExport' must not be null.");
+			throw new IllegalArgumentException("Parameter 'workbookExport' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 		this.workbookExport = workbookExport;
 		this.data = workbookExport.getData();
@@ -267,8 +254,7 @@ public final class Exporter {
 
 	public void exportAsBinImage(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 
 		try {
@@ -280,15 +266,13 @@ public final class Exporter {
 			return;
 		}
 		// INFO: Workbook with {0} exported as BIN cartridge image {1}.
-		messageQueue.sendMessage(file, null, Messages.I110,
-				TextUtility.formatAsMemorySize(exportedFileSize),
+		messageQueue.sendMessage(file, null, Messages.I110, TextUtility.formatAsMemorySize(exportedFileSize),
 				file.getAbsolutePath());
 	}
 
 	private void addExportedFile(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 		exportedFiles.add(file);
 		exportedFileSize += file.length();
@@ -296,26 +280,20 @@ public final class Exporter {
 
 	public void exportAsCarImage(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
-		CartridgeType cartridgeType = workbookExport.getWorkbook().getRoot()
-				.getCartridgeType();
+		CartridgeType cartridgeType = workbookExport.getWorkbook().getRoot().getCartridgeType();
 		if (cartridgeType == CartridgeType.UNKNOWN) {
-			throw new RuntimeException(
-					"Cannot export to unknown cartrdige type.");
+			throw new RuntimeException("Cannot export to unknown cartrdige type.");
 		}
 
 		try {
 			OutputStream outputStream = FileUtility.openOutputStream(file);
 			try {
 				byte[] cartridgeHeader = CartridgeFileUtility
-						.createCartridgeHeaderWithCheckSum(
-								cartridgeType.getNumericId(), data);
-				FileUtility.writeBytes(file, outputStream, cartridgeHeader, 0,
-						cartridgeHeader.length);
-				FileUtility
-						.writeBytes(file, outputStream, data, 0, data.length);
+						.createCartridgeHeaderWithCheckSum(cartridgeType.getNumericId(), data);
+				FileUtility.writeBytes(file, outputStream, cartridgeHeader, 0, cartridgeHeader.length);
+				FileUtility.writeBytes(file, outputStream, data, 0, data.length);
 			} finally {
 				FileUtility.closeOutputStream(file, outputStream);
 			}
@@ -326,15 +304,13 @@ public final class Exporter {
 			return;
 		}
 		// INFO: Workbook with {0} exported as CAR cartridge image {1}.
-		messageQueue.sendMessage(file, null, Messages.I111,
-				TextUtility.formatAsMemorySize(exportedFileSize),
+		messageQueue.sendMessage(file, null, Messages.I111, TextUtility.formatAsMemorySize(exportedFileSize),
 				file.getAbsolutePath());
 	}
 
 	public void exportAsAtrImage(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 
 		RomTool romTool = new RomTool(workbookExport);
@@ -343,14 +319,11 @@ public final class Exporter {
 		try {
 			OutputStream outputStream = FileUtility.openOutputStream(file);
 			try {
-				byte[] atrHeader = AtrFile.createHeader(dataSize,
-						AtrFile.SECTOR_SIZE_8K);
-				FileUtility.writeBytes(file, outputStream, atrHeader, 0,
-						atrHeader.length);
+				byte[] atrHeader = AtrFile.createHeader(dataSize, AtrFile.SECTOR_SIZE_8K);
+				FileUtility.writeBytes(file, outputStream, atrHeader, 0, atrHeader.length);
 
 				byte[] imageHeader = romTool.createImageHeader();
-				FileUtility.writeBytes(file, outputStream, imageHeader, 0,
-						imageHeader.length);
+				FileUtility.writeBytes(file, outputStream, imageHeader, 0, imageHeader.length);
 
 				FileUtility.writeBytes(file, outputStream, data, 0, romSize);
 			} finally {
@@ -364,22 +337,19 @@ public final class Exporter {
 			return;
 		}
 		// INFO: Workbook with {0} exported as ATR programming image {1}.
-		messageQueue.sendMessage(file, null, Messages.I112,
-				TextUtility.formatAsMemorySize(exportedFileSize),
+		messageQueue.sendMessage(file, null, Messages.I112, TextUtility.formatAsMemorySize(exportedFileSize),
 				file.getAbsolutePath());
 	}
 
 	public void exportAsAtrImages(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 		String fileName = file.getName();
 		String extension = FileExtensions.ATR_IMAGES;
 		if (!fileName.endsWith(extension)) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' be a file that ends with '" + extension
-							+ "'. Specified value was '" + fileName + "'.");
+			throw new IllegalArgumentException("Parameter 'file' be a file that ends with '" + extension
+					+ "'. Specified value was '" + fileName + "'.");
 		}
 		int extensionIndex = fileName.length() - extension.length();
 
@@ -404,22 +374,20 @@ public final class Exporter {
 		int maxBlock = romTool.getMaxBlock();
 		byte[] imageHeader = romTool.createImageHeader();
 
-		int numberOfAtrs = (maxBlock + BLOCKS_PER_DD_ATR - 1)
-				/ BLOCKS_PER_DD_ATR;
+		int numberOfAtrs = (maxBlock + BLOCKS_PER_DD_ATR - 1) / BLOCKS_PER_DD_ATR;
 
 		imageHeader[HDR_TOTAL_PARTS_OFS] = (byte) numberOfAtrs;
 		for (int currentAtr = 1; currentAtr <= numberOfAtrs; currentAtr++) {
 			imageHeader[HDR_PARTNO_OFS] = (byte) currentAtr;
-			File partFile = new File(file.getParentFile(), baseFileName + "_"
-					+ currentAtr + extension).getAbsoluteFile();
+			File partFile = new File(file.getParentFile(), baseFileName + "_" + currentAtr + extension)
+					.getAbsoluteFile();
 
 			int startBlock = (currentAtr - 1) * BLOCKS_PER_DD_ATR;
 			int numberOfBlocks = maxBlock - startBlock;
 			if (numberOfBlocks > BLOCKS_PER_DD_ATR) {
 				numberOfBlocks = BLOCKS_PER_DD_ATR;
 			}
-			exportAsAtrImagesPart(partFile, imageHeader, startBlock,
-					numberOfBlocks);
+			exportAsAtrImagesPart(partFile, imageHeader, startBlock, numberOfBlocks);
 			if (messageQueue.containsError()) {
 				return;
 			}
@@ -434,42 +402,33 @@ public final class Exporter {
 		}
 		// INFO: Workbook with {0} exported as ATR programming image
 		// {1}.
-		messageQueue.sendMessage(file, null, Messages.I113,
-				TextUtility.formatAsMemorySize(exportedFileSize), fileNames);
+		messageQueue.sendMessage(file, null, Messages.I113, TextUtility.formatAsMemorySize(exportedFileSize),
+				fileNames);
 	}
 
-	private void exportAsAtrImagesPart(File file, byte[] imageHeader,
-			int startBlock, int numberOfBlocks) {
+	private void exportAsAtrImagesPart(File file, byte[] imageHeader, int startBlock, int numberOfBlocks) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 		if (imageHeader == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'imageHeader' must not be null.");
+			throw new IllegalArgumentException("Parameter 'imageHeader' must not be null.");
 		}
 
 		// 3 unused SD sectors + 8k image header + data for part
 		int romSize = numberOfBlocks * BLOCKSIZE;
-		int dataSize = AtrFile.BOOT_SECTORS_SIZE_SD + RomTool.IMAGE_HEADER_SIZE
-				+ romSize;
+		int dataSize = AtrFile.BOOT_SECTORS_SIZE_SD + RomTool.IMAGE_HEADER_SIZE + romSize;
 		try {
 			OutputStream outputStream = FileUtility.openOutputStream(file);
 			try {
-				byte[] atrHeader = AtrFile.createHeader(dataSize,
-						AtrFile.SECTOR_SIZE_DD);
-				FileUtility.writeBytes(file, outputStream, atrHeader, 0,
-						atrHeader.length);
+				byte[] atrHeader = AtrFile.createHeader(dataSize, AtrFile.SECTOR_SIZE_DD);
+				FileUtility.writeBytes(file, outputStream, atrHeader, 0, atrHeader.length);
 
 				byte[] bootSectors = AtrFile.createBootSectors();
-				FileUtility.writeBytes(file, outputStream, bootSectors, 0,
-						bootSectors.length);
+				FileUtility.writeBytes(file, outputStream, bootSectors, 0, bootSectors.length);
 
-				FileUtility.writeBytes(file, outputStream, imageHeader, 0,
-						imageHeader.length);
+				FileUtility.writeBytes(file, outputStream, imageHeader, 0, imageHeader.length);
 
-				FileUtility.writeBytes(file, outputStream, data, startBlock
-						* BLOCKSIZE, romSize);
+				FileUtility.writeBytes(file, outputStream, data, startBlock * BLOCKSIZE, romSize);
 			} finally {
 				FileUtility.closeOutputStream(file, outputStream);
 			}
@@ -486,8 +445,7 @@ public final class Exporter {
 	 */
 	private void exportIndexFile(File file) {
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		PrintWriter writer = new PrintWriter(bos);
@@ -504,8 +462,8 @@ public final class Exporter {
 	/**
 	 * Gets the unmodifiable list of file that were exported.
 	 * 
-	 * @return The unmodifiable list of file that were exported, may be empty,
-	 *         not <code>null</code>.
+	 * @return The unmodifiable list of file that were exported, may be empty, not
+	 *         <code>null</code>.
 	 */
 	public List<File> getExportedFiles() {
 		return Collections.unmodifiableList(exportedFiles);

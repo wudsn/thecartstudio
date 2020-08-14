@@ -60,14 +60,11 @@ public final class MaxflashMenu extends ImportableMenu {
 	 */
 	private static int getMenuEntryIndex(byte[] content) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
-		int result = ByteArrayUtility.getIndexOf(content, 0x0000,
-				MENU_CONTENT_LENGTH, MENU_ENTRY_TEXT_BYTES1);
+		int result = ByteArrayUtility.getIndexOf(content, 0x0000, MENU_CONTENT_LENGTH, MENU_ENTRY_TEXT_BYTES1);
 		if (result == -1) {
-			result = ByteArrayUtility.getIndexOf(content, 0x0000,
-					MENU_CONTENT_LENGTH, MENU_ENTRY_TEXT_BYTES2);
+			result = ByteArrayUtility.getIndexOf(content, 0x0000, MENU_CONTENT_LENGTH, MENU_ENTRY_TEXT_BYTES2);
 		}
 		return result;
 	}
@@ -75,44 +72,36 @@ public final class MaxflashMenu extends ImportableMenu {
 	@Override
 	public boolean hasMenuEntries() {
 
-		int menuTextIndex = ByteArrayUtility.getIndexOf(content, 0x0000,
-				MENU_CONTENT_LENGTH, MENU_TEXT_BYTES);
+		int menuTextIndex = ByteArrayUtility.getIndexOf(content, 0x0000, MENU_CONTENT_LENGTH, MENU_TEXT_BYTES);
 		int menuEntryIndex = getMenuEntryIndex(content);
-		return menuTextIndex >= 0
-				|| (menuEntryIndex == 0x524 || menuEntryIndex == 0x53c
-						|| menuEntryIndex == 0x5e5 || menuEntryIndex == 0x604
-						|| menuEntryIndex == 0x60d || menuEntryIndex == 0x67b
-						|| menuEntryIndex == 0x6a3 || menuEntryIndex == 0x6ed
-						|| menuEntryIndex == 0x783 || menuEntryIndex == 0x8db);
+		return menuTextIndex >= 0 || (menuEntryIndex == 0x524 || menuEntryIndex == 0x53c || menuEntryIndex == 0x5e5
+				|| menuEntryIndex == 0x604 || menuEntryIndex == 0x60d || menuEntryIndex == 0x67b
+				|| menuEntryIndex == 0x6a3 || menuEntryIndex == 0x6ed || menuEntryIndex == 0x783
+				|| menuEntryIndex == 0x8db);
 	}
 
 	@Override
 	public int collectMenuEntries(Object owner, Collector collector) {
 		if (owner == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'owner' must not be null.");
+			throw new IllegalArgumentException("Parameter 'owner' must not be null.");
 		}
 		if (collector == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'collector' must not be null.");
+			throw new IllegalArgumentException("Parameter 'collector' must not be null.");
 		}
 
 		if (content.length > MENU_CONTENT_LENGTH) {
 
 			// Find signature.
-			byte[] signature = ASCIIString
-					.getBytes("Maxflash Menu Software, Copyright 2009 Steven J Tucker");
-			int signatureIndex = ByteArrayUtility.getIndexOf(content, 0,
-					MENU_CONTENT_LENGTH, signature);
+			byte[] signature = ASCIIString.getBytes("Maxflash Menu Software, Copyright 2009 Steven J Tucker");
+			int signatureIndex = ByteArrayUtility.getIndexOf(content, 0, MENU_CONTENT_LENGTH, signature);
 			int menuEntryIndex = getMenuEntryIndex(content);
 
-			byte[] oldMenuVectors = new byte[] { (byte) 0x4c, (byte) 0xad,
-					(byte) 0xb6, (byte) 0x00, (byte) 0x01, (byte) 0xad,
-					(byte) 0xb6 };
+			byte[] oldMenuVectors = new byte[] { (byte) 0x4c, (byte) 0xad, (byte) 0xb6, (byte) 0x00, (byte) 0x01,
+					(byte) 0xad, (byte) 0xb6 };
 			int oldMenuVectorsIndex = content.length - 7;
 			int oldMenuPointerIndex = oldMenuVectorsIndex - 2;
-			boolean oldMenu = ByteArrayUtility.getIndexOf(content,
-					oldMenuVectorsIndex, 7, oldMenuVectors) == oldMenuVectorsIndex;
+			boolean oldMenu = ByteArrayUtility.getIndexOf(content, oldMenuVectorsIndex, 7,
+					oldMenuVectors) == oldMenuVectorsIndex;
 
 			int menuVersion = -1;
 			int menuEntriesOffset = -1;
@@ -157,8 +146,7 @@ public final class MaxflashMenu extends ImportableMenu {
 				default:
 					if (oldMenu) {
 						menuVersion = Version.ATARIMAX_OLD;
-						menuEntriesOffset = content.length - 0x02000
-								+ getWord(oldMenuPointerIndex) - 0xa000;
+						menuEntriesOffset = content.length - 0x02000 + getWord(oldMenuPointerIndex) - 0xa000;
 
 					} else {
 						return Result.NOT_SUPPORTED_MENU_VERSION_FOUND;
@@ -171,8 +159,7 @@ public final class MaxflashMenu extends ImportableMenu {
 				collector.collectMenu(owner, "MaxflashMenu-old");
 
 				menuEntriesCount = getByte(menuEntriesOffset++);
-				while (menuEntriesOffset < content.length
-						&& getByte(menuEntriesOffset) != 0x9b) {
+				while (menuEntriesOffset < content.length && getByte(menuEntriesOffset) != 0x9b) {
 					menuEntriesOffset++;
 				}
 				menuEntriesOffset++; // Skip $9b
@@ -181,16 +168,13 @@ public final class MaxflashMenu extends ImportableMenu {
 				int j = 0;
 				while (entryPointer != 0) {
 					entryPointer += content.length - 0x02000 - 0x2000 + 4;
-					StringBuilder titleBuilder = new StringBuilder(
-							WorkbookEntry.TITLE_LENGTH);
+					StringBuilder titleBuilder = new StringBuilder(WorkbookEntry.TITLE_LENGTH);
 					char c;
-					while (entryPointer < content.length
-							&& (c = (char) getByte(entryPointer)) != 0x9b) {
+					while (entryPointer < content.length && (c = (char) getByte(entryPointer)) != 0x9b) {
 						titleBuilder.append(ATASCII[c]);
 						entryPointer++;
 					}
-					collector.collectMenuEntry(owner, menuVersion, j,
-							titleBuilder.toString());
+					collector.collectMenuEntry(owner, menuVersion, j, titleBuilder.toString());
 					menuEntriesOffset += 2;
 					entryPointer = getWord(menuEntriesOffset);
 					j++;
@@ -205,9 +189,8 @@ public final class MaxflashMenu extends ImportableMenu {
 
 			}
 			// New Menu
-			collector.collectMenu(owner,
-					"MaxflashMenu-$" + Integer.toHexString(signatureIndex)
-							+ "-$" + Integer.toHexString(menuEntryIndex));
+			collector.collectMenu(owner, "MaxflashMenu-$" + Integer.toHexString(signatureIndex) + "-$"
+					+ Integer.toHexString(menuEntryIndex));
 			menuEntriesCount = getByte(menuEntriesOffset - 1);
 
 			if (menuEntriesCount >= 0) {
@@ -228,18 +211,15 @@ public final class MaxflashMenu extends ImportableMenu {
 				for (int j = 0; j < menuEntriesCount && !corruptedEndFound; j++) {
 
 					menuEntriesOffset += menuEntriesSkip;
-					StringBuffer titleBuilder = new StringBuffer(
-							WorkbookEntry.TITLE_LENGTH);
-					while (menuEntriesOffset < MENU_CONTENT_LENGTH
-							&& getByte(menuEntriesOffset) != 0x9b) {
+					StringBuffer titleBuilder = new StringBuffer(WorkbookEntry.TITLE_LENGTH);
+					while (menuEntriesOffset < MENU_CONTENT_LENGTH && getByte(menuEntriesOffset) != 0x9b) {
 						char c = (char) (getByte(menuEntriesOffset));
 						titleBuilder.append(c);
 						menuEntriesOffset++;
 					}
 					menuEntriesOffset++; // Skip 0x9b
 					if (titleBuilder.length() <= MENU_LINE_LENGTH) {
-						collector.collectMenuEntry(owner, menuVersion, j,
-								titleBuilder.toString());
+						collector.collectMenuEntry(owner, menuVersion, j, titleBuilder.toString());
 					} else {
 						corruptedEndFound = true;
 					}

@@ -42,34 +42,30 @@ public abstract class ReservedContentProvider {
 		reservedForSystem = false;
 	}
 
-	protected void init(String title, int requiredBankSize,
-			int startBankNumber, int requiredBanksCount,
+	protected void init(String title, int requiredBankSize, int startBankNumber, int requiredBanksCount,
 			boolean reservedForSystem) {
 		if (title == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'title' must not be null.");
+			throw new IllegalArgumentException("Parameter 'title' must not be null.");
 		}
 		if (requiredBankSize < 0) {
 			throw new IllegalArgumentException(
-					"Parameter 'requiredBankSize' must not be negative. Specifed value is "
-							+ requiredBankSize + ".");
+					"Parameter 'requiredBankSize' must not be negative. Specifed value is " + requiredBankSize + ".");
 		}
 		if (startBankNumber < 0) {
 			throw new IllegalArgumentException(
-					"Parameter 'startBankNumber' must not be negative. Specifed value is "
-							+ startBankNumber + ".");
+					"Parameter 'startBankNumber' must not be negative. Specifed value is " + startBankNumber + ".");
 		}
 		if (requiredBanksCount < 0) {
-			throw new IllegalArgumentException(
-					"Parameter 'requiredBanksCount' must not be negative. Specifed value is "
-							+ requiredBanksCount + ".");
+			throw new IllegalArgumentException("Parameter 'requiredBanksCount' must not be negative. Specifed value is "
+					+ requiredBanksCount + ".");
 		}
 		this.title = title;
 		this.requiredBankSize = requiredBankSize;
 		this.startBankNumber = startBankNumber;
 		this.requiredBanksCount = requiredBanksCount;
 		this.reservedForSystem = reservedForSystem;
-		// Log.logError("Adding reserved content provider {0} with start bank number {1} and required banks count {2}.",
+		// Log.logError("Adding reserved content provider {0} with start bank number {1}
+		// and required banks count {2}.",
 		// new Object[] { title, Integer.valueOf(startBankNumber),
 		// Integer.valueOf(requiredBanksCount) }, null);
 	}
@@ -90,8 +86,8 @@ public abstract class ReservedContentProvider {
 	 * Gets the required bank size or <code>0</code> if the bank size does not
 	 * matter.
 	 * 
-	 * @return The required bank size or <code>0</code> if the bank size does
-	 *         not matter.
+	 * @return The required bank size or <code>0</code> if the bank size does not
+	 *         matter.
 	 */
 	public int getRequiredBankSize() {
 		return requiredBankSize;
@@ -106,12 +102,12 @@ public abstract class ReservedContentProvider {
 	}
 
 	/**
-	 * Determines if the banks of this provide are reserved for the system or
-	 * for the user.
+	 * Determines if the banks of this provide are reserved for the system or for
+	 * the user.
 	 * 
-	 * @return <code>true</code> if the banks of this provide are reserved for
-	 *         the system, <code>false</code> f the banks of this provide are
-	 *         reserved for the user (and must not be flashed).
+	 * @return <code>true</code> if the banks of this provide are reserved for the
+	 *         system, <code>false</code> f the banks of this provide are reserved
+	 *         for the user (and must not be flashed).
 	 */
 	public boolean isReservedForSystem() {
 		return reservedForSystem;
@@ -129,13 +125,11 @@ public abstract class ReservedContentProvider {
 	 *            The message queue, not <code>null</code>.
 	 * @return The content or <code>null</code>.
 	 */
-	public abstract byte[] createContent(Workbook workbook,
-			WorkbookExport workbookExport, MessageQueue messageQueue);
+	public abstract byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue);
 
 	@Override
 	public String toString() {
-		return "title=" + title + " startBankNumber=" + startBankNumber
-				+ " requiredBanksCount=" + requiredBanksCount
+		return "title=" + title + " startBankNumber=" + startBankNumber + " requiredBanksCount=" + requiredBanksCount
 				+ "reservedForSystem=" + reservedForSystem;
 	}
 

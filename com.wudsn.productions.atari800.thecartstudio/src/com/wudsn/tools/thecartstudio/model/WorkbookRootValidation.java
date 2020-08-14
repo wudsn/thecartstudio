@@ -50,15 +50,12 @@ public final class WorkbookRootValidation {
 		return new WorkbookRootValidation();
 	}
 
-	public void validateSave(WorkbookRoot root, MessageQueue messageQueue,
-			boolean withEntries) {
+	public void validateSave(WorkbookRoot root, MessageQueue messageQueue, boolean withEntries) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 
 		// Adapt some values automatically. User space must be a multiple of the
@@ -71,19 +68,16 @@ public final class WorkbookRootValidation {
 
 		}
 		// Now start actual validation.
-		RepositoryValidation rv = RepositoryValidation
-				.createInstance(messageQueue);
+		RepositoryValidation rv = RepositoryValidation.createInstance(messageQueue);
 		rv.isStringValid(root, WorkbookRoot.Attributes.TITLE, root.getTitle());
-		boolean sizeValid = rv.isLongValid(root,
-				WorkbookRoot.Attributes.BANK_COUNT, 1,
-				WorkbookRoot.MAX_BANK_COUNT, root.getBankCount());
-		sizeValid &= rv.isLongValid(root, WorkbookRoot.Attributes.BANK_SIZE,
-				WorkbookRoot.MIN_BANK_SIZE, WorkbookRoot.MAX_BANK_SIZE,
-				root.getBankSize());
+		boolean sizeValid = rv.isLongValid(root, WorkbookRoot.Attributes.BANK_COUNT, 1, WorkbookRoot.MAX_BANK_COUNT,
+				root.getBankCount());
+		sizeValid &= rv.isLongValid(root, WorkbookRoot.Attributes.BANK_SIZE, WorkbookRoot.MIN_BANK_SIZE,
+				WorkbookRoot.MAX_BANK_SIZE, root.getBankSize());
 		if (sizeValid) {
 			// User space must be between 0 and the complete image size.
-			rv.isMemorySizeValid(root, WorkbookRoot.Attributes.BANK_SIZE, 0,
-					root.getImageSize(), root.getUserSpaceSize());
+			rv.isMemorySizeValid(root, WorkbookRoot.Attributes.BANK_SIZE, 0, root.getImageSize(),
+					root.getUserSpaceSize());
 		}
 
 		// In "User Defined" mode, this check is not executed here as all
@@ -92,14 +86,11 @@ public final class WorkbookRootValidation {
 		// extended menu.
 		// Adding more complex checks would be too bear much effort and bring a
 		// too close dependency to the extended menu implementation.
-		if (!root.getFlashTargetType().getSupportedCartridgeMenuTypes()
-				.contains(root.getCartridgeMenuType())) {
+		if (!root.getFlashTargetType().getSupportedCartridgeMenuTypes().contains(root.getCartridgeMenuType())) {
 			// ERROR: {0} '{1}' is not supported by the flash module '{2}'
-			messageQueue.sendMessage(root, Attributes.CARTRDIGE_MENU_TYPE,
-					Messages.E412, Attributes.CARTRDIGE_MENU_TYPE.getDataType()
-							.getLabelWithoutMnemonics(), root
-							.getCartridgeMenuType().getText(), root
-							.getFlashTargetType().getText());
+			messageQueue.sendMessage(root, Attributes.CARTRDIGE_MENU_TYPE, Messages.E412,
+					Attributes.CARTRDIGE_MENU_TYPE.getDataType().getLabelWithoutMnemonics(),
+					root.getCartridgeMenuType().getText(), root.getFlashTargetType().getText());
 		}
 
 		// Check the genres
@@ -134,17 +125,15 @@ public final class WorkbookRootValidation {
 				// ERROR: Bank {0} is reserved but has entry '{1}' assigned.
 				// Perform "Edit/Reassign Banks" again to assign all entries to
 				// unreserved banks.
-				messageQueue.sendMessage(bank, WorkbookBank.Attributes.NUMBER,
-						Messages.E401, TextUtility.formatAsDecimal(bank
-								.getNumber()), entries.get(0).getTitle());
+				messageQueue.sendMessage(bank, WorkbookBank.Attributes.NUMBER, Messages.E401,
+						TextUtility.formatAsDecimal(bank.getNumber()), entries.get(0).getTitle());
 				continue;
 			}
 			if (entries.size() > 1) {
 				// ERROR: Bank {0} has multiple entries assigned. Perform
 				// "Edit/Reassign Banks" again to assign all entries to unique
 				// banks.
-				messageQueue.sendMessage(bank, WorkbookBank.Attributes.NUMBER,
-						Messages.E402,
+				messageQueue.sendMessage(bank, WorkbookBank.Attributes.NUMBER, Messages.E402,
 						TextUtility.formatAsDecimal(bank.getNumber()));
 				continue;
 			}

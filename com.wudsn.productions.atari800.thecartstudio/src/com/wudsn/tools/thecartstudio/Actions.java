@@ -36,45 +36,28 @@ public final class Actions extends NLS {
 	public static Action Console_CreateSampleFiles;
 
 	// Actions: Menu
-	public static Action MainMenu_File_New = new Action(KeyEvent.VK_N,
-			KeyStroke.M1);
-	public static Action MainMenu_File_Open = new Action(KeyEvent.VK_O,
-			KeyStroke.M1);
+	public static Action MainMenu_File_New = new Action(KeyEvent.VK_N, KeyStroke.M1);
+	public static Action MainMenu_File_Open = new Action(KeyEvent.VK_O, KeyStroke.M1);
 	public static Action MainMenu_File_OpenFolder;
-	public static Action MainMenu_File_Save = new Action(KeyEvent.VK_S,
-			KeyStroke.M1);
+	public static Action MainMenu_File_Save = new Action(KeyEvent.VK_S, KeyStroke.M1);
 	public static Action MainMenu_File_SaveAs;
-	public static Action MainMenu_File_Close = new Action(KeyEvent.VK_F4,
-			KeyStroke.M1);
+	public static Action MainMenu_File_Close = new Action(KeyEvent.VK_F4, KeyStroke.M1);
 	public static Action MainMenu_File_Export;
-	public static Action MainMenu_File_ExportToBinImage = new Action(
-			KeyEvent.VK_E, KeyStroke.M2 | KeyStroke.M1);
-	public static Action MainMenu_File_ExportToCarImage = new Action(
-			KeyEvent.VK_C, KeyStroke.M2 | KeyStroke.M1);
-	public static Action MainMenu_File_ExportToAtrImage = new Action(
-			KeyEvent.VK_P, KeyStroke.M2 | KeyStroke.M1);
-	public static Action MainMenu_File_ExportToAtrImages = new Action(
-			KeyEvent.VK_P, KeyStroke.M2 | KeyStroke.M3);
-	public static Action MainMenu_File_Print = new Action(KeyEvent.VK_P,
-			KeyStroke.M1);
-	public static Action MainMenu_File_Exit = new Action(KeyEvent.VK_F4,
-			KeyStroke.M3);
+	public static Action MainMenu_File_ExportToBinImage = new Action(KeyEvent.VK_E, KeyStroke.M2 | KeyStroke.M1);
+	public static Action MainMenu_File_ExportToCarImage = new Action(KeyEvent.VK_C, KeyStroke.M2 | KeyStroke.M1);
+	public static Action MainMenu_File_ExportToAtrImage = new Action(KeyEvent.VK_P, KeyStroke.M2 | KeyStroke.M1);
+	public static Action MainMenu_File_ExportToAtrImages = new Action(KeyEvent.VK_P, KeyStroke.M2 | KeyStroke.M3);
+	public static Action MainMenu_File_Print = new Action(KeyEvent.VK_P, KeyStroke.M1);
+	public static Action MainMenu_File_Exit = new Action(KeyEvent.VK_F4, KeyStroke.M3);
 
-	public static Action MainMenu_Edit_AddEntries = new Action(
-			KeyEvent.VK_INSERT, 0);
-	public static Action MainMenu_Edit_AddUserSpaceEntry = new Action(
-			KeyEvent.VK_INSERT, KeyStroke.M2);
-	public static Action MainMenu_Edit_RemoveEntries = new Action(
-			KeyEvent.VK_DELETE, 0);
-	public static Action MainMenu_Edit_SetGenre = new Action(KeyEvent.VK_G,
-			KeyStroke.M2 | KeyStroke.M1);
-	public static Action MainMenu_Edit_AssignNewBanks = new Action(
-			KeyEvent.VK_R, KeyStroke.M2 | KeyStroke.M1);
-	public static Action MainMenu_Edit_WorkbookOptions = new Action(
-			KeyEvent.VK_ENTER, KeyStroke.M3);
+	public static Action MainMenu_Edit_AddEntries = new Action(KeyEvent.VK_INSERT, 0);
+	public static Action MainMenu_Edit_AddUserSpaceEntry = new Action(KeyEvent.VK_INSERT, KeyStroke.M2);
+	public static Action MainMenu_Edit_RemoveEntries = new Action(KeyEvent.VK_DELETE, 0);
+	public static Action MainMenu_Edit_SetGenre = new Action(KeyEvent.VK_G, KeyStroke.M2 | KeyStroke.M1);
+	public static Action MainMenu_Edit_AssignNewBanks = new Action(KeyEvent.VK_R, KeyStroke.M2 | KeyStroke.M1);
+	public static Action MainMenu_Edit_WorkbookOptions = new Action(KeyEvent.VK_ENTER, KeyStroke.M3);
 
-	public static Action MainMenu_Tools_Preview = new Action(KeyEvent.VK_T,
-			KeyStroke.M1);
+	public static Action MainMenu_Tools_Preview = new Action(KeyEvent.VK_T, KeyStroke.M1);
 	public static Action MainMenu_Tools_Test;
 	public static Action MainMenu_Tools_Options;
 

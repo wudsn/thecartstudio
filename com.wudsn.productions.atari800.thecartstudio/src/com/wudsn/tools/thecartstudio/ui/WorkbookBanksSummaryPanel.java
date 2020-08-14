@@ -52,12 +52,11 @@ public final class WorkbookBanksSummaryPanel extends JPanel {
 		public Bar(int start, int end, String text) {
 			if (start > end) {
 				throw new IllegalArgumentException(
-						"Parameter 'start' must not be greater then parameter 'end'. Specified values are "
-								+ start + " and " + end + ".");
+						"Parameter 'start' must not be greater then parameter 'end'. Specified values are " + start
+								+ " and " + end + ".");
 			}
 			if (text == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'text' must not be null.");
+				throw new IllegalArgumentException("Parameter 'text' must not be null.");
 			}
 			this.start = start;
 			this.end = end;
@@ -71,12 +70,10 @@ public final class WorkbookBanksSummaryPanel extends JPanel {
 
 	public WorkbookBanksSummaryPanel(Preferences preferences, Workbook workbook) {
 		if (preferences == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'preferences' must not be null.");
+			throw new IllegalArgumentException("Parameter 'preferences' must not be null.");
 		}
 		if (workbook == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'workbook' must not be null.");
+			throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 		}
 		this.preferences = preferences;
 		this.workbook = workbook;
@@ -158,69 +155,52 @@ public final class WorkbookBanksSummaryPanel extends JPanel {
 		int reservedBanksCount = summary.getReservedBanks();
 		int requiredBanksCount = summary.getRequiredBanks();
 
-		int freeBanksCount = banksDefined - requiredBanksCount
-				- reservedBanksCount;
+		int freeBanksCount = banksDefined - requiredBanksCount - reservedBanksCount;
 		reservedBanksCount = Math.min(reservedBanksCount, banksDefined);
-		requiredBanksCount = Math.min(requiredBanksCount, banksDefined
-				- reservedBanksCount);
+		requiredBanksCount = Math.min(requiredBanksCount, banksDefined - reservedBanksCount);
 
 		int startReserved = 0;
-		int endReserved = startReserved
-				+ ((clientWidth * reservedBanksCount) / banksTotal);
+		int endReserved = startReserved + ((clientWidth * reservedBanksCount) / banksTotal);
 		int startRequired = endReserved;
-		int endRequired = startRequired
-				+ ((clientWidth * requiredBanksCount) / banksTotal);
+		int endRequired = startRequired + ((clientWidth * requiredBanksCount) / banksTotal);
 		int startFree = endRequired;
 		int endFree = clientWidth - 1;
 
 		String text;
 		if (reservedBanksCount >= 0) {
-			text = Messages.I150.format(TextUtility
-					.formatAsDecimal(reservedBanksCount), TextUtility
-					.formatAsDecimalPercent(reservedBanksCount, banksDefined),
-					TextUtility.formatAsMemorySize(reservedBanksCount
-							* bankSize));
-			addBar(g, preferences.getReservedBankColor(), startReserved,
-					endReserved, text);
+			text = Messages.I150.format(TextUtility.formatAsDecimal(reservedBanksCount),
+					TextUtility.formatAsDecimalPercent(reservedBanksCount, banksDefined),
+					TextUtility.formatAsMemorySize(reservedBanksCount * bankSize));
+			addBar(g, preferences.getReservedBankColor(), startReserved, endReserved, text);
 		}
 		if (requiredBanksCount >= 0) {
-			text = Messages.I151.format(TextUtility
-					.formatAsDecimal(requiredBanksCount), TextUtility
-					.formatAsDecimalPercent(requiredBanksCount, banksDefined),
-					TextUtility.formatAsMemorySize(requiredBanksCount
-							* bankSize));
-			addBar(g, preferences.getUsedOddBankColor(), startRequired,
-					endRequired, text);
+			text = Messages.I151.format(TextUtility.formatAsDecimal(requiredBanksCount),
+					TextUtility.formatAsDecimalPercent(requiredBanksCount, banksDefined),
+					TextUtility.formatAsMemorySize(requiredBanksCount * bankSize));
+			addBar(g, preferences.getUsedOddBankColor(), startRequired, endRequired, text);
 		}
 		if (freeBanksCount > 0) {
-			text = Messages.I152.format(TextUtility
-					.formatAsDecimal(freeBanksCount), TextUtility
-					.formatAsDecimalPercent(freeBanksCount, banksDefined),
+			text = Messages.I152.format(TextUtility.formatAsDecimal(freeBanksCount),
+					TextUtility.formatAsDecimalPercent(freeBanksCount, banksDefined),
 					TextUtility.formatAsMemorySize(freeBanksCount * bankSize));
 			addBar(g, preferences.getFreeBankColor(), startFree, endFree, text);
 		} else if (freeBanksCount < 0) {
 			int missingBanksCount = -freeBanksCount;
-			text = Messages.I153.format(TextUtility
-					.formatAsDecimal(missingBanksCount), TextUtility
-					.formatAsMemorySize(missingBanksCount * bankSize));
-			addBar(g, preferences.getNotAvailableBankColor(), startFree,
-					endFree, text);
+			text = Messages.I153.format(TextUtility.formatAsDecimal(missingBanksCount),
+					TextUtility.formatAsMemorySize(missingBanksCount * bankSize));
+			addBar(g, preferences.getNotAvailableBankColor(), startFree, endFree, text);
 		}
 	}
 
-	private void addBar(Graphics graphics, Color color, int start, int end,
-			String text) {
+	private void addBar(Graphics graphics, Color color, int start, int end, String text) {
 		if (graphics == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'graphics' must not be null.");
+			throw new IllegalArgumentException("Parameter 'graphics' must not be null.");
 		}
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		if (text == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'text' must not be null.");
+			throw new IllegalArgumentException("Parameter 'text' must not be null.");
 		}
 
 		int startY = getLocation().y;

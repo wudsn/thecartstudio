@@ -68,12 +68,10 @@ public final class AtrFileMenu extends ImportableMenu {
 	@Override
 	public int collectMenuEntries(Object owner, Collector collector) {
 		if (owner == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'owner' must not be null.");
+			throw new IllegalArgumentException("Parameter 'owner' must not be null.");
 		}
 		if (collector == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'collector' must not be null.");
+			throw new IllegalArgumentException("Parameter 'collector' must not be null.");
 		}
 
 		if (atrFile == null) {
@@ -88,8 +86,7 @@ public final class AtrFileMenu extends ImportableMenu {
 		// Use menu version 0 as nothing is actually startable.
 		int menuVersion = 0;
 		for (int j = 0; j < longFileNames.size(); j++) {
-			collector.collectMenuEntry(owner, menuVersion, j,
-					longFileNames.get(j));
+			collector.collectMenuEntry(owner, menuVersion, j, longFileNames.get(j));
 		}
 
 		// Returns MENU_ENTRIES_FOUND_AND_STARTABLE to prevent warning that a
@@ -98,9 +95,9 @@ public final class AtrFileMenu extends ImportableMenu {
 	}
 
 	/**
-	 * File menus for ATRs use a real DOS or a simple game DOS only. The direct
-	 * SIO calls for them will only be present in the boot area in the disk.
-	 * Hence the ATR patching can be limited to that area to increase accuracy.
+	 * File menus for ATRs use a real DOS or a simple game DOS only. The direct SIO
+	 * calls for them will only be present in the boot area in the disk. Hence the
+	 * ATR patching can be limited to that area to increase accuracy.
 	 * 
 	 * @return The modifiable list of relevant patch ranges, may be empty, not
 	 *         <code>null</code>.
@@ -113,8 +110,7 @@ public final class AtrFileMenu extends ImportableMenu {
 			List<Integer> usedSectors = new ArrayList<Integer>();
 			if (addBootmanagerFileNames(atrFile, null)) {
 				patchRanges.add(new PatchRange(0, 0x11d));
-			} else if (atrFile.hasDirectory()
-					&& atrFile.getFileContent("DOS.SYS", usedSectors) != null) {
+			} else if (atrFile.hasDirectory() && atrFile.getFileContent("DOS.SYS", usedSectors) != null) {
 				usedSectors.add(Integer.valueOf(1));
 				usedSectors.add(Integer.valueOf(2));
 				usedSectors.add(Integer.valueOf(3));
@@ -131,8 +127,8 @@ public final class AtrFileMenu extends ImportableMenu {
 	/**
 	 * Gets the default patch parameters for the ATR.
 	 * 
-	 * @return The modifiable list of default patch parameters, may be empty,
-	 *         not <code>null</code>.
+	 * @return The modifiable list of default patch parameters, may be empty, not
+	 *         <code>null</code>.
 	 */
 	public List<Parameter> getPatchParameters() {
 		List<Parameter> result = new ArrayList<Parameter>();
@@ -145,8 +141,7 @@ public final class AtrFileMenu extends ImportableMenu {
 			}
 			// LDX $nnnn for SELECTED_ITEM_NUMBER
 			result.add(new Parameter(offset++, 0xae));
-			result.add(new Parameter(offset++,
-					AtrLoader.Constants.SELECTED_ITEM_NUMBER));
+			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER));
 			offset++;
 
 			// JMP $098B
@@ -157,27 +152,21 @@ public final class AtrFileMenu extends ImportableMenu {
 		return result;
 	}
 
-	private static void addPatchedSectors(AtrFile atrFile, List<Integer> usedSectors,
-			List<PatchRange> patchRanges) {
+	private static void addPatchedSectors(AtrFile atrFile, List<Integer> usedSectors, List<PatchRange> patchRanges) {
 		if (atrFile == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'atrFile' must not be null.");
+			throw new IllegalArgumentException("Parameter 'atrFile' must not be null.");
 		}
 		if (usedSectors == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'usedSectors' must not be null.");
+			throw new IllegalArgumentException("Parameter 'usedSectors' must not be null.");
 		}
 		if (patchRanges == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'patchRanges' must not be null.");
+			throw new IllegalArgumentException("Parameter 'patchRanges' must not be null.");
 		}
 		for (Integer sector : usedSectors) {
 			try {
-				int startOffset = atrFile.getSectorStartOffset(sector
-						.intValue());
+				int startOffset = atrFile.getSectorStartOffset(sector.intValue());
 				int sectorSize = atrFile.getSectorSize(sector.intValue());
-				patchRanges.add(new PatchRange(startOffset, startOffset
-						+ sectorSize - 1));
+				patchRanges.add(new PatchRange(startOffset, startOffset + sectorSize - 1));
 			} catch (AtrException ex) {
 				throw new RuntimeException(ex);
 			}
@@ -204,14 +193,12 @@ public final class AtrFileMenu extends ImportableMenu {
 	 * @param result
 	 *            The modifiable list to collect the file names in or
 	 *            <code>null</code> if the file names are not requested.
-	 * @return <code>true</code> if there is a boot manager menu with at least
-	 *         one entry present.
+	 * @return <code>true</code> if there is a boot manager menu with at least one
+	 *         entry present.
 	 */
-	private static boolean addBootmanagerFileNames(AtrFile atrFile,
-			List<String> result) {
+	private static boolean addBootmanagerFileNames(AtrFile atrFile, List<String> result) {
 		if (atrFile == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'atrFile' must not be null.");
+			throw new IllegalArgumentException("Parameter 'atrFile' must not be null.");
 		}
 
 		// Read Mike Langer's Bootmanager menu.
@@ -234,15 +221,13 @@ public final class AtrFileMenu extends ImportableMenu {
 				if (result != null) {
 					// Only 128 bytes are used per directory sector with long
 					// file names.
-					byte[] sectors = atrFile.getSectors(366, 368,
-							AtrFile.SECTOR_SIZE_SD);
+					byte[] sectors = atrFile.getSectors(366, 368, AtrFile.SECTOR_SIZE_SD);
 					int offset = 0;
 					int line = 0;
 					// The first line is the disk title and must be skipped.
 					// Then there are at most 16 entries, but never more than
 					// files on the disk.
-					int maxLine = 1 + Math.min(16, atrFile.getDirectory()
-							.size());
+					int maxLine = 1 + Math.min(16, atrFile.getDirectory().size());
 					int entrySize = 0x18;
 					StringBuilder builder = new StringBuilder();
 					while (offset < sectors.length && line < maxLine) {
@@ -278,8 +263,7 @@ public final class AtrFileMenu extends ImportableMenu {
 
 	private static boolean addPicoNames(AtrFile atrFile, List<String> result) {
 		if (atrFile == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'atrFile' must not be null.");
+			throw new IllegalArgumentException("Parameter 'atrFile' must not be null.");
 		}
 
 		// Read PICODOS text file.
@@ -319,12 +303,10 @@ public final class AtrFileMenu extends ImportableMenu {
 
 	public static void main(String[] args) {
 		if (args == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'args' must not be null.");
+			throw new IllegalArgumentException("Parameter 'args' must not be null.");
 		}
 		if (args.length == 0) {
-			throw new IllegalArgumentException(
-					"Parameter 'args' must not contain a file name.");
+			throw new IllegalArgumentException("Parameter 'args' must not contain a file name.");
 		}
 		String fileName = args[0];
 		File inputFile = new File(fileName);
@@ -339,12 +321,9 @@ public final class AtrFileMenu extends ImportableMenu {
 			files = new File[] { inputFile };
 		}
 		for (File file : files) {
-			if (file.isFile()
-					&& file.getName().toLowerCase()
-							.endsWith(FileExtensions.ATR_IMAGE)) {
+			if (file.isFile() && file.getName().toLowerCase().endsWith(FileExtensions.ATR_IMAGE)) {
 				try {
-					byte[] atrData = FileUtility.readBytes(file,
-							AtrFile.MAXIMUM_SIZE, true);
+					byte[] atrData = FileUtility.readBytes(file, AtrFile.MAXIMUM_SIZE, true);
 					println(file.getName() + ": ");
 					AtrFile atrFile = AtrFile.createInstance(atrData);
 					AtrFileMenu menu = new AtrFileMenu(atrData);

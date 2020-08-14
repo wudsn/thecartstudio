@@ -39,129 +39,111 @@ import com.wudsn.tools.thecartstudio.model.Workbook;
 
 public final class WilliamsImporter extends Importer {
 
-    private static final int CARTRIDGE_WILL_32_SIZE = CartridgeType.CARTRIDGE_WILL_32
-	    .getSizeInKB() * KB;
-    private static final int CARTRIDGE_WILL_32_CAR_SIZE = CartridgeFileUtility.CART_HEADER_SIZE
-	    + CARTRIDGE_WILL_32_SIZE;
-    private static final int CARTRIDGE_WILL_64_SIZE = CartridgeType.CARTRIDGE_WILL_64
-	    .getSizeInKB() * KB;
+	private static final int CARTRIDGE_WILL_32_SIZE = CartridgeType.CARTRIDGE_WILL_32.getSizeInKB() * KB;
+	private static final int CARTRIDGE_WILL_32_CAR_SIZE = CartridgeFileUtility.CART_HEADER_SIZE
+			+ CARTRIDGE_WILL_32_SIZE;
+	private static final int CARTRIDGE_WILL_64_SIZE = CartridgeType.CARTRIDGE_WILL_64.getSizeInKB() * KB;
 
-    public WilliamsImporter() {
+	public WilliamsImporter() {
 
-    }
-
-    @Override
-    public void importFile(Workbook workbook, File file, ImportResult result) {
-
-	if (workbook == null) {
-	    throw new IllegalArgumentException("workbook must not be null.");
-	}
-	if (file == null) {
-	    throw new IllegalArgumentException(
-		    "Parameter file must not be null.");
-	}
-	if (result == null) {
-	    throw new IllegalArgumentException(
-		    "Parameter result must not be null.");
 	}
 
-	// Check if conversion is required and target content type is supported.
-	FlashTargetType flashTargetType = workbook.getRoot()
-		.getFlashTargetType();
+	@Override
+	public void importFile(Workbook workbook, File file, ImportResult result) {
 
-	if (flashTargetType
-		.isContentTypeSupported(ContentType.CARTRIDGE_WILL_32)) {
-	    return;
-	}
-	if (!flashTargetType
-		.isContentTypeSupported(ContentType.CARTRIDGE_WILL_64)) {
-	    return;
-	}
-
-	String fileName = file.getName();
-	long fileLength = file.length();
-	boolean relevant = (fileName.toLowerCase().endsWith(
-		FileExtensions.CAR_IMAGE) && fileLength == CARTRIDGE_WILL_32_CAR_SIZE)
-		|| fileLength == CARTRIDGE_WILL_32_SIZE;
-	if (!relevant) {
-	    return;
-	}
-	// The source file (".bin/.rom/.car") will be converted to the target
-	// file
-	// ("-Converted.car").
-	File sourceFile = file;
-	int index = fileName.lastIndexOf('.');
-	if (index == -1) {
-	    index = fileName.length();
-	}
-	File targetFile = new File(sourceFile.getParentFile(),
-		fileName.substring(0, index) + "-Converted"
-			+ FileExtensions.CAR_IMAGE);
-
-	CartridgeDatabaseEntry cartridgeDatabaseEntry = null;
-	try {
-	    int numericId = 0;
-	    int startOffset = -1;
-	    byte[] content = FileUtility.readBytes(sourceFile,
-		    CARTRIDGE_WILL_32_CAR_SIZE, true);
-
-	    // Convert ROM file to CAR file.
-	    if (content.length == CARTRIDGE_WILL_32_SIZE) {
-		int crc32 = ByteArrayUtility.getCRC32(content);
-		List<CartridgeDatabaseEntry> cartridgeDatabaseEntries = workbook
-			.getCartridgeDatabase().getEntriesBySizeAndCRC32(
-				content.length / KB, crc32);
-		if (cartridgeDatabaseEntries.size() == 1) {
-
-		    cartridgeDatabaseEntry = cartridgeDatabaseEntries.get(0);
-		    numericId = cartridgeDatabaseEntry.getCartridgeType()
-			    .getNumericId();
-		    startOffset = 0;
+		if (workbook == null) {
+			throw new IllegalArgumentException("workbook must not be null.");
+		}
+		if (file == null) {
+			throw new IllegalArgumentException("Parameter file must not be null.");
+		}
+		if (result == null) {
+			throw new IllegalArgumentException("Parameter result must not be null.");
 		}
 
-	    } // Convert CAR file to CAR file
-	    else if (content.length == CARTRIDGE_WILL_32_CAR_SIZE) {
-		numericId = CartridgeFileUtility
-			.getCartridgeTypeNumericId(content);
-		startOffset = CartridgeFileUtility.CART_HEADER_SIZE;
-	    }
+		// Check if conversion is required and target content type is supported.
+		FlashTargetType flashTargetType = workbook.getRoot().getFlashTargetType();
 
-	    // Result must match a Williams 32 KB cartridge.
-	    if (numericId != CartridgeType.CARTRIDGE_WILL_32.getNumericId()) {
-		return;
-	    }
+		if (flashTargetType.isContentTypeSupported(ContentType.CARTRIDGE_WILL_32)) {
+			return;
+		}
+		if (!flashTargetType.isContentTypeSupported(ContentType.CARTRIDGE_WILL_64)) {
+			return;
+		}
 
-	    byte[] cartridgeContent = new byte[CARTRIDGE_WILL_64_SIZE];
-	    System.arraycopy(content, startOffset, cartridgeContent, 0,
-		    CARTRIDGE_WILL_32_SIZE);
-	    byte[] cartridgeHeader = CartridgeFileUtility
-		    .createCartridgeHeaderWithCheckSum(
-			    CartridgeType.CARTRIDGE_WILL_64.getNumericId(),
-			    cartridgeContent);
+		String fileName = file.getName();
+		long fileLength = file.length();
+		boolean relevant = (fileName.toLowerCase().endsWith(FileExtensions.CAR_IMAGE)
+				&& fileLength == CARTRIDGE_WILL_32_CAR_SIZE) || fileLength == CARTRIDGE_WILL_32_SIZE;
+		if (!relevant) {
+			return;
+		}
+		// The source file (".bin/.rom/.car") will be converted to the target
+		// file
+		// ("-Converted.car").
+		File sourceFile = file;
+		int index = fileName.lastIndexOf('.');
+		if (index == -1) {
+			index = fileName.length();
+		}
+		File targetFile = new File(sourceFile.getParentFile(),
+				fileName.substring(0, index) + "-Converted" + FileExtensions.CAR_IMAGE);
 
-	    OutputStream outputStream = null;
-	    try {
-		// Open output file, write header, write content
-		// and use a new file.
-		outputStream = FileUtility.openOutputStream(targetFile);
-		FileUtility.writeBytes(targetFile, outputStream,
-			cartridgeHeader, 0, cartridgeHeader.length);
-		FileUtility.writeBytes(targetFile, outputStream,
-			cartridgeContent, 0, cartridgeContent.length);
-		result.cartridgeDatabaseEntry = cartridgeDatabaseEntry;
-		result.convertedFile = targetFile;
-	    } finally {
+		CartridgeDatabaseEntry cartridgeDatabaseEntry = null;
 		try {
-		    if (outputStream != null) {
-			FileUtility.closeOutputStream(targetFile, outputStream);
-		    }
-		} catch (CoreException ignore) {
+			int numericId = 0;
+			int startOffset = -1;
+			byte[] content = FileUtility.readBytes(sourceFile, CARTRIDGE_WILL_32_CAR_SIZE, true);
 
+			// Convert ROM file to CAR file.
+			if (content.length == CARTRIDGE_WILL_32_SIZE) {
+				int crc32 = ByteArrayUtility.getCRC32(content);
+				List<CartridgeDatabaseEntry> cartridgeDatabaseEntries = workbook.getCartridgeDatabase()
+						.getEntriesBySizeAndCRC32(content.length / KB, crc32);
+				if (cartridgeDatabaseEntries.size() == 1) {
+
+					cartridgeDatabaseEntry = cartridgeDatabaseEntries.get(0);
+					numericId = cartridgeDatabaseEntry.getCartridgeType().getNumericId();
+					startOffset = 0;
+				}
+
+			} // Convert CAR file to CAR file
+			else if (content.length == CARTRIDGE_WILL_32_CAR_SIZE) {
+				numericId = CartridgeFileUtility.getCartridgeTypeNumericId(content);
+				startOffset = CartridgeFileUtility.CART_HEADER_SIZE;
+			}
+
+			// Result must match a Williams 32 KB cartridge.
+			if (numericId != CartridgeType.CARTRIDGE_WILL_32.getNumericId()) {
+				return;
+			}
+
+			byte[] cartridgeContent = new byte[CARTRIDGE_WILL_64_SIZE];
+			System.arraycopy(content, startOffset, cartridgeContent, 0, CARTRIDGE_WILL_32_SIZE);
+			byte[] cartridgeHeader = CartridgeFileUtility.createCartridgeHeaderWithCheckSum(
+					CartridgeType.CARTRIDGE_WILL_64.getNumericId(), cartridgeContent);
+
+			OutputStream outputStream = null;
+			try {
+				// Open output file, write header, write content
+				// and use a new file.
+				outputStream = FileUtility.openOutputStream(targetFile);
+				FileUtility.writeBytes(targetFile, outputStream, cartridgeHeader, 0, cartridgeHeader.length);
+				FileUtility.writeBytes(targetFile, outputStream, cartridgeContent, 0, cartridgeContent.length);
+				result.cartridgeDatabaseEntry = cartridgeDatabaseEntry;
+				result.convertedFile = targetFile;
+			} finally {
+				try {
+					if (outputStream != null) {
+						FileUtility.closeOutputStream(targetFile, outputStream);
+					}
+				} catch (CoreException ignore) {
+
+				}
+			}
+
+		} catch (CoreException ex) {
+			result.convertedFileException = ex;
 		}
-	    }
-
-	} catch (CoreException ex) {
-	    result.convertedFileException = ex;
 	}
-    }
 }

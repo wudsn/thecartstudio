@@ -58,8 +58,7 @@ public final class CartridgeMenuType extends ValueSet {
 
 	private static CartridgeMenuType add(String id, int sortKey) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 
 		CartridgeMenuType result = new CartridgeMenuType(id, sortKey);
@@ -86,8 +85,7 @@ public final class CartridgeMenuType extends ValueSet {
 	 */
 	public static CartridgeMenuType getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return map.get(id);
 	}

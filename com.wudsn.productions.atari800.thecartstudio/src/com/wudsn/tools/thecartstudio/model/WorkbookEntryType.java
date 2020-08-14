@@ -56,8 +56,7 @@ public final class WorkbookEntryType extends ValueSet {
 
 	private static WorkbookEntryType add(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 
 		WorkbookEntryType result = new WorkbookEntryType(id);
@@ -71,8 +70,7 @@ public final class WorkbookEntryType extends ValueSet {
 	 * @return The unmodifiable list of all values, not <code>null</code>.
 	 */
 	public static List<WorkbookEntryType> getValues() {
-		return Collections.unmodifiableList(new ArrayList<WorkbookEntryType>(
-				values.values()));
+		return Collections.unmodifiableList(new ArrayList<WorkbookEntryType>(values.values()));
 	}
 
 	/**
@@ -84,8 +82,7 @@ public final class WorkbookEntryType extends ValueSet {
 	 */
 	public static WorkbookEntryType getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return values.get(id);
 	}

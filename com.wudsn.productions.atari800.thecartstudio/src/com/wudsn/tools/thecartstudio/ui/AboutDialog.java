@@ -53,8 +53,7 @@ public final class AboutDialog extends SimpleDialog {
 	public AboutDialog(JFrame parent, CartridgeDatabase cartridgeDatabase) {
 		super(parent, Texts.MainWindow_Title, true);
 		if (cartridgeDatabase == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'cartridgeDatabase' must not be null.");
+			throw new IllegalArgumentException("Parameter 'cartridgeDatabase' must not be null.");
 		}
 		this.cartridgeDatabase = cartridgeDatabase;
 	}
@@ -90,33 +89,27 @@ public final class AboutDialog extends SimpleDialog {
 		String webVersion = application.getWebVersion();
 		content = content.replace("$localVersion$", localVersion);
 
-		CartridgeMenu cartridgeMenu = CartridgeMenu
-				.createInstance(CartridgeMenuType.SIMPLE);
+		CartridgeMenu cartridgeMenu = CartridgeMenu.createInstance(CartridgeMenuType.SIMPLE);
 		String cartridgeMenuVersion = cartridgeMenu.getVersion();
 		if (!cartridgeMenu.isExternal()) {
 			// INFO: Built-in Atari Software Version {0}
 			cartridgeMenuVersion = Messages.I130.format(cartridgeMenuVersion);
 		} else {
 			// INFO: External Atari Software Version {0} loaded from {1}
-			cartridgeMenuVersion = Messages.I131.format(cartridgeMenuVersion,
-					cartridgeMenu.getExternalFilePath());
+			cartridgeMenuVersion = Messages.I131.format(cartridgeMenuVersion, cartridgeMenu.getExternalFilePath());
 		}
 
-		content = content.replace("$cartridgeMenuVersion$",
-				cartridgeMenuVersion);
+		content = content.replace("$cartridgeMenuVersion$", cartridgeMenuVersion);
 		content = content.replace("$definedContentTypesCount$",
 				TextUtility.formatAsDecimal(ContentType.getValues().size()));
-		content = content.replace("$knownTitlesCount$", TextUtility
-				.formatAsDecimal(cartridgeDatabase.getKnownTitelsCount()));
-		content = content
-				.replace("$knownContentTypesCount$", TextUtility
-						.formatAsDecimal(cartridgeDatabase
-								.getKnownCartridgeTypesCount()));
+		content = content.replace("$knownTitlesCount$",
+				TextUtility.formatAsDecimal(cartridgeDatabase.getKnownTitelsCount()));
+		content = content.replace("$knownContentTypesCount$",
+				TextUtility.formatAsDecimal(cartridgeDatabase.getKnownCartridgeTypesCount()));
 
-		String javaRuntimeVersion = System.getProperty("java.runtime.name")
-				+ " " + System.getProperty("java.runtime.version");
-		String osVersion = System.getProperty("os.name") + " ("
-				+ System.getProperty("os.version") + ", "
+		String javaRuntimeVersion = System.getProperty("java.runtime.name") + " "
+				+ System.getProperty("java.runtime.version");
+		String osVersion = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ", "
 				+ System.getProperty("os.arch") + ")";
 		String maximumMemory = application.getMemoryInfo().getMaximumMemoryMB();
 		content = content.replace("$javaRuntimeVersion$", javaRuntimeVersion);
@@ -128,8 +121,7 @@ public final class AboutDialog extends SimpleDialog {
 			// No update available
 			update = Messages.I133.format();
 		} else {
-			if (!localVersion.equals(Application.UNKNOWN_VERSION)
-					&& !webVersion.equals(Application.UNKNOWN_VERSION)) {
+			if (!localVersion.equals(Application.UNKNOWN_VERSION) && !webVersion.equals(Application.UNKNOWN_VERSION)) {
 
 				if (localVersion.compareTo(webVersion) < 0) {
 					// Newer version available

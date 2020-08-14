@@ -50,8 +50,7 @@ import com.wudsn.tools.thecartstudio.DataTypes;
  * @author Peter Dell
  * 
  */
-public final class Preferences implements MainWindowPreferences,
-		AttributeTablePreferences {
+public final class Preferences implements MainWindowPreferences, AttributeTablePreferences {
 
 	private static final String FOLDER_NAME = ".tcs";
 	private static final String FILE_NAME = "preferences.xml";
@@ -66,40 +65,26 @@ public final class Preferences implements MainWindowPreferences,
 
 	private static final class Attributes {
 		// AttributeTablePreferences
-		public static final Attribute LANGUAGE = new Attribute("language",
-				DataTypes.Preferences_Language);
-		public static final Attribute UPDATE_CHECK_INDICATOR = new Attribute(
-				"updateCheckIndicator",
+		public static final Attribute LANGUAGE = new Attribute("language", DataTypes.Preferences_Language);
+		public static final Attribute UPDATE_CHECK_INDICATOR = new Attribute("updateCheckIndicator",
 				DataTypes.Preferences_UpdateCheckIndicator);
-		public static final Attribute EMULATOR_EXECUTABLE_PATH = new Attribute(
-				"emulatorExecuablePath",
+		public static final Attribute EMULATOR_EXECUTABLE_PATH = new Attribute("emulatorExecuablePath",
 				DataTypes.Preferences_EmulatorExecutablePath);
-		public static final Attribute FREE_BANK_COLOR = new Attribute(
-				"freeBankColor", DataTypes.Preferences_FreeBankColor);
-		public static final Attribute RESERVED_BANK_COLOR = new Attribute(
-				"reservedBankColor");
-		public static final Attribute RESERVED_USER_SPACE_BANK_COLOR = new Attribute(
-				"reservedUserSpaceBankColor");
-		public static final Attribute USED_ODD_BANK_COLOR = new Attribute(
-				"usedOddBankColor");
-		public static final Attribute USED_EVEN_BANK_COLOR = new Attribute(
-				"usedEvenBankColor");
-		public static final Attribute CONFLICT_BANK_COLOR = new Attribute(
-				"conflictBankColor");
+		public static final Attribute FREE_BANK_COLOR = new Attribute("freeBankColor",
+				DataTypes.Preferences_FreeBankColor);
+		public static final Attribute RESERVED_BANK_COLOR = new Attribute("reservedBankColor");
+		public static final Attribute RESERVED_USER_SPACE_BANK_COLOR = new Attribute("reservedUserSpaceBankColor");
+		public static final Attribute USED_ODD_BANK_COLOR = new Attribute("usedOddBankColor");
+		public static final Attribute USED_EVEN_BANK_COLOR = new Attribute("usedEvenBankColor");
+		public static final Attribute CONFLICT_BANK_COLOR = new Attribute("conflictBankColor");
 
-		public static final Attribute LAST_WORKBOOK_FOLDER_PATH = new Attribute(
-				"lastWorkbookFolderPath");
-		public static final Attribute LAST_ENTRY_FOLDER_PATH = new Attribute(
-				"lastEntryFolderPath");
-		public static final Attribute LAST_EXPORT_FOLDER_PATH = new Attribute(
-				"lastExportFolderPath");
+		public static final Attribute LAST_WORKBOOK_FOLDER_PATH = new Attribute("lastWorkbookFolderPath");
+		public static final Attribute LAST_ENTRY_FOLDER_PATH = new Attribute("lastEntryFolderPath");
+		public static final Attribute LAST_EXPORT_FOLDER_PATH = new Attribute("lastExportFolderPath");
 
-		public static final Attribute MAIN_WINDOW_EXTENDED_STATE = new Attribute(
-				"mainWindowExtendedState");
-		public static final Attribute MAIN_WINDOW_LOCATION = new Attribute(
-				"mainWindowLocation");
-		public static final Attribute MAIN_WINDOW_SIZE = new Attribute(
-				"mainWindowSize");
+		public static final Attribute MAIN_WINDOW_EXTENDED_STATE = new Attribute("mainWindowExtendedState");
+		public static final Attribute MAIN_WINDOW_LOCATION = new Attribute("mainWindowLocation");
+		public static final Attribute MAIN_WINDOW_SIZE = new Attribute("mainWindowSize");
 
 		// Recent Workbook
 		public static final Attribute FILE_PATH = new Attribute("filePath");
@@ -109,15 +94,13 @@ public final class Preferences implements MainWindowPreferences,
 		public static final Attribute PROPERTY_VALUE = new Attribute("value");
 	}
 
-	private static final class XMLHandler extends
-			com.wudsn.tools.base.common.XMLHandler {
+	private static final class XMLHandler extends com.wudsn.tools.base.common.XMLHandler {
 
 		private Preferences preferences;
 
 		public XMLHandler(Preferences preferences) {
 			if (preferences == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'preferences' must not be null.");
+				throw new IllegalArgumentException("Parameter 'preferences' must not be null.");
 			}
 			this.preferences = preferences;
 		}
@@ -125,105 +108,86 @@ public final class Preferences implements MainWindowPreferences,
 		@Override
 		public void startOpen(MessageQueue messageQueue) {
 			if (messageQueue == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'messageQueue' must not be null.");
+				throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 			}
 			// Keep paths, but don't keep history.
 			preferences.recentWorkbookFilePathsList.clear();
 		}
 
 		@Override
-		public void startElement(String uri, String localName, String qName,
-				org.xml.sax.Attributes attributes) throws SAXException {
+		public void startElement(String uri, String localName, String qName, org.xml.sax.Attributes attributes)
+				throws SAXException {
 			if (qName == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'qName' must not be null.");
+				throw new IllegalArgumentException("Parameter 'qName' must not be null.");
 			}
 			if (attributes == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'attributes' must not be null.");
+				throw new IllegalArgumentException("Parameter 'attributes' must not be null.");
 			}
 			String value;
 			if (qName.equals(XMLElements.PREFERENCES)) {
 
-				Language language = Attributes.LANGUAGE.deserializeValueSet(
-						attributes, Language.class);
+				Language language = Attributes.LANGUAGE.deserializeValueSet(attributes, Language.class);
 				if (language != null) {
 					preferences.setLanguage(language);
 				}
 
-				preferences
-						.setUpdateCheckIndicator(Attributes.UPDATE_CHECK_INDICATOR
-								.deserializeBoolean(attributes,
-										preferences.getUpdateCheckIndicator()));
+				preferences.setUpdateCheckIndicator(Attributes.UPDATE_CHECK_INDICATOR.deserializeBoolean(attributes,
+						preferences.getUpdateCheckIndicator()));
 
-				value = Attributes.EMULATOR_EXECUTABLE_PATH
-						.deserializeString(attributes);
+				value = Attributes.EMULATOR_EXECUTABLE_PATH.deserializeString(attributes);
 				if (value != null) {
 					preferences.setEmulatorExecutablePath(value);
 				}
 
-				Color color = Attributes.FREE_BANK_COLOR
-						.deserializeColor(attributes);
+				Color color = Attributes.FREE_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setFreeBankColor(color);
 				}
-				color = Attributes.RESERVED_BANK_COLOR
-						.deserializeColor(attributes);
+				color = Attributes.RESERVED_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setReservedBankColor(color);
 				}
-				color = Attributes.RESERVED_USER_SPACE_BANK_COLOR
-						.deserializeColor(attributes);
+				color = Attributes.RESERVED_USER_SPACE_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setReservedUserSpaceBankColor(color);
 				}
-				color = Attributes.USED_ODD_BANK_COLOR
-						.deserializeColor(attributes);
+				color = Attributes.USED_ODD_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setUsedOddBankColor(color);
 				}
-				color = Attributes.USED_EVEN_BANK_COLOR
-						.deserializeColor(attributes);
+				color = Attributes.USED_EVEN_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setUsedEvenBankColor(color);
 				}
-				color = Attributes.CONFLICT_BANK_COLOR
-						.deserializeColor(attributes);
+				color = Attributes.CONFLICT_BANK_COLOR.deserializeColor(attributes);
 				if (color != null) {
 					preferences.setConflictBankColor(color);
 				}
 
-				int mainWindowExtendedState = Attributes.MAIN_WINDOW_EXTENDED_STATE
-						.deserializeInteger(attributes);
+				int mainWindowExtendedState = Attributes.MAIN_WINDOW_EXTENDED_STATE.deserializeInteger(attributes);
 				preferences.setMainWindowExtendedState(mainWindowExtendedState);
 
-				Point mainWindowLocation = Attributes.MAIN_WINDOW_LOCATION
-						.deserializePoint(attributes);
+				Point mainWindowLocation = Attributes.MAIN_WINDOW_LOCATION.deserializePoint(attributes);
 				if (mainWindowLocation != null) {
 					preferences.setMainWindowLocation(mainWindowLocation);
 				}
 
-				Dimension mainWindowSize = Attributes.MAIN_WINDOW_SIZE
-						.deserializeDimension(attributes);
+				Dimension mainWindowSize = Attributes.MAIN_WINDOW_SIZE.deserializeDimension(attributes);
 				if (mainWindowSize != null) {
 					preferences.setMainWindowSize(mainWindowSize);
 				}
 
-				value = Attributes.LAST_WORKBOOK_FOLDER_PATH
-						.deserializeString(attributes);
+				value = Attributes.LAST_WORKBOOK_FOLDER_PATH.deserializeString(attributes);
 				if (value != null) {
 					preferences.setLastWorkbookFolderPath(value);
 				}
 
-				value = Attributes.LAST_ENTRY_FOLDER_PATH
-						.deserializeString(attributes);
+				value = Attributes.LAST_ENTRY_FOLDER_PATH.deserializeString(attributes);
 				if (value != null) {
 					preferences.setLastEntryFolderPath(value);
 				}
 
-				value = Attributes.LAST_EXPORT_FOLDER_PATH
-						.deserializeString(attributes);
+				value = Attributes.LAST_EXPORT_FOLDER_PATH.deserializeString(attributes);
 				if (value != null) {
 					preferences.setLastExportFolderPath(value);
 
@@ -232,14 +196,12 @@ public final class Preferences implements MainWindowPreferences,
 			} else if (qName.equals(XMLElements.RECENT_WORKBOOK)) {
 				List<String> recentWorkBookFilePathsList = preferences.recentWorkbookFilePathsList;
 				value = Attributes.FILE_PATH.deserializeString(attributes);
-				if (value != null
-						&& recentWorkBookFilePathsList.size() < MAX_HISTORY_SIZE) {
+				if (value != null && recentWorkBookFilePathsList.size() < MAX_HISTORY_SIZE) {
 					recentWorkBookFilePathsList.add(value);
 				}
 			} else if (qName.equals(XMLElements.LAYOUT_PROPERTIES)) {
 				Map<String, String> layoutProperties = preferences.layoutProperties;
-				String key = Attributes.PROPERTY_KEY
-						.deserializeString(attributes);
+				String key = Attributes.PROPERTY_KEY.deserializeString(attributes);
 				value = Attributes.PROPERTY_VALUE.deserializeString(attributes);
 				if (key != null) {
 					layoutProperties.put(key, value);
@@ -250,76 +212,53 @@ public final class Preferences implements MainWindowPreferences,
 		@Override
 		public void startSave(Document document, MessageQueue messageQueue) {
 			if (document == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'document' must not be null.");
+				throw new IllegalArgumentException("Parameter 'document' must not be null.");
 			}
 			if (messageQueue == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'messageQueue' must not be null.");
+				throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 			}
 			String dateTime = DateUtility.getCurrentDateTimeString();
-			Comment comment = document
-					.createComment("The!Cart Studio AttributeTablePreferences - "
-							+ dateTime);
+			Comment comment = document.createComment("The!Cart Studio AttributeTablePreferences - " + dateTime);
 			document.appendChild(comment);
 
-			Element rootElement = document
-					.createElement(XMLElements.PREFERENCES);
+			Element rootElement = document.createElement(XMLElements.PREFERENCES);
 			document.appendChild(rootElement);
 
-			Attributes.LANGUAGE.serializeValueSet(rootElement,
-					preferences.getLanguage());
-			Attributes.UPDATE_CHECK_INDICATOR.serializeBoolean(rootElement,
-					preferences.getUpdateCheckIndicator());
-			Attributes.EMULATOR_EXECUTABLE_PATH.serializeString(rootElement,
-					preferences.getEmulatorExecutablePath());
+			Attributes.LANGUAGE.serializeValueSet(rootElement, preferences.getLanguage());
+			Attributes.UPDATE_CHECK_INDICATOR.serializeBoolean(rootElement, preferences.getUpdateCheckIndicator());
+			Attributes.EMULATOR_EXECUTABLE_PATH.serializeString(rootElement, preferences.getEmulatorExecutablePath());
 
-			Attributes.FREE_BANK_COLOR.serializeColor(rootElement,
-					preferences.getFreeBankColor());
-			Attributes.RESERVED_BANK_COLOR.serializeColor(rootElement,
-					preferences.getReservedBankColor());
-			Attributes.RESERVED_USER_SPACE_BANK_COLOR.serializeColor(
-					rootElement, preferences.getReservedUserSpaceBankColor());
-			Attributes.USED_ODD_BANK_COLOR.serializeColor(rootElement,
-					preferences.getUsedOddBankColor());
-			Attributes.USED_EVEN_BANK_COLOR.serializeColor(rootElement,
-					preferences.getUsedEvenBankColor());
-			Attributes.CONFLICT_BANK_COLOR.serializeColor(rootElement,
-					preferences.getConflictBankColor());
+			Attributes.FREE_BANK_COLOR.serializeColor(rootElement, preferences.getFreeBankColor());
+			Attributes.RESERVED_BANK_COLOR.serializeColor(rootElement, preferences.getReservedBankColor());
+			Attributes.RESERVED_USER_SPACE_BANK_COLOR.serializeColor(rootElement,
+					preferences.getReservedUserSpaceBankColor());
+			Attributes.USED_ODD_BANK_COLOR.serializeColor(rootElement, preferences.getUsedOddBankColor());
+			Attributes.USED_EVEN_BANK_COLOR.serializeColor(rootElement, preferences.getUsedEvenBankColor());
+			Attributes.CONFLICT_BANK_COLOR.serializeColor(rootElement, preferences.getConflictBankColor());
 
 			Attributes.MAIN_WINDOW_EXTENDED_STATE.serializeInteger(rootElement,
 					preferences.getMainWindowExtendedState());
-			Attributes.MAIN_WINDOW_LOCATION.serializePoint(rootElement,
-					preferences.getMainWindowLocation());
-			Attributes.MAIN_WINDOW_SIZE.serializeDimension(rootElement,
-					preferences.getMainWindowSize());
+			Attributes.MAIN_WINDOW_LOCATION.serializePoint(rootElement, preferences.getMainWindowLocation());
+			Attributes.MAIN_WINDOW_SIZE.serializeDimension(rootElement, preferences.getMainWindowSize());
 
-			Attributes.LAST_WORKBOOK_FOLDER_PATH.serializeString(rootElement,
-					preferences.getLastWorkbookFolderPath());
-			Attributes.LAST_ENTRY_FOLDER_PATH.serializeString(rootElement,
-					preferences.getLastEntryFolderPath());
-			Attributes.LAST_EXPORT_FOLDER_PATH.serializeString(rootElement,
-					preferences.getLastExportFolderPath());
+			Attributes.LAST_WORKBOOK_FOLDER_PATH.serializeString(rootElement, preferences.getLastWorkbookFolderPath());
+			Attributes.LAST_ENTRY_FOLDER_PATH.serializeString(rootElement, preferences.getLastEntryFolderPath());
+			Attributes.LAST_EXPORT_FOLDER_PATH.serializeString(rootElement, preferences.getLastExportFolderPath());
 
 			// Recent workbook file paths
 			for (String filePath : preferences.getRecentWorkbookFilePathsList()) {
-				Element recentWorkbookElement = document
-						.createElement(XMLElements.RECENT_WORKBOOK);
+				Element recentWorkbookElement = document.createElement(XMLElements.RECENT_WORKBOOK);
 				rootElement.appendChild(recentWorkbookElement);
-				Attributes.FILE_PATH.serializeString(recentWorkbookElement,
-						filePath);
+				Attributes.FILE_PATH.serializeString(recentWorkbookElement, filePath);
 			}
 
 			// Layout properties
 			for (String key : preferences.getLayoutProperties().keySet()) {
-				Element layoutPropertiesElement = document
-						.createElement(XMLElements.LAYOUT_PROPERTIES);
+				Element layoutPropertiesElement = document.createElement(XMLElements.LAYOUT_PROPERTIES);
 				rootElement.appendChild(layoutPropertiesElement);
-				Attributes.PROPERTY_KEY.serializeString(
-						layoutPropertiesElement, key);
-				Attributes.PROPERTY_VALUE.serializeString(
-						layoutPropertiesElement, preferences
-								.getLayoutProperties().get(key));
+				Attributes.PROPERTY_KEY.serializeString(layoutPropertiesElement, key);
+				Attributes.PROPERTY_VALUE.serializeString(layoutPropertiesElement,
+						preferences.getLayoutProperties().get(key));
 			}
 		}
 
@@ -377,8 +316,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setLanguage(Language language) {
 		if (language == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'language' must not be null.");
+			throw new IllegalArgumentException("Parameter 'language' must not be null.");
 		}
 		this.language = language;
 	}
@@ -406,8 +344,8 @@ public final class Preferences implements MainWindowPreferences,
 	/**
 	 * Gets the update check indicator..
 	 * 
-	 * @return <code>true</code> if the update check is enabled,
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the update check is enabled, <code>false</code>
+	 *         otherwise.
 	 */
 	public boolean getUpdateCheckIndicator() {
 		return updateCheckIndicator;
@@ -443,13 +381,11 @@ public final class Preferences implements MainWindowPreferences,
 	 * Sets the emulator executable path.
 	 * 
 	 * @param emulatorExecutablePath
-	 *            The emulator executable path, may be empty, not
-	 *            <code>null</code>.
+	 *            The emulator executable path, may be empty, not <code>null</code>.
 	 */
 	public void setEmulatorExecutablePath(String emulatorExecutablePath) {
 		if (emulatorExecutablePath == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'emulatorExecutablePath' must not be null.");
+			throw new IllegalArgumentException("Parameter 'emulatorExecutablePath' must not be null.");
 		}
 		this.emulatorExecutablePath = emulatorExecutablePath;
 
@@ -458,8 +394,8 @@ public final class Preferences implements MainWindowPreferences,
 	/**
 	 * Gets the emulator executable path.
 	 * 
-	 * @return emulatorExecutablePath The emulator executable path, may be
-	 *         empty, not <code>null</code>.
+	 * @return emulatorExecutablePath The emulator executable path, may be empty,
+	 *         not <code>null</code>.
 	 */
 	public String getEmulatorExecutablePath() {
 		return emulatorExecutablePath;
@@ -482,8 +418,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setFreeBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.freeBankColor = color;
 	}
@@ -505,8 +440,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setReservedBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.reservedBankColor = color;
 	}
@@ -528,8 +462,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setReservedUserSpaceBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.reservedUserSpaceBankColor = color;
 	}
@@ -551,8 +484,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setUsedOddBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.usedOddBankColor = color;
 	}
@@ -574,8 +506,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setUsedEvenBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.usedEvenBankColor = color;
 	}
@@ -597,8 +528,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setConflictBankColor(Color color) {
 		if (color == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'color' must not be null.");
+			throw new IllegalArgumentException("Parameter 'color' must not be null.");
 		}
 		this.conflictBankColor = color;
 	}
@@ -634,8 +564,7 @@ public final class Preferences implements MainWindowPreferences,
 	@Override
 	public void setMainWindowLocation(Point mainWindowLocation) {
 		if (mainWindowLocation == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'mainWindowLocation' must not be null.");
+			throw new IllegalArgumentException("Parameter 'mainWindowLocation' must not be null.");
 		}
 		this.mainWindowLocation = mainWindowLocation;
 	}
@@ -648,8 +577,7 @@ public final class Preferences implements MainWindowPreferences,
 	@Override
 	public void setMainWindowSize(Dimension mainWindowSize) {
 		if (mainWindowSize == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'mainWindowSize' must not be null.");
+			throw new IllegalArgumentException("Parameter 'mainWindowSize' must not be null.");
 		}
 		this.mainWindowSize = mainWindowSize;
 	}
@@ -667,8 +595,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setLastWorkbookFolderPath(String folderPath) {
 		if (folderPath == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'folderPath' must not be null.");
+			throw new IllegalArgumentException("Parameter 'folderPath' must not be null.");
 		}
 		lastWorkbookFolderPath = folderPath;
 	}
@@ -690,8 +617,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setLastEntryFolderPath(String folderPath) {
 		if (folderPath == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'folderPath' must not be null.");
+			throw new IllegalArgumentException("Parameter 'folderPath' must not be null.");
 		}
 		lastEntryFolderPath = folderPath;
 	}
@@ -713,8 +639,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void setLastExportFolderPath(String folderPath) {
 		if (folderPath == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'folderPath' must not be null.");
+			throw new IllegalArgumentException("Parameter 'folderPath' must not be null.");
 		}
 		lastExportFolderPath = folderPath;
 	}
@@ -729,11 +654,11 @@ public final class Preferences implements MainWindowPreferences,
 	}
 
 	/**
-	 * Gets the unmodifiable list of file paths for the recently used workbooks.
-	 * The list never contains more than {@link #MAX_HISTORY_SIZE} entries.
+	 * Gets the unmodifiable list of file paths for the recently used workbooks. The
+	 * list never contains more than {@link #MAX_HISTORY_SIZE} entries.
 	 * 
-	 * @return The unmodifiable list of file paths for the recently used
-	 *         workbooks, may be empty, not <code>null</code>.
+	 * @return The unmodifiable list of file paths for the recently used workbooks,
+	 *         may be empty, not <code>null</code>.
 	 */
 	public List<String> getRecentWorkbookFilePathsList() {
 		return Collections.unmodifiableList(recentWorkbookFilePathsList);
@@ -753,8 +678,7 @@ public final class Preferences implements MainWindowPreferences,
 	public void updateRecentWorkBookFileList(File file) {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'file' must not be null.");
+			throw new IllegalArgumentException("Parameter 'file' must not be null.");
 		}
 		if (file.getName().isEmpty()) {
 			return;
@@ -782,8 +706,7 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void open(MessageQueue messageQueue) {
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 
 		// Ensure file exists.
@@ -808,8 +731,7 @@ public final class Preferences implements MainWindowPreferences,
 	public void save(MessageQueue messageQueue) {
 
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 		XMLUtility.save(file, new XMLHandler(this), messageQueue);
 	}
@@ -822,21 +744,17 @@ public final class Preferences implements MainWindowPreferences,
 	 */
 	public void copyTo(Preferences other) {
 		if (other == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'other' must not be null.");
+			throw new IllegalArgumentException("Parameter 'other' must not be null.");
 		}
 		XMLUtility.copyTo(new XMLHandler(this), new XMLHandler(other));
 	}
 
 	@Override
 	public String toString() {
-		return "language=" + language + " updateCheckIndicator="
-				+ updateCheckIndicator + " emulatorExecutablePath="
-				+ emulatorExecutablePath + " lastWorkbookFolderPath="
-				+ lastWorkbookFolderPath + " lastEntryFolderPath="
-				+ lastEntryFolderPath + " lastExportFolderPath="
-				+ lastExportFolderPath + " recentWorkbookFilePathsList="
-				+ recentWorkbookFilePathsList;
+		return "language=" + language + " updateCheckIndicator=" + updateCheckIndicator + " emulatorExecutablePath="
+				+ emulatorExecutablePath + " lastWorkbookFolderPath=" + lastWorkbookFolderPath + " lastEntryFolderPath="
+				+ lastEntryFolderPath + " lastExportFolderPath=" + lastExportFolderPath
+				+ " recentWorkbookFilePathsList=" + recentWorkbookFilePathsList;
 	}
 
 }

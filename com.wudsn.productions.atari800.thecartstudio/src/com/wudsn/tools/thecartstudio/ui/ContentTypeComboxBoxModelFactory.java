@@ -42,8 +42,8 @@ public final class ContentTypeComboxBoxModelFactory {
 	 * supported by the flash target type.
 	 * 
 	 * @param filterByFileContentSize
-	 *            <code>true</code> to filter by fileContentSize,
-	 *            <code>false</code> to filter only by flash target type.
+	 *            <code>true</code> to filter by fileContentSize, <code>false</code>
+	 *            to filter only by flash target type.
 	 * @param fileContentSize
 	 *            The size of the file content in bytes.
 	 * @param flashTargetType
@@ -53,12 +53,10 @@ public final class ContentTypeComboxBoxModelFactory {
 	 *            The current content type or <code>null</code>.
 	 * @return The combo box model, not <code>null</code>.
 	 */
-	public static ComboBoxModel<ContentType> getModel(
-			boolean filterByFileContentSize, int fileContentSize,
+	public static ComboBoxModel<ContentType> getModel(boolean filterByFileContentSize, int fileContentSize,
 			FlashTargetType flashTargetType, ContentType currentContentType) {
 		if (flashTargetType == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'flashTargetType' must not be null.");
+			throw new IllegalArgumentException("Parameter 'flashTargetType' must not be null.");
 		}
 		int key;
 		if (fileContentSize <= 0) {
@@ -118,14 +116,12 @@ public final class ContentTypeComboxBoxModelFactory {
 			relevantContentTypes.add(ContentType.UNKNOWN);
 		}
 
-		if (currentContentType != null
-				&& !relevantContentTypes.contains(currentContentType)) {
+		if (currentContentType != null && !relevantContentTypes.contains(currentContentType)) {
 			relevantContentTypes.add(currentContentType);
 		}
 		ValueSet.sort(relevantContentTypes);
 		ComboBoxModel<ContentType> result = new DefaultComboBoxModel<ContentType>(
-				relevantContentTypes
-						.toArray(new ContentType[relevantContentTypes.size()]));
+				relevantContentTypes.toArray(new ContentType[relevantContentTypes.size()]));
 
 		return result;
 	}

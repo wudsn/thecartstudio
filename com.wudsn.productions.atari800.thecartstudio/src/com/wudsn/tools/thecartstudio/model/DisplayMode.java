@@ -56,8 +56,7 @@ public final class DisplayMode extends ValueSet {
 	 * @return The unmodifiable list of all values, not <code>null</code>.
 	 */
 	public static List<DisplayMode> getValues() {
-		return Collections.unmodifiableList(new ArrayList<DisplayMode>(values
-				.values()));
+		return Collections.unmodifiableList(new ArrayList<DisplayMode>(values.values()));
 	}
 
 	/**
@@ -69,8 +68,7 @@ public final class DisplayMode extends ValueSet {
 	 */
 	public static DisplayMode getInstance(String id) {
 		if (id == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'id' must not be null.");
+			throw new IllegalArgumentException("Parameter 'id' must not be null.");
 		}
 		return values.get(id);
 	}

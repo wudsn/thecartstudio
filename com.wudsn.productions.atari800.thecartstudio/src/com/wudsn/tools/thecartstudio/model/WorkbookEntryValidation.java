@@ -41,22 +41,17 @@ public final class WorkbookEntryValidation {
 	}
 
 	@SuppressWarnings("static-method")
-	public void validateSave(WorkbookRoot root, WorkbookEntry entry,
-			MessageQueue messageQueue) {
+	public void validateSave(WorkbookRoot root, WorkbookEntry entry, MessageQueue messageQueue) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (entry == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'entry' must not be null.");
+			throw new IllegalArgumentException("Parameter 'entry' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
-		RepositoryValidation rv = RepositoryValidation
-				.createInstance(messageQueue);
+		RepositoryValidation rv = RepositoryValidation.createInstance(messageQueue);
 		rv.isStringValid(entry, Attributes.TITLE, entry.getTitle());
 
 		rv.isStringValid(entry, Attributes.FILE_NAME, entry.getFileName());
@@ -77,25 +72,20 @@ public final class WorkbookEntryValidation {
 	}
 
 	@SuppressWarnings("static-method")
-	public void validateExport(WorkbookRoot root, WorkbookEntry entry,
-			MessageQueue messageQueue) {
+	public void validateExport(WorkbookRoot root, WorkbookEntry entry, MessageQueue messageQueue) {
 		if (root == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'root' must not be null.");
+			throw new IllegalArgumentException("Parameter 'root' must not be null.");
 		}
 		if (entry == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'entry' must not be null.");
+			throw new IllegalArgumentException("Parameter 'entry' must not be null.");
 		}
 		if (messageQueue == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'messageQueue' must not be null.");
+			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 		if (entry.getContentType() == ContentType.UNKNOWN) {
 			// ERROR: Content type is unknown. Select a
 			// valid content type for the entry.
-			messageQueue.sendMessage(entry, Attributes.CONTENT_TYPE,
-					Messages.E405);
+			messageQueue.sendMessage(entry, Attributes.CONTENT_TYPE, Messages.E405);
 			return;
 		}
 		FlashTargetType flashTargetType = root.getFlashTargetType();
@@ -103,8 +93,7 @@ public final class WorkbookEntryValidation {
 			// ERROR: Content type '{0}' is not
 			// supported by the flash module type '{1}'. Select a supported
 			// content type for the entry.
-			messageQueue.sendMessage(entry, Attributes.CONTENT_TYPE,
-					Messages.E406, entry.getContentType().getText(),
+			messageQueue.sendMessage(entry, Attributes.CONTENT_TYPE, Messages.E406, entry.getContentType().getText(),
 					flashTargetType.getText());
 			return;
 		}
@@ -116,8 +105,7 @@ public final class WorkbookEntryValidation {
 				// ERROR: Entry has no banks assigned. Perform
 				// "Edit/Reassign Banks" first to assign all entries to a start
 				// bank where enough free banks are available.
-				messageQueue.sendMessage(entry,
-						Attributes.BANKS_ASSIGNED_INDICATOR, Messages.E400);
+				messageQueue.sendMessage(entry, Attributes.BANKS_ASSIGNED_INDICATOR, Messages.E400);
 				return;
 			}
 
@@ -125,27 +113,22 @@ public final class WorkbookEntryValidation {
 				if (entry.isStartBankFixed()) {
 					// ERROR: Start bank {0} is not aligned to a multiple of
 					// {1}. Specify a valid start bank.
-					messageQueue.sendMessage(entry, Attributes.START_BANK,
-							Messages.E414, TextUtility.formatAsDecimal(entry
-									.getStartBankNumber()), TextUtility
-									.formatAsDecimal(entry
-											.getAlignmentBanksCount()));
+					messageQueue.sendMessage(entry, Attributes.START_BANK, Messages.E414,
+							TextUtility.formatAsDecimal(entry.getStartBankNumber()),
+							TextUtility.formatAsDecimal(entry.getAlignmentBanksCount()));
 				} else {
 					// ERROR: Start bank {0} is not aligned to a multiple of
 					// {1}.
 					// Perform "Edit/Reassign Banks" first to assign all entries
 					// to a properly aligned start bank.
-					messageQueue.sendMessage(entry, Attributes.START_BANK,
-							Messages.E415, TextUtility.formatAsDecimal(entry
-									.getStartBankNumber()), TextUtility
-									.formatAsDecimal(entry
-											.getAlignmentBanksCount()));
+					messageQueue.sendMessage(entry, Attributes.START_BANK, Messages.E415,
+							TextUtility.formatAsDecimal(entry.getStartBankNumber()),
+							TextUtility.formatAsDecimal(entry.getAlignmentBanksCount()));
 				}
 				return;
 			}
 		} else {
-			RepositoryValidation rv = RepositoryValidation
-					.createInstance(messageQueue);
+			RepositoryValidation rv = RepositoryValidation.createInstance(messageQueue);
 
 			// User space entries require a user space.
 			if (root.getUserSpaceBanksCount() == 0) {
@@ -160,19 +143,16 @@ public final class WorkbookEntryValidation {
 			userSpaceContentProvider.init(root);
 			int startBankNumber = userSpaceContentProvider.getStartBankNumber();
 			if (!rv.isLongValid(entry, Attributes.START_BANK, startBankNumber,
-					startBankNumber + root.getUserSpaceBanksCount() - 1,
-					entry.getStartBankNumber())) {
+					startBankNumber + root.getUserSpaceBanksCount() - 1, entry.getStartBankNumber())) {
 				return;
 			}
 		}
 
 		try {
-			entry.setParametersList(Parameter.getParametersList(entry
-					.getParameters()));
+			entry.setParametersList(Parameter.getParametersList(entry.getParameters()));
 		} catch (CoreException ex) {
 			entry.setParametersList(null);
-			messageQueue.sendMessage(ex.createMessageQueueEntry(entry,
-					Attributes.PARAMETERS));
+			messageQueue.sendMessage(ex.createMessageQueueEntry(entry, Attributes.PARAMETERS));
 		}
 	}
 }

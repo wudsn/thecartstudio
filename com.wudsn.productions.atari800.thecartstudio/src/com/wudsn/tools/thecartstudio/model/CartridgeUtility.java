@@ -72,21 +72,18 @@ public final class CartridgeUtility {
 	 *            The start address of the module, must between $8000-$bfff or
 	 *            0x0000.
 	 */
-	public static void setCartridgeVectors(byte[] content, int startBankOffset,
-			int startBankSize, int flags, int initAddress, int startAddress) {
+	public static void setCartridgeVectors(byte[] content, int startBankOffset, int startBankSize, int flags,
+			int initAddress, int startAddress) {
 		if (content == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'content' must not be null.");
+			throw new IllegalArgumentException("Parameter 'content' must not be null.");
 		}
 		if (startBankOffset < 0) {
 			throw new IllegalArgumentException(
-					"Parameter 'startBankOffset' must not be negative. Specified value is "
-							+ startBankOffset + ".");
+					"Parameter 'startBankOffset' must not be negative. Specified value is " + startBankOffset + ".");
 		}
 		if (startBankSize < 0) {
 			throw new IllegalArgumentException(
-					"Parameter 'startBankSize' must not be negative. Specified value is "
-							+ startBankSize + ".");
+					"Parameter 'startBankSize' must not be negative. Specified value is " + startBankSize + ".");
 		}
 
 		// For modules with less than 8k, the address space is mirrored.
@@ -98,8 +95,7 @@ public final class CartridgeUtility {
 					"Parameter 'initAddress' must be between 0x8000 and 0xbfff. Specified value is "
 							+ Integer.toHexString(initAddress) + ".");
 		}
-		if (startAddress != 0x0000
-				&& (startAddress < 0x4000 || startAddress > 0xbfff)) {
+		if (startAddress != 0x0000 && (startAddress < 0x4000 || startAddress > 0xbfff)) {
 			throw new IllegalArgumentException(
 					"Parameter 'startAddress' must be between 0x8000 and 0xbfff. Specified value is "
 							+ Integer.toHexString(startAddress) + ".");

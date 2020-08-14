@@ -47,8 +47,7 @@ public final class AtrProgrammingFile {
 		public final int mode;
 		public final int modeOffset;
 
-		public BuildInfo(String signature, int signatureOffset, int mode,
-				int modeOffset) {
+		public BuildInfo(String signature, int signatureOffset, int mode, int modeOffset) {
 
 			// The offsets in the definition are absolute file offsets.
 			this.signature = signature;
@@ -60,9 +59,8 @@ public final class AtrProgrammingFile {
 
 		@Override
 		public String toString() {
-			return "signature=" + signature + ", signatureOffset=0x"
-					+ Integer.toHexString(signatureOffset) + ",mode=" + mode
-					+ ", modeOffset=0x" + Integer.toHexString(modeOffset);
+			return "signature=" + signature + ", signatureOffset=0x" + Integer.toHexString(signatureOffset) + ",mode="
+					+ mode + ", modeOffset=0x" + Integer.toHexString(modeOffset);
 		}
 	}
 
@@ -85,8 +83,7 @@ public final class AtrProgrammingFile {
 
 	public AtrProgrammingFile(File sourceFile) {
 		if (sourceFile == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'sourceFile' must not be null.");
+			throw new IllegalArgumentException("Parameter 'sourceFile' must not be null.");
 		}
 		this.sourceFile = sourceFile;
 		this.sourceFileSize = sourceFile.length();
@@ -132,8 +129,8 @@ public final class AtrProgrammingFile {
 		} catch (IOException ex) {
 			// ERROR: Cannot read content of file '{0}'.
 			// Original error message: {1}
-			throw new CoreException(com.wudsn.tools.base.Messages.E206,
-					sourceFile.getAbsolutePath(), ex.getLocalizedMessage());
+			throw new CoreException(com.wudsn.tools.base.Messages.E206, sourceFile.getAbsolutePath(),
+					ex.getLocalizedMessage());
 		}
 
 		// If the file is valid ATR and has boot sectors...
@@ -144,13 +141,12 @@ public final class AtrProgrammingFile {
 			bootSectors = 0xff & bootSectorHeader[1];
 			bootCode = new byte[bootSectors * AtrFile.SECTOR_SIZE_SD];
 			try {
-				inputStream.read(bootCode, bootSectorHeaderSize,
-						bootCode.length - bootSectorHeaderSize);
+				inputStream.read(bootCode, bootSectorHeaderSize, bootCode.length - bootSectorHeaderSize);
 			} catch (IOException ex) {
 				// ERROR: Cannot read content of file '{0}'.
 				// Original error message: {1}
-				throw new CoreException(com.wudsn.tools.base.Messages.E206,
-						sourceFile.getAbsolutePath(), ex.getLocalizedMessage());
+				throw new CoreException(com.wudsn.tools.base.Messages.E206, sourceFile.getAbsolutePath(),
+						ex.getLocalizedMessage());
 			}
 			return true;
 		}
@@ -161,30 +157,24 @@ public final class AtrProgrammingFile {
 	 * Determine if a byte array contains an ASCII string is at a given index.
 	 * 
 	 * @param bytes
-	 *            The byte array to search in, may be empty, not
-	 *            <code>null</code>.
+	 *            The byte array to search in, may be empty, not <code>null</code>.
 	 * @param string
 	 *            The ASCII string to search for, may be empty, not
 	 *            <code>null</code> .
 	 * @param index
-	 *            The index where the string is expected, a non-negative
-	 *            integer.
-	 * @return <code>true</code> if the byte array contains that ASCII string at
-	 *         the given index, <code>false</code> otherwise.
+	 *            The index where the string is expected, a non-negative integer.
+	 * @return <code>true</code> if the byte array contains that ASCII string at the
+	 *         given index, <code>false</code> otherwise.
 	 */
-	public static boolean containsStringAt(byte[] bytes, String string,
-			int index) {
+	public static boolean containsStringAt(byte[] bytes, String string, int index) {
 		if (bytes == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'bytes' must not be null.");
+			throw new IllegalArgumentException("Parameter 'bytes' must not be null.");
 		}
 		if (string == null) {
-			throw new IllegalArgumentException(
-					"Parameter 'string' must not be null.");
+			throw new IllegalArgumentException("Parameter 'string' must not be null.");
 		}
 		if (index < 0) {
-			throw new IllegalArgumentException(
-					"Parameter 'index' must not be negative.");
+			throw new IllegalArgumentException("Parameter 'index' must not be negative.");
 		}
 		int endIndex = index + string.length();
 		if (endIndex > bytes.length - 1) {
@@ -200,8 +190,7 @@ public final class AtrProgrammingFile {
 		return true;
 	}
 
-	public void setCartridgeTypeAndBuildInfo(CartridgeType cartridgeType,
-			BuildInfo buildInfo) {
+	public void setCartridgeTypeAndBuildInfo(CartridgeType cartridgeType, BuildInfo buildInfo) {
 		this.cartridgeType = cartridgeType;
 		this.buildInfo = buildInfo;
 
@@ -209,8 +198,7 @@ public final class AtrProgrammingFile {
 
 	public byte[] createCartridgeContent() throws CoreException {
 		byte[] cartridgeContent = new byte[cartridgeType.getSizeInKB() * KB];
-		sourceFileContent = FileUtility.readBytes(getSourceFilePath(),
-				inputStream, cartridgeContent.length, false);
+		sourceFileContent = FileUtility.readBytes(getSourceFilePath(), inputStream, cartridgeContent.length, false);
 		return cartridgeContent;
 
 	}

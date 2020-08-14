@@ -36,44 +36,37 @@ import com.wudsn.tools.thecartstudio.Texts;
  */
 public final class ReservedContentProviderFactory {
 	/**
-	 * CheckSum area for incremental flashing if incremental flashing is
-	 * supported.
+	 * CheckSum area for incremental flashing if incremental flashing is supported.
 	 */
-	public static final class CheckSumContentProvider extends
-			ReservedContentProvider {
+	public static final class CheckSumContentProvider extends ReservedContentProvider {
 		@Override
 		public void init(WorkbookRoot root) {
 			if (root == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'root' must not be null.");
+				throw new IllegalArgumentException("Parameter 'root' must not be null.");
 			}
 			int requiredBanksCount = 0;
 			if (root.getCartridgeType().isIncrementalFlashingSupported()) {
 				requiredBanksCount = HASH_BLOCK_COUNT * BANKS_PER_BLOCK;
 			}
 
-			init(Texts.ReservedContentProvider_CheckSums, CartDef.BANKSIZE,
-					HASH_BLOCK_START * BANKS_PER_BLOCK, requiredBanksCount,
-					true);
+			init(Texts.ReservedContentProvider_CheckSums, CartDef.BANKSIZE, HASH_BLOCK_START * BANKS_PER_BLOCK,
+					requiredBanksCount, true);
 
 		}
 
 		@Override
-		public byte[] createContent(Workbook workbook,
-				WorkbookExport workbookExport, MessageQueue messageQueue) {
+		public byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue) {
 			return null;
 		}
 	}
 
-	public static final class MenuContentProvider extends
-			ReservedContentProvider {
+	public static final class MenuContentProvider extends ReservedContentProvider {
 		private CartridgeMenu cartridgeMenu;
 
 		@Override
 		public void init(WorkbookRoot root) {
 			if (root == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'root' must not be null.");
+				throw new IllegalArgumentException("Parameter 'root' must not be null.");
 			}
 			int bankSize;
 			int requiredBanksCount;
@@ -86,32 +79,25 @@ public final class ReservedContentProviderFactory {
 			} else if (cartridgeMenuType == CartridgeMenuType.SIMPLE
 					|| cartridgeMenuType == CartridgeMenuType.EXTENDED) {
 				bankSize = CartDef.BANKSIZE;
-				requiredBanksCount = CartDef.HASH_BLOCK_START
-						* CartDef.BANKS_PER_BLOCK;
+				requiredBanksCount = CartDef.HASH_BLOCK_START * CartDef.BANKS_PER_BLOCK;
 
 			} else {
-				throw new RuntimeException("Unknown cartridge menu type '"
-						+ cartridgeMenuType + "'.");
+				throw new RuntimeException("Unknown cartridge menu type '" + cartridgeMenuType + "'.");
 			}
 
-			init(Texts.ReservedContentProvider_Menu, bankSize, 0,
-					requiredBanksCount, true);
+			init(Texts.ReservedContentProvider_Menu, bankSize, 0, requiredBanksCount, true);
 		}
 
 		@Override
-		public byte[] createContent(Workbook workbook,
-				WorkbookExport workbookExport, MessageQueue messageQueue) {
+		public byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue) {
 			if (workbook == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'workbook' must not be null.");
+				throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 			}
 			if (workbookExport == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'workbookExport' must not be null.");
+				throw new IllegalArgumentException("Parameter 'workbookExport' must not be null.");
 			}
 			if (messageQueue == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'messageQueue' must not be null.");
+				throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 			}
 
 			// No menu means no content.
@@ -122,26 +108,21 @@ public final class ReservedContentProviderFactory {
 
 			// If the menu was created, it can still be invalid.
 			if (!cartridgeMenu.isValid()) {
-				messageQueue.sendMessage(root,
-						WorkbookRoot.Attributes.CARTRDIGE_MENU_TYPE,
-						Messages.E420, cartridgeMenu.getCartridgeMenuType()
-								.getText());
+				messageQueue.sendMessage(root, WorkbookRoot.Attributes.CARTRDIGE_MENU_TYPE, Messages.E420,
+						cartridgeMenu.getCartridgeMenuType().getText());
 				return null;
 			}
-			byte[] result = cartridgeMenu.getContent(workbook, workbookExport,
-					messageQueue);
+			byte[] result = cartridgeMenu.getContent(workbook, workbookExport, messageQueue);
 			return result;
 		}
 	}
 
-	public static final class MenuEntriesContentProvider extends
-			ReservedContentProvider {
+	public static final class MenuEntriesContentProvider extends ReservedContentProvider {
 
 		@Override
 		public void init(WorkbookRoot root) {
 			if (root == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'root' must not be null.");
+				throw new IllegalArgumentException("Parameter 'root' must not be null.");
 			}
 
 			// Entries shall be located at the end before the user space.
@@ -152,33 +133,25 @@ public final class ReservedContentProviderFactory {
 			if (root.getCartridgeMenuType() == CartridgeMenuType.EXTENDED) {
 				int genresBankCount = 1; // One bank is reserved for the genres
 				// information.
-				int entriesPerBank = root.getBankSize()
-						/ CartridgeMenu.MENU_ENTRY_LENGTH;
-				requiredBanksCount = genresBankCount
-						+ (root.getBankCount() + entriesPerBank - 1)
-						/ entriesPerBank;
+				int entriesPerBank = root.getBankSize() / CartridgeMenu.MENU_ENTRY_LENGTH;
+				requiredBanksCount = genresBankCount + (root.getBankCount() + entriesPerBank - 1) / entriesPerBank;
 			}
-			int startBankNumber = userSpaceContentProvider.getStartBankNumber()
-					- requiredBanksCount;
+			int startBankNumber = userSpaceContentProvider.getStartBankNumber() - requiredBanksCount;
 			startBankNumber = Math.max(0, startBankNumber);
-			init(Texts.ReservedContentProvider_MenuEntries, CartDef.BANKSIZE,
-					startBankNumber, requiredBanksCount, true);
+			init(Texts.ReservedContentProvider_MenuEntries, CartDef.BANKSIZE, startBankNumber, requiredBanksCount,
+					true);
 		}
 
 		@Override
-		public byte[] createContent(Workbook workbook,
-				WorkbookExport workbookExport, MessageQueue messageQueue) {
+		public byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue) {
 			if (workbook == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'workbook' must not be null.");
+				throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 			}
 			if (workbookExport == null) {
-				throw new IllegalArgumentException(
-						"Parameter ' workbookExport' must not be null.");
+				throw new IllegalArgumentException("Parameter ' workbookExport' must not be null.");
 			}
 			if (messageQueue == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'messageQueue' must not be null.");
+				throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 			}
 			if (requiredBanksCount == 0) {
 				return null;
@@ -192,20 +165,18 @@ public final class ReservedContentProviderFactory {
 	}
 
 	/**
-	 * Content provider for dedicated menu startup code. This is required for
-	 * flash targets which do not start at bank 0.
+	 * Content provider for dedicated menu startup code. This is required for flash
+	 * targets which do not start at bank 0.
 	 * 
 	 */
-	public static final class MenuStartupContentProvider extends
-			ReservedContentProvider {
+	public static final class MenuStartupContentProvider extends ReservedContentProvider {
 
 		private byte[] startupBankContent;
 
 		@Override
 		public void init(WorkbookRoot root) {
 			if (root == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'root' must not be null.");
+				throw new IllegalArgumentException("Parameter 'root' must not be null.");
 			}
 			int bankSize;
 			int requiredBanksCount;
@@ -216,10 +187,8 @@ public final class ReservedContentProviderFactory {
 			// If a menu is active and the cart is an Atarimax cart, it
 			// requires the last bank to be the startup bank.
 			if (cartridgeMenuType != CartridgeMenuType.NONE
-					&& (root.getCartridgeType().equals(
-							CartridgeType.CARTRIDGE_ATMAX_128) || root
-							.getCartridgeType().equals(
-									CartridgeType.CARTRIDGE_ATMAX_1024))) {
+					&& (root.getCartridgeType().equals(CartridgeType.CARTRIDGE_ATMAX_128)
+							|| root.getCartridgeType().equals(CartridgeType.CARTRIDGE_ATMAX_1024))) {
 				requiredBanksCount = 1;
 
 				// Sample code starting at $bfff0
@@ -234,53 +203,45 @@ public final class ReservedContentProviderFactory {
 				// .byte a(menu_foreign_init),$00,$04,a(menu_foreign_init)
 
 				startupBankContent = new byte[bankSize];
-				int[] startupCode = new int[] { 0xa9, 0x00, 0x8d, 0x00, 0xd5,
-						0x6c, 0xfe, 0xbf, 0xea, 0xea, 0xf0, 0xbf, 0x00, 0x04,
-						0xf0, 0xbf };
+				int[] startupCode = new int[] { 0xa9, 0x00, 0x8d, 0x00, 0xd5, 0x6c, 0xfe, 0xbf, 0xea, 0xea, 0xf0, 0xbf,
+						0x00, 0x04, 0xf0, 0xbf };
 				int offset = bankSize - startupCode.length;
 				for (int i = 0; i < startupCode.length; i++) {
 					startupBankContent[offset + i] = (byte) startupCode[i];
 				}
 			}
 
-			init(Texts.ReservedContentProvider_MenuStartup, bankSize,
-					root.getBankCount() - requiredBanksCount,
+			init(Texts.ReservedContentProvider_MenuStartup, bankSize, root.getBankCount() - requiredBanksCount,
 					requiredBanksCount, true);
 		}
 
 		@Override
-		public byte[] createContent(Workbook workbook,
-				WorkbookExport workbookExport, MessageQueue messageQueue) {
+		public byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue) {
 			return startupBankContent;
 		}
 	}
 
-	public static final class UserSpaceContentProvider extends
-			ReservedContentProvider {
+	public static final class UserSpaceContentProvider extends ReservedContentProvider {
 		@Override
 		public void init(WorkbookRoot root) {
 			if (root == null) {
-				throw new IllegalArgumentException(
-						"Parameter 'workbook' must not be null.");
+				throw new IllegalArgumentException("Parameter 'workbook' must not be null.");
 			}
 
 			MenuStartupContentProvider menuStartupContentProvider = new MenuStartupContentProvider();
 			menuStartupContentProvider.init(root);
 
 			int requiredBanksCount = root.getUserSpaceBanksCount();
-			int startBankNumber = menuStartupContentProvider
-					.getStartBankNumber() - requiredBanksCount;
+			int startBankNumber = menuStartupContentProvider.getStartBankNumber() - requiredBanksCount;
 			if (startBankNumber < 0) {
 				startBankNumber = 0;
 			}
-			init(Texts.ReservedContentProvider_UserSpace, 0, startBankNumber,
-					requiredBanksCount, false);
+			init(Texts.ReservedContentProvider_UserSpace, 0, startBankNumber, requiredBanksCount, false);
 
 		}
 
 		@Override
-		public byte[] createContent(Workbook workbook,
-				WorkbookExport workbookExport, MessageQueue messageQueue) {
+		public byte[] createContent(Workbook workbook, WorkbookExport workbookExport, MessageQueue messageQueue) {
 			return null;
 		}
 	}
