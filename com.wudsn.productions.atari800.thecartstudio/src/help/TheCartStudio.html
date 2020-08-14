@@ -1671,32 +1671,46 @@
 		<h4>2020-08-13</h4>
 		<div>
 			<ul>
-				<li>Initialize PMBASE ($d407) to $00 before starting the selected
-					entry. This fixes player missile display issues with programs which
-					rely on being started on a freshly booted system. For example the
-					"Moon Patrol Redux" on "GAMES449.atr".
+				<li>Workbook entries now have an additional column "Comment" besides
+					the "Title". The column is hidden by default and can be made
+					visible via the context menu on the table header. Opposed to the
+					title, the comment is only used in the studio and has no
+					restrictions in terms of length and usable characters.
 				</li>
-				<li>During the export of Maxflash entries, the title of the entry in
-					no longer replaced by version of the MaxFlash menu (e.g.
-					"MaxflashMenu-$1f47-$ffffffff"). Instead the title is now kept and
-					the version information is stored as comment in the parameters of
-					the entry (e.g. "comment=MaxflashMenu-$1f47-$ffffffff"). This way
-					the entries keep their original or user defined title.
+				<li>During the export of Maxflash and MegaCart entries, the title of
+					the entry ins no longer replaced by version of the MaxFlash menu
+					(e.g. "MaxflashMenu-$1f47-$ffffffff"). Instead the title is now
+					kept and the version information is stored as comment the new
+					column "Comment" (e.g. "comment=MaxflashMenu-$1f47-$ffffffff").
+					This way the entries keep their original or user defined title.
+				</li>
+				<li>All loaders now initializes PMBASE ($d407) to $00 before
+					starting the selected entry. This fixes player missile display
+					issues with programs which rely on being started on a freshly
+					booted system. For example the "Moon Patrol Redux" on
+					"GAMES449.atr".
+				</li>
+				<li>The ATR loader now initializes DBUFLO/DBUGHI ($304/$305) again
+					to $400 after the boot sequence. This fixes loading issues with
+					program which rely on this OS specific default. For example "Sexy
+					Six Data disk #1(19xx)(Sikor Soft)(PL).atr".
 				</li>
 			</ul>
 		</div>
 		<h4>2020-05-21</h4>
 		<div>
 			<ul>
-				<li>Fix ArayIndexOutOfBoundException when adding and ATR disk image
-					which has a partial match for DISKINV/SIOV at the end of the file.
+				<li>Fixed ArayIndexOutOfBoundException when adding and ATR disk
+					image which has a partial match for DISKINV/SIOV at the end of the
+					file.
 				</li>
-				<li>Fix XEX detection for files where the last segment is a single
+				<li>Fixed XEX detection for files where the last segment is a single
 					byte.
 				</li>
-				<li>Improve message I425: Export the '{0}' project of this ROM using
-					the latest program version of '{0}' and import the ROM into this
-					workbook again. Then you can start these entries directly.
+				<li>The text of the message I425 has been improved: Export the '{0}'
+					project of this ROM using the latest program version of '{0}' and
+					import the ROM into this workbook again." Then you can start these
+					entries directly.
 				</li>
 			</ul>
 		</div>
@@ -1743,8 +1757,8 @@
 		<h4>2019-11-26</h4>
 		<div>
 			<ul>
-				<li>Columns "Title", "Genre", "File Path" and "File Name" are now
-					sorted case-insensitively.
+				<li>The columns "Title", "Genre", "File Path" and "File Name" are
+					now sorted case-insensitively.
 				</li>
 				<li>Fixed file exception when adding "Goonies.atr",
 					"ElektraGlide.atr", "Rampage.atr" and other ATR files.

@@ -51,6 +51,7 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 		public static final Attribute GENRE_NAME = new Attribute("genreName", DataTypes.WorkbookEntry_GenreName);
 		public static final Attribute FAVORITE_INDICATOR = new Attribute("favoriteIndicator",
 				DataTypes.WorkbookEntry_FavoriteIndicator);
+		public static final Attribute COMMENT = new Attribute("comment", DataTypes.WorkbookEntry_Comment);
 		public static final Attribute FILE_PATH = new Attribute("filePath", DataTypes.WorkbookEntry_FilePath);
 		public static final Attribute FILE_NAME = new Attribute("fileName", DataTypes.WorkbookEntry_FileName);
 		public static final Attribute FILE_SIZE = new Attribute("fileSize", DataTypes.WorkbookEntry_FileSize);
@@ -73,7 +74,6 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 	}
 
 	public static final class Parameter implements Comparable<Parameter> {
-		public static final String COMMENT = "comment";
 
 		public final String key;
 		public final String value;
@@ -105,16 +105,8 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 				throw new IllegalArgumentException("Parameter 'value' must not be empty.");
 			}
 			this.key = key.trim().toLowerCase();
-			value = value.trim();
-			if (isKeyComment()) {
-				this.value = value.trim();
-			} else {
-				this.value = value.toLowerCase();
-			}
-		}
+			this.value = value.trim().toLowerCase();
 
-		public boolean isKeyComment() {
-			return key.equals(COMMENT);
 		}
 
 		public boolean isKeyInteger() {
@@ -177,18 +169,16 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 		@Override
 		public int compareTo(Parameter o) {
 
-			if (!isKeyComment() && !o.isKeyComment()) {
-				// Sort non integer keys first, then by keys
-				if (!isKeyInteger() && o.isKeyInteger()) {
-					return -1;
-				}
-				if (isKeyInteger() && !o.isKeyInteger()) {
-					return +1;
-				}
-				// Both keys integers?
-				if (isKeyInteger()) {
-					return getKeyAsInteger() - o.getKeyAsInteger();
-				}
+			// Sort non integer keys first, then by keys
+			if (!isKeyInteger() && o.isKeyInteger()) {
+				return -1;
+			}
+			if (isKeyInteger() && !o.isKeyInteger()) {
+				return +1;
+			}
+			// Both keys integers?
+			if (isKeyInteger()) {
+				return getKeyAsInteger() - o.getKeyAsInteger();
 			}
 
 			// Both keys string.
@@ -227,21 +217,14 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 				if (StringUtility.isSpecified(part)) {
 					String[] keyAndValue = part.split("=");
 					if (keyAndValue.length != 2) {
-						// ERROR: Invalid parameter syntax '{0}'. Specify
-						// parameters
-						// in
-						// the form 'base=$100' for assignments and '$1234=siov'
-						// for
-						// patches.
+						// ERROR: Invalid parameter syntax '{0}'. Specify parameters in the form
+						// 'base=$100' for assignments and '$1234=siov' for patches.
 						throw new CoreException(Messages.E424, part);
 					}
 					Parameter parameter = new Parameter(keyAndValue[0], keyAndValue[1]);
 					if (!parameter.isValid()) {
 						// ERROR: Invalid parameter syntax '{0}'. Specify
-						// parameters
-						// in
-						// the form 'base=$100' for assignments and '$1234=siov'
-						// for
+						// parameters in the form 'base=$100' for assignments and '$1234=siov' for
 						// patches.
 						throw new CoreException(Messages.E424, part);
 					}
@@ -253,9 +236,6 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 
 		private boolean isValid() {
 
-			if (key.equals(COMMENT)) {
-				return true;
-			}
 			// The key or the value must be an integer.
 			boolean assignment = !isKeyInteger() && isValueInteger();
 			boolean symbolicPatch = isKeyInteger() && !isValueInteger();
@@ -271,6 +251,7 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 	private String title;
 	private String genreName;
 	private boolean favoriteIndicator;
+	private String comment;
 
 	private transient String filePath;
 	private String fileName;
@@ -298,6 +279,7 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 		title = "";
 		genreName = "";
 		favoriteIndicator = false;
+		comment = "";
 		filePath = "";
 		fileName = "";
 		fileSize = 0;
@@ -355,6 +337,17 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 
 	public boolean getFavoriteIndicator() {
 		return favoriteIndicator;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		if (comment == null) {
+			throw new IllegalArgumentException("Parameter 'genreName' must not be null.");
+		}
+		this.comment = comment;
 	}
 
 	public void setFavoriteIndicator(boolean favoriteIndicator) {
@@ -581,6 +574,7 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 		Attributes.TITLE.serializeString(element, getTitle());
 		Attributes.GENRE_NAME.serializeString(element, getGenreName());
 		Attributes.FAVORITE_INDICATOR.serializeBoolean(element, getFavoriteIndicator());
+		Attributes.COMMENT.serializeString(element, getComment());
 		Attributes.FILE_NAME.serializeString(element, getFileName());
 		Attributes.FILE_SIZE.serializeLong(element, getFileSize());
 		Attributes.FILE_HEADER_TYPE.serializeValueSet(element, getFileHeaderType());
@@ -614,7 +608,10 @@ public final class WorkbookEntry implements Comparable<WorkbookEntry> {
 			setGenreName(value);
 		}
 		setFavoriteIndicator(Attributes.FAVORITE_INDICATOR.deserializeBoolean(attributes, favoriteIndicator));
-
+		value = Attributes.COMMENT.deserializeString(attributes);
+		if (value != null) {
+			setComment(value);
+		}
 		value = Attributes.FILE_NAME.deserializeString(attributes);
 		if (value != null) {
 			setFileName(value);

@@ -1,6 +1,7 @@
 @echo off
+REM Assumes that the relevant TheCartStudio.jar is present in the "out" folder.
 REM Run without parameters to assemble the menu.
-REM Run with parameter START to addtionally create a ".car" and ".atr" file and run the ".car" file.
+REM Run with parameter START to additionally create a ".car" and ".atr" file and run the ".car" file.
 
 REM Setup and paths.
 cd C:\jac\system\Java\Programming\Repositories\TheCartStudio\com.wudsn.productions.atari800.thecartstudio\asm\thecart-menu
@@ -31,8 +32,12 @@ copy CartMenu-Extended.rom %TEMP%\cartmenu-extended.rom
 
 REM Start the The!Cart Studio in console mode to export ".car" and ".atr" file.
 echo Exporting workbook %WORKBOOK% as ".car" and ".atr" file
-java -jar %TEMP%\TheCartStudio.jar -open:%EXAMPLES%\Workbooks\%WORKBOOK%.tcw -exportToCarImage:%EXAMPLES%\Exports\%WORKBOOK%.car -exportToAtrImage:%EXAMPLES%\Exports\%WORKBOOK%.atr
-%EMU% %EXAMPLES%\Exports\%WORKBOOK%.car
+set CAR_FILE=%EXAMPLES%\Exports\%WORKBOOK%.car
+if exist %CAR_FILE% del %CAR_FILE%
+set ATR_FILE=%EXAMPLES%\Exports\%WORKBOOK%.atr
+if exist %ATR_FILE% del %ATR_FILE%
+java -jar %TEMP%\TheCartStudio.jar -open:%EXAMPLES%\Workbooks\%WORKBOOK%.tcw -exportToCarImage:%CAR_FILE% -exportToAtrImage:%ATR_FILE%
+%EMU% %CAR_FILE%
 
 goto :eof
 

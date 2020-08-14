@@ -231,8 +231,8 @@ public final class CartridgeMenu {
 				throw new IllegalArgumentException("Parameter 'info' must not be null.");
 			}
 			WorkbookEntry workbookEntry = (WorkbookEntry) owner;
-			if (StringUtility.isEmpty(workbookEntry.getParameters())) {
-				workbookEntry.setParameters("comment=" + info);
+			if (StringUtility.isEmpty(workbookEntry.getComment())) {
+				workbookEntry.setComment(info);
 			}
 			if (logMenus) {
 				Log.logInfo("Found importable menu: {0} - '{1}' - '{2}'",

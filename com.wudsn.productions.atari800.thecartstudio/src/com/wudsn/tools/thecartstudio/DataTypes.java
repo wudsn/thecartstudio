@@ -67,6 +67,7 @@ public final class DataTypes extends NLS {
 	public static DataType WorkbookEntry_Title = new DataType(ASCIIString.class, 40, WorkbookRoot.TITLE_CHARACTERS);
 	public static DataType WorkbookEntry_GenreName = new DataType(ASCIIString.class);
 	public static DataType WorkbookEntry_FavoriteIndicator = new DataType(Boolean.class);
+	public static DataType WorkbookEntry_Comment = new DataType(String.class);
 	public static DataType WorkbookEntry_FilePath = new DataType(String.class);
 	public static DataType WorkbookEntry_FileName = new DataType(ASCIIString.class, 256,
 			new ASCIIString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&'()+,-.;=@[]^_ "));

@@ -62,20 +62,21 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 			public final static int TYPE = 1;
 			public final static int TITLE = 2;
 			public final static int GENRE_NAME = 3;
-			public final static int FAVORITE = 4;
-			public final static int FILE_PATH = 5;
-			public final static int FILE_NAME = 6;
-			public final static int FILE_SIZE = 7;
-			public final static int FILE_HEADER_TYPE = 8;
-			public final static int CONTENT_SIZE = 9;
-			public final static int CONTENT_CRC32 = 10;
-			public final static int CONTENT_TYPE = 11;
-			public final static int DISPLAY_MODE = 12;
-			public final static int PARAMETERS = 13;
-			public final static int START_BANK_FIXED = 14;
-			public final static int START_BANK = 15;
-			public final static int BANKS_REQUIRED = 16;
-			public final static int BANKS_ASSIGNED = 17;
+			public final static int FAVORITE_INDICATOR = 4;
+			public final static int COMMENT = 5;
+			public final static int FILE_PATH = 6;
+			public final static int FILE_NAME = 7;
+			public final static int FILE_SIZE = 8;
+			public final static int FILE_HEADER_TYPE = 9;
+			public final static int CONTENT_SIZE = 10;
+			public final static int CONTENT_CRC32 = 11;
+			public final static int CONTENT_TYPE = 12;
+			public final static int DISPLAY_MODE = 13;
+			public final static int PARAMETERS = 14;
+			public final static int START_BANK_FIXED = 15;
+			public final static int START_BANK = 16;
+			public final static int BANKS_REQUIRED = 17;
+			public final static int BANKS_ASSIGNED = 18;
 		}
 
 		private Workbook workbook;
@@ -108,6 +109,7 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 			addColumn(Attributes.GENRE_NAME, Column.VISIBLE | Column.SORTABLE,
 					StringUtility.CASE_INSENSITIVE_COMPARATOR, null, new DefaultCellEditor(genreComboBox));
 			addColumn(Attributes.FAVORITE_INDICATOR, Column.VISIBLE | Column.SORTABLE);
+			addColumn(Attributes.COMMENT, Column.HIDDEN | Column.SORTABLE);
 			addColumn(Attributes.FILE_PATH, Column.HIDDEN | Column.SORTABLE, StringUtility.CASE_INSENSITIVE_COMPARATOR,
 					null, null);
 			addColumn(Attributes.FILE_NAME, Column.VISIBLE | Column.SORTABLE, StringUtility.CASE_INSENSITIVE_COMPARATOR,
@@ -201,8 +203,10 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 				return entry.getTitle();
 			case Columns.GENRE_NAME:
 				return entry.getGenreName();
-			case Columns.FAVORITE:
+			case Columns.FAVORITE_INDICATOR:
 				return Boolean.valueOf(entry.getFavoriteIndicator());
+			case Columns.COMMENT:
+				return entry.getComment();
 			case Columns.FILE_PATH:
 				return entry.getFilePath();
 			case Columns.FILE_NAME:
@@ -249,11 +253,13 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 				return true;
 			case Columns.GENRE_NAME:
 				return true;
-			case Columns.FAVORITE:
+			case Columns.FAVORITE_INDICATOR:
+				return true;
+			case Columns.COMMENT:
 				return true;
 
 			case Columns.CONTENT_TYPE:
-				// Content type of file entries is only changable, if it not a
+				// Content type of file entries is only changeable, if it not a
 				// .CAR file.
 				// Content type of user user space entries is always
 				// changeable.
@@ -266,6 +272,7 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 
 			case Columns.PARAMETERS:
 				return true;
+
 			case Columns.START_BANK_FIXED:
 				// Start bank for file entries is fixed if the user requests
 				// this.
@@ -290,8 +297,11 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 				case Columns.GENRE_NAME:
 					entry.setGenreName(value.toString());
 					break;
-				case Columns.FAVORITE:
+				case Columns.FAVORITE_INDICATOR:
 					entry.setFavoriteIndicator(((Boolean) value).booleanValue());
+					break;
+				case Columns.COMMENT:
+					entry.setComment(value.toString());
 					break;
 				case Columns.CONTENT_TYPE:
 					entry.setContentType((ContentType) value);
