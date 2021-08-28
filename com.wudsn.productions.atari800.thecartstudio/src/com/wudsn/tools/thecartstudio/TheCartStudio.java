@@ -110,22 +110,22 @@ import com.wudsn.tools.thecartstudio.ui.WorkbookOptionsDialog;
  * TODO Save last 24 entries in EEPROM $A006: Read SPI EEPROM $A009: Write SPI
  * EEPROM
  * 
- * Der ZP Vektor in $E0/$E1 muß auf die zu lesenden/schreibenden Daten zeigen, X
+ * Der ZP Vektor in $E0/$E1 muï¿½ auf die zu lesenden/schreibenden Daten zeigen, X
  * den Byte-Count und Y die Adresse im EEPROM enthalten. Bei einem Fehler ist
  * nach dem Return das Carry-Flag gesetzt (clear bei OK).
  * 
  * Beim Schreiben von Daten musst Du folgendes beachten: Das EEPROM ist intern
- * in Blöcken zu 16-Bytes organisiert und der interne Adress-Zähler kann diese
- * Grenzen nicht überschreiten (er macht dann einen wrap-around).
+ * in Blï¿½cken zu 16-Bytes organisiert und der interne Adress-Zï¿½hler kann diese
+ * Grenzen nicht ï¿½berschreiten (er macht dann einen wrap-around).
  * 
  * Schreibst Du zB 3 Bytes ab Adresse 14, so landen die in den Adressen 14, 15,
  * 0.
  * 
- * Also am besten immer max. 16 Bytes schreiben und aufpassen, daß Du keine
- * 16-Byte Grenze überschreitest.
+ * Also am besten immer max. 16 Bytes schreiben und aufpassen, daï¿½ Du keine
+ * 16-Byte Grenze ï¿½berschreitest.
  * 
  * Wie's beim Lesen aussieht hab' ich noch nicht getestet, aber lieber aufpassen
- * und kleine Häppchen schreiben :)
+ * und kleine Hï¿½ppchen schreiben :)
  * 
  * Achja: Das CartMenu verwendet die EEPROM Adressen ab $F0, der Rest darunter
  * ist frei.<br/>
@@ -299,7 +299,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 			public void run() {
 
 				Application.createInstance("https://www.wudsn.com/productions/atari800/thecartstudio/thecartstudio.zip",
-						"TheCartStudio.jar", "com/wudsn/tools/thecartstudio/TheCartStudio.version");
+						"TheCartStudio.jar", TheCartStudio.class);
 				instance = new TheCartStudio();
 				instance.run(args);
 			}
