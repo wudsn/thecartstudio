@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="all" name="Build all parts and create ZIPs for The!Cart Studio in the productions folder">
+<project default="all" name="Build all parts and create ZIPs for The!Cart Studio (daily version) in the productions folder">
 	<!--ANT 1.7 is required  -->
 
 	<target name="all">
@@ -54,7 +54,7 @@
 		<loadfile property="version" srcFile="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
 
 		<!-- Create JAR file -->
-		<jar destfile="tst/out/TheCartStudio.jar" filesetmanifest="mergewithoutmain">
+		<jar destfile="tst/out/TheCartStudio.jar" filesetmanifest="merge">
 			<manifest>
 				<attribute name="Main-Class" value="com.wudsn.tools.thecartstudio.TheCartStudio" />
 				<attribute name="Class-Path" value="." />
