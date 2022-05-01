@@ -131,7 +131,12 @@ public final class ContentType extends ValueSet {
 	public static final ContentType CARTRIDGE_ATRAX_128;
 	public static final ContentType CARTRIDGE_ADAWLIAH_32;
 	public static final ContentType CARTRIDGE_ADAWLIAH_64;
-
+	public static final ContentType CARTRIDGE_5200_SUPER_64;
+	public static final ContentType CARTRIDGE_5200_SUPER_128;
+	public static final ContentType CARTRIDGE_5200_SUPER_256;
+	public static final ContentType CARTRIDGE_5200_SUPER_512;
+	public static final ContentType CARTRIDGE_ATMAX_NEW_1024;
+	
 	public static final ContentType FILE_ATR;
 	public static final ContentType FILE_BINARY;
 	public static final ContentType FILE_EXECUTABLE;
@@ -273,6 +278,17 @@ public final class ContentType extends ValueSet {
 		CARTRIDGE_ADAWLIAH_64 = add("CARTRIDGE_ADAWLIAH_64", CartridgeType.CARTRIDGE_ADAWLIAH_64,
 				TheCartMode.TC_MODE_NOT_SUPPORTED);
 
+		CARTRIDGE_5200_SUPER_64 = add("CARTRIDGE_5200_SUPER_64", CartridgeType.CARTRIDGE_5200_SUPER_64,
+				TheCartMode.TC_MODE_NOT_SUPPORTED);
+		CARTRIDGE_5200_SUPER_128 = add("CARTRIDGE_5200_SUPER_128", CartridgeType.CARTRIDGE_5200_SUPER_128,
+				TheCartMode.TC_MODE_NOT_SUPPORTED);
+		CARTRIDGE_5200_SUPER_256 = add("CARTRIDGE_5200_SUPER_256", CartridgeType.CARTRIDGE_5200_SUPER_256,
+				TheCartMode.TC_MODE_NOT_SUPPORTED);
+		CARTRIDGE_5200_SUPER_512 = add("CARTRIDGE_5200_SUPER_512", CartridgeType.CARTRIDGE_5200_SUPER_512,
+				TheCartMode.TC_MODE_NOT_SUPPORTED);
+		CARTRIDGE_ATMAX_NEW_1024 = add("CARTRIDGE_ATMAX_NEW_1024", CartridgeType.CARTRIDGE_ATMAX_NEW_1024,
+				TheCartMode.TC_MODE_NOT_SUPPORTED);
+
 		FILE_ATR = add("FILE_ATR", CartridgeType.UNKNOWN, TheCartMode.TC_MODE_ATR_FILE);
 		FILE_BINARY = add("FILE_BINARY", CartridgeType.UNKNOWN, TheCartMode.TC_MODE_BINARY_FILE);
 		FILE_EXECUTABLE = add("FILE_EXECUTABLE", CartridgeType.UNKNOWN, TheCartMode.TC_MODE_EXECUTABLE_FILE);
@@ -313,7 +329,7 @@ public final class ContentType extends ValueSet {
 	 * Gets a value set instance by its id.
 	 * 
 	 * @param id
-	 *            The id, not <code>null</code>.
+	 *               The id, not <code>null</code>.
 	 * @return The value set instance or <code>null</code>.
 	 */
 	public static ContentType getInstance(String id) {
@@ -327,7 +343,7 @@ public final class ContentType extends ValueSet {
 	 * Gets a value set instance by its cartridge type.
 	 * 
 	 * @param cartridgeTypeNumericId
-	 *            The cartridge type numeric id.
+	 *                                   The cartridge type numeric id.
 	 * @return The value set instance or <code>null</code>.
 	 */
 	public static ContentType getInstanceByCartridgeType(int cartridgeTypeNumericId) {
@@ -386,7 +402,7 @@ public final class ContentType extends ValueSet {
 	 * multiple entries of the extended menu.
 	 * 
 	 * @param content
-	 *            The file content, not <code>null</code>.
+	 *                    The file content, not <code>null</code>.
 	 * @return The class or <code>null</code> if no detection is supported.
 	 */
 	public ImportableMenu createImportableMenu(byte[] content) {
