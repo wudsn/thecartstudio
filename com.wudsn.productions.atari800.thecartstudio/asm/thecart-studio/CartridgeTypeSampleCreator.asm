@@ -18,16 +18,16 @@ p2	= $82
 	.proc main			;Assume CLD is set
 
 	.byte $ff,$ff,$00,$00,$00,$00	;Maxflash Cartridge Studio fix
-
+start_offset
 	lda #>main			;High byte of PC, updated by external program at startOffset+1
-	.byte $2c,a(ram.text-main)	;BIT abs to store text offset read by external program at startOffset+3/4
+	.byte $2c,a(ram.text-main)	;BIT abs to store text offset word which is read by external program at startOffset+3/4
 	sta p1+1
 	lda #>main
 	sta p2+1
 	ldy #0
 	sty antic+$0e
 	sty p1
-	sty p2+2
+	sty p2
 	ldx #>[.len main + $ff]
 copy_loop
 	lda (p1),y
@@ -71,7 +71,7 @@ forver_loop
 	.byte $41,a(dl)
 	.endl
 
-	.local text		;6 lines of text, keept in ASCII in the ROM, so it canm be read in the hex editor
+	.local text		;6 lines of text, kept in ASCII in the ROM, so it can be read in the hex editor
 :240	.byte 0
 	.endl
 
