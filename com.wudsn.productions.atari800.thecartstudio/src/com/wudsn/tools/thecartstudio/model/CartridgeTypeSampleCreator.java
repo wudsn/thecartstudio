@@ -352,7 +352,11 @@ public final class CartridgeTypeSampleCreator extends Main {
 		content[highByteOffset] = (byte) (startAddress / 256);
 
 		if (withVectors) {
-			CartridgeUtility.setCartridgeVectors(content, startBankOffset, bankSize, 0, startAddress, 0x0000);
+			int flags = 0;
+			if (cartridgeType.getPlatform().equals(Platform.ATARI_5200)) {
+				flags = 0xff; // Atari 5200 diagnostic cart, skip splash screen
+			}
+			CartridgeUtility.setCartridgeVectors(content, startBankOffset, bankSize, flags, startAddress, 0x0000);
 		}
 
 		if (cartridgeType == CartridgeType.CARTRIDGE_ATRAX_SDX_64
@@ -376,7 +380,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 	 * Data: D0 - Q4, D1 - Q0, D2 - Q5, D3 - Q1, D4 - Q7, D5 - Q6, D6 - Q3, D7 - Q2
 	 * 
 	 * @param content
-	 *            The original content, not <code>null</code>.
+	 *                    The original content, not <code>null</code>.
 	 * @return The interleaved content, not <code>null</code>.
 	 */
 	private static byte[] createInterleavedAtraxSDXContent(byte[] content) {
@@ -462,7 +466,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 	 * 
 	 * 
 	 * @param content
-	 *            The original content, not <code>null</code>.
+	 *                    The original content, not <code>null</code>.
 	 * @return The interleaved content, not <code>null</code>.
 	 */
 	private static byte[] createInterleavedAtrax128Content(byte[] content) {
