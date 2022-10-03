@@ -163,9 +163,9 @@
 			<replacefilter token="$${version}" value="${version}" />
 		</replace>
 
-		<!-- Font size definition 10px must be corrected for display in browsers -->
-		<!-- Because the formatter break the line containing token="font-size: 10px", the short for is used-->
-		<replace file="${productionFolder}\help\TheCartStudio.html" token="10px;" value="12px">
+		<!-- Font size definition 12px must be corrected for display in browsers -->
+		<!-- Because the formatter break the line containing token="font-size: 14px", the short for is used-->
+		<replace file="${productionFolder}\help\TheCartStudio.html" token="12px;" value="14px">
 		</replace>
 
 		<echo message="Opening ${productionFolder}. You can ignore the RC 1 below." />
