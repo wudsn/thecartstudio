@@ -23,7 +23,6 @@
 	dd	= $100
 	.ende
 
-clear_ram_start		= $0a00
 starter_ptr		= fmszpg	;Used during initialization only, make sure it is not in the user ZP $80-$ff
 jsr_ptr			= fmszpg+2	;Used during initialization only
 
@@ -32,9 +31,7 @@ start_atr_entry
 	jsr copy_starter
 	lda #>(starter_template+$ff)	;Clear everything starting at the relocatable parts
 	m_clear_main_ram_and_zp
-	ldx #$ff			;Ensure stack is on top
-	txs
-	jsr prepare_boot		;Returns <A>, <X>, <Y> for jmp_boot
+	jsr prepare_boot
 	jmp (starter_ptr)		;Jump to jump_boot
 
 ;===============================================================
@@ -175,17 +172,8 @@ is_large
 	
 	mwa boot_buffer+4 dosini	;Use DOSINI address from boot header
 
-	adw bootad #6 bootini		;Prepare initialization jump
-
-	mwa #>clear_ram_start buffer_ptr+1 ;Prepare clearing the RAM up to the DL
-	lda sdlsth
-	sec
-	sbc #>clear_ram_start
-	tax
-	inx				;For DEX/BNE
-	lda #0
-	tay
-	rts							;OUT: <A>=0, <X>=number of pages to clear from RAM start, <Y>=0
+	adw bootad #6 bootini		;Preprepare initialization jump
+	rts
 
 	.proc jmp_siov_ptr		;JSR wrapper procedure
 	jmp (jsr_ptr)
@@ -198,7 +186,7 @@ is_large
 starter_template
 	.proc starter			;Starter RAM part, must be relocatable
 
-jmp_boot				;Fixed start address offset +0, IN: buffer_ptr, <A>=<Y>=0, <X>=number of pages to clear
+jmp_boot				;Fixed start address offset +0
 	jmp simulate_boot
 jmp_dskinv				;Fixed start address offset +3
 	jmp simulate_dskinv
@@ -327,13 +315,19 @@ return_with_status
 ;	This increases the compatibility because only real SIO parts have to remain resident.
 
 	.proc simulate_boot		;Must be called immediately after VBI.
+	ram_start = $0a00
 
-	.proc clear_ram			;Clear <X> pages starting at buffer_ptr
+	.proc clear_ram			;Clear RAM up to the DL
+	mva #>ram_start buffer_ptr+1
+	lda #0
+	sta buffer_ptr
+	tay
 loop	sta (buffer_ptr),y
 	iny
 	bne loop
 	inc buffer_ptr+1
-	dex
+	ldx buffer_ptr+1		;Page of DL reached?
+	cpx sdlsth
 	bne loop
 	.endp
 
@@ -370,11 +364,6 @@ jsr_dosini
 	.endp				;End of starter
 
 	m_info atr_starter.starter
-	.echo "ATR SIO simulation section has  ", .len starter, " bytes."
-	.if .len starter >$fa
-	.error "ATR SIO simulation section too big."
-	.endif
-
-	.echo "Critical ATR SIO simulation section has  ", [starter.simulate_boot-starter]+1, " bytes."
+	.echo "Critical SIO simulation section has  ", [starter.simulate_boot-starter]+1, " bytes."
 
 	.endp				;End of atr_starter
