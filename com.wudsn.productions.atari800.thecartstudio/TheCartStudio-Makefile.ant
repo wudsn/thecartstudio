@@ -11,7 +11,7 @@
 	</target>
 
 	<target name="init">
-		<property name="year" value="2020" />
+		<property name="year" value="2023" />
 		<property name="toolsFolder" value="../../WUDSN-Base" />
 		<property name="examplesFolder" value="C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples" />
 		<property name="productionsFolder" value="C:\jac\system\WWW\Sites\www.wudsn.com\productions" />
