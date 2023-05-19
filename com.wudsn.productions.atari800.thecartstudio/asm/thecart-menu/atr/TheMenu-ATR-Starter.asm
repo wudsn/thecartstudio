@@ -23,6 +23,7 @@
 	dd	= $100
 	.ende
 
+clear_ram_start		= $0a00
 starter_ptr		= fmszpg	;Used during initialization only, make sure it is not in the user ZP $80-$ff
 jsr_ptr			= fmszpg+2	;Used during initialization only
 
@@ -174,7 +175,7 @@ is_large
 	
 	mwa boot_buffer+4 dosini	;Use DOSINI address from boot header
 
-	adw bootad #6 bootini		;Preprepare initialization jump
+	adw bootad #6 bootini		;Prepare initialization jump
 	rts
 
 	.proc jmp_siov_ptr		;JSR wrapper procedure
@@ -317,10 +318,9 @@ return_with_status
 ;	This increases the compatibility because only real SIO parts have to remain resident.
 
 	.proc simulate_boot		;Must be called immediately after VBI.
-	ram_start = $0a00
 
 	.proc clear_ram			;Clear RAM up to the DL
-	mva #>ram_start buffer_ptr+1
+	mva #>clear_ram_start buffer_ptr+1
 	lda #0
 	sta buffer_ptr
 	tay
@@ -337,12 +337,18 @@ sector_loop
 
 jsr_siov
 	jsr jmp_siov			;Must be relocated
-	adw dbuflo dbytlo
+	adw dbuflo dbytlo		;Increase buffer pointer by sector size
 	inw daux1
 	dec dbsect
 	bne sector_loop
-	
-	mwa #$0400 dbuflo		;Set to the value the OS would have used
+
+; TODO JAC!
+	nop
+	nop
+	nop
+	nop
+	nop
+;	mwa #$0400 dbuflo		;Set to the value the OS would have used
 jsr_bootini
 	jsr jump_bootini		;Must be relocated
 jsr_dosini
@@ -365,12 +371,13 @@ jsr_dosini
 
 	.endp				;End of starter
 
+	.echo "*"
 	m_info atr_starter.starter
 	.echo "ATR SIO simulation section has ", .len starter, " bytes."
-	.if .len starter >$fa
-	.error "ATR SIO simulation section too big."
+	.if .len starter >$f1
+	.error "ATR SIO simulation section too big and will be overwritten by CPU stack."
 	.endif
 
-	.echo "Critical ATR SIO simulation section has  ", [starter.simulate_boot-starter]+1, " bytes."
-
+	.echo "Critical ATR SIO simulation section has ", [starter.simulate_boot-starter]+1, " bytes."
+	.echo "*"
 	.endp				;End of atr_starter
