@@ -42,7 +42,8 @@
 0952: E0 15             CPX #$15
 0954: D0 F6             BNE $094C
 0956: F0 E3             BEQ $093B
+0958: ...
 
 ; Patch
 093B: LDX $nnnn for SELECTED_ITEM_NUMBER
-093F: JMP $098B
+093E: JMP $0958

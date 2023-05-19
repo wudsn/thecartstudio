@@ -105,8 +105,9 @@ public final class AtrFileMenu extends ImportableMenu {
 
 	/**
 	 * File menus for ATRs use a real DOS or a simple game DOS only. The direct SIO
-	 * calls for them will only be present in the boot area in the disk. Hence the
-	 * ATR patching can be limited to that area to increase accuracy.
+	 * calls (JSR/JMP $E459) for them will only be present in the boot area in the
+	 * disk. Hence the ATR patching can be limited to that area to increase
+	 * accuracy.
 	 * 
 	 * @return The modifiable list of relevant patch ranges, may be empty, not
 	 *         <code>null</code>.
@@ -122,7 +123,7 @@ public final class AtrFileMenu extends ImportableMenu {
 				patchRanges.add(new PatchRange(0, 0x11d));
 				break;
 			case V2:
-				// TODO
+				patchRanges.add(new PatchRange(0, 0x121));
 				break;
 
 			default:
@@ -151,24 +152,24 @@ public final class AtrFileMenu extends ImportableMenu {
 	public List<Parameter> getPatchParameters() {
 		List<Parameter> result = new ArrayList<Parameter>();
 		int offset;
-		
+
 		// See "Patch-Bootmanager.txt" for details.
 		switch (addBootmanagerFileNames(atrFile, null)) {
 		case NONE:
 			break;
 
-		case V1:// TODO
+		case V1:
 			try {
 				offset = atrFile.getSectorStartOffset(364) + 0x71; // Address $0971
 			} catch (AtrException ex) {
 				throw new RuntimeException(ex);
 			}
-			// LDX $nnnn for SELECTED_ITEM_NUMBER
+			// $0971 LDX $nnnn for SELECTED_ITEM_NUMBER
 			result.add(new Parameter(offset++, 0xae));
-			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER));
+			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER)); // Word
 			offset++;
 
-			// JMP $098B
+			// $0974 JMP $098B
 			result.add(new Parameter(offset++, 0x4c));
 			result.add(new Parameter(offset++, 0x8b));
 			result.add(new Parameter(offset++, 0x09));
@@ -176,18 +177,18 @@ public final class AtrFileMenu extends ImportableMenu {
 
 		case V2:
 			try {
-				offset = atrFile.getSectorStartOffset(364) + 0x71; // Address $0971
+				offset = atrFile.getSectorStartOffset(364) + 0xbb; // Address $093B
 			} catch (AtrException ex) {
 				throw new RuntimeException(ex);
 			}
-			// LDX $nnnn for SELECTED_ITEM_NUMBER
+			// $093B LDX $nnnn for SELECTED_ITEM_NUMBER
 			result.add(new Parameter(offset++, 0xae));
-			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER));
+			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER)); // Word
 			offset++;
 
-			// JMP $098B
+			// $093E JMP $0958
 			result.add(new Parameter(offset++, 0x4c));
-			result.add(new Parameter(offset++, 0x8b));
+			result.add(new Parameter(offset++, 0x58));
 			result.add(new Parameter(offset++, 0x09));
 			break;
 		}
@@ -263,9 +264,10 @@ public final class AtrFileMenu extends ImportableMenu {
 			// Directory structure is the same for V1 and V2
 			if (result != BootManagerType.NONE) {
 				if (fileNames != null) {
-					// Only 128 bytes are used per directory sector with long
+					// im V1 only 128 bytes are used per directory sector with long
 					// file names.
-					byte[] sectors = atrFile.getSectors(366, 368, AtrFile.SECTOR_SIZE_SD);
+					byte[] sectors = atrFile.getSectors(366, 368,
+							result == BootManagerType.V1 ? AtrFile.SECTOR_SIZE_SD : AtrFile.SECTOR_SIZE_DD);
 					int offset = 0;
 					int line = 0;
 					// The first line is the disk title and must be skipped.
@@ -300,6 +302,7 @@ public final class AtrFileMenu extends ImportableMenu {
 				}
 			}
 		} catch (AtrException ex) {
+			result = BootManagerType.NONE; // Inconsistent image
 		}
 		return result;
 	}
