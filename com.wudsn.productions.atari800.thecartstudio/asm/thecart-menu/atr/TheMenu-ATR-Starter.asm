@@ -325,7 +325,7 @@ return_with_status
 	.proc simulate_boot		;Must be called immediately after VBI.
 
 	.proc clear_ram			;Clear RAM up to the DL. IN: <A>=<Y>=0, buffer_ptr=#clear_ram_start
-;	mva #>clear_ram_start buffer_ptr+1
+;	mva #>clear_ram_start buffer_ptr+1 ;Moved to prepare_simulate_boot
 ;	lda #0
 ;	sta buffer_ptr
 ;	tay
