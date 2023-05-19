@@ -36,6 +36,15 @@ import com.wudsn.tools.thecartstudio.model.ImportableMenu;
 import com.wudsn.tools.thecartstudio.model.WorkbookEntry.Parameter;
 
 public final class AtrFileMenu extends ImportableMenu {
+
+	/**
+	 * Types of Mike Langer's BootManagers
+	 *
+	 */
+	private static enum BootManagerType {
+		NONE, V1, V2
+	}
+
 	private static final String PICONAME_TXT = "PICONAME.TXT";
 
 	private AtrFile atrFile;
@@ -44,7 +53,7 @@ public final class AtrFileMenu extends ImportableMenu {
 	 * Creation is public.
 	 * 
 	 * @param content
-	 *            The file content, not <code>null</code>.
+	 *                    The file content, not <code>null</code>.
 	 */
 	public AtrFileMenu(byte[] content) {
 		super(content, "MyPicoDOS or Bootmanager");
@@ -108,15 +117,24 @@ public final class AtrFileMenu extends ImportableMenu {
 		try {
 			AtrFile atrFile = AtrFile.createInstance(content);
 			List<Integer> usedSectors = new ArrayList<Integer>();
-			if (addBootmanagerFileNames(atrFile, null)) {
+			switch (addBootmanagerFileNames(atrFile, null)) {
+			case V1:
 				patchRanges.add(new PatchRange(0, 0x11d));
-			} else if (atrFile.hasDirectory() && atrFile.getFileContent("DOS.SYS", usedSectors) != null) {
-				usedSectors.add(Integer.valueOf(1));
-				usedSectors.add(Integer.valueOf(2));
-				usedSectors.add(Integer.valueOf(3));
-				addPatchedSectors(atrFile, usedSectors, patchRanges);
-			} else {
-				patchRanges.add(new PatchRange(0, Integer.MAX_VALUE));
+				break;
+			case V2:
+				// TODO
+				break;
+
+			default:
+
+				if (atrFile.hasDirectory() && atrFile.getFileContent("DOS.SYS", usedSectors) != null) {
+					usedSectors.add(Integer.valueOf(1));
+					usedSectors.add(Integer.valueOf(2));
+					usedSectors.add(Integer.valueOf(3));
+					addPatchedSectors(atrFile, usedSectors, patchRanges);
+				} else {
+					patchRanges.add(new PatchRange(0, Integer.MAX_VALUE));
+				}
 			}
 		} catch (AtrException ex) {
 			throw new RuntimeException(ex);
@@ -132,10 +150,16 @@ public final class AtrFileMenu extends ImportableMenu {
 	 */
 	public List<Parameter> getPatchParameters() {
 		List<Parameter> result = new ArrayList<Parameter>();
-		if (addBootmanagerFileNames(atrFile, null)) {
-			int offset;
+		int offset;
+		
+		// See "Patch-Bootmanager.txt" for details.
+		switch (addBootmanagerFileNames(atrFile, null)) {
+		case NONE:
+			break;
+
+		case V1:// TODO
 			try {
-				offset = atrFile.getSectorStartOffset(364) + 113;
+				offset = atrFile.getSectorStartOffset(364) + 0x71; // Address $0971
 			} catch (AtrException ex) {
 				throw new RuntimeException(ex);
 			}
@@ -148,6 +172,24 @@ public final class AtrFileMenu extends ImportableMenu {
 			result.add(new Parameter(offset++, 0x4c));
 			result.add(new Parameter(offset++, 0x8b));
 			result.add(new Parameter(offset++, 0x09));
+			break;
+
+		case V2:
+			try {
+				offset = atrFile.getSectorStartOffset(364) + 0x71; // Address $0971
+			} catch (AtrException ex) {
+				throw new RuntimeException(ex);
+			}
+			// LDX $nnnn for SELECTED_ITEM_NUMBER
+			result.add(new Parameter(offset++, 0xae));
+			result.add(new Parameter(offset++, AtrLoader.Constants.SELECTED_ITEM_NUMBER));
+			offset++;
+
+			// JMP $098B
+			result.add(new Parameter(offset++, 0x4c));
+			result.add(new Parameter(offset++, 0x8b));
+			result.add(new Parameter(offset++, 0x09));
+			break;
 		}
 		return result;
 	}
@@ -189,14 +231,14 @@ public final class AtrFileMenu extends ImportableMenu {
 	 * Collections the file names from a boot manager disk.
 	 * 
 	 * @param atrFile
-	 *            The ATR file, not <code>null</code>.
-	 * @param result
-	 *            The modifiable list to collect the file names in or
-	 *            <code>null</code> if the file names are not requested.
+	 *                      The ATR file, not <code>null</code>.
+	 * @param fileNames
+	 *                      The modifiable list to collect the file names in or
+	 *                      <code>null</code> if the file names are not requested.
 	 * @return <code>true</code> if there is a boot manager menu with at least one
 	 *         entry present.
 	 */
-	private static boolean addBootmanagerFileNames(AtrFile atrFile, List<String> result) {
+	private static BootManagerType addBootmanagerFileNames(AtrFile atrFile, List<String> fileNames) {
 		if (atrFile == null) {
 			throw new IllegalArgumentException("Parameter 'atrFile' must not be null.");
 		}
@@ -208,17 +250,19 @@ public final class AtrFileMenu extends ImportableMenu {
 		// Every entry has 0x18 bytes. $00+$00 means end. $7f means empty screen
 		// line, >$80 means empty entry. First two bytes of entry are not
 		// relevant here.
+		BootManagerType result = BootManagerType.NONE;
 		try {
+
 			byte[] bootManagerSector = atrFile.getSector(365);
-			final String IDENTIFIER = "Bootmanager (c)1996 by Mike Langer";
-			boolean found = true;
-			for (int i = 0; i < IDENTIFIER.length(); i++) {
-				int b = bootManagerSector[0x4f + i] & MASK_FF;
-				char c = ATASCII[b];
-				found = c == IDENTIFIER.charAt(i);
+			if (containsStringAt(bootManagerSector, 0x4f, "Bootmanager (c)1996 by Mike Langer")) {
+				result = BootManagerType.V1;
+			} else if (containsStringAt(bootManagerSector, 0x40, "Bootmanager (c)1996,2022 by Homesoft")) {
+				result = BootManagerType.V2;
 			}
-			if (found) {
-				if (result != null) {
+
+			// Directory structure is the same for V1 and V2
+			if (result != BootManagerType.NONE) {
+				if (fileNames != null) {
 					// Only 128 bytes are used per directory sector with long
 					// file names.
 					byte[] sectors = atrFile.getSectors(366, 368, AtrFile.SECTOR_SIZE_SD);
@@ -245,7 +289,7 @@ public final class AtrFileMenu extends ImportableMenu {
 								}
 								// Skip disk title
 								if (line > 0) {
-									result.add(builder.toString().trim());
+									fileNames.add(builder.toString().trim());
 								}
 							}
 							line++;
@@ -254,11 +298,20 @@ public final class AtrFileMenu extends ImportableMenu {
 						offset += entrySize;
 					}
 				}
-				return true;
 			}
 		} catch (AtrException ex) {
 		}
-		return false;
+		return result;
+	}
+
+	private static boolean containsStringAt(byte[] bootManagerSector, int offset, String identifier) {
+		StringBuilder bootString = new StringBuilder(identifier.length());
+		for (int i = 0; i < identifier.length(); i++) {
+			int b = bootManagerSector[offset + i] & MASK_FF;
+			bootString.append(ATASCII[b]);
+		}
+		boolean found = identifier.equals(bootString.toString());
+		return found;
 	}
 
 	private static boolean addPicoNames(AtrFile atrFile, List<String> result) {
@@ -301,6 +354,10 @@ public final class AtrFileMenu extends ImportableMenu {
 		return false;
 	}
 
+	/**
+	 * Call with directory containing ATR files are single argument to recursively
+	 * scan them.
+	 */
 	public static void main(String[] args) {
 		if (args == null) {
 			throw new IllegalArgumentException("Parameter 'args' must not be null.");
@@ -310,8 +367,14 @@ public final class AtrFileMenu extends ImportableMenu {
 		}
 		String fileName = args[0];
 		File inputFile = new File(fileName);
+		scanRecursively(inputFile);
+	}
+
+	private static void scanRecursively(File inputFile) {
+		println("INFO: Scanning '" + inputFile.getAbsolutePath() + "'.");
+
 		if (!inputFile.exists()) {
-			println("ERROR: '" + fileName + "' does not exist.");
+			println("ERROR: '" + inputFile.getAbsolutePath() + "' does not exist.");
 			return;
 		}
 		File[] files;
@@ -321,7 +384,9 @@ public final class AtrFileMenu extends ImportableMenu {
 			files = new File[] { inputFile };
 		}
 		for (File file : files) {
-			if (file.isFile() && file.getName().toLowerCase().endsWith(FileExtensions.ATR_IMAGE)) {
+			if (file.isDirectory()) {
+				scanRecursively(file);
+			} else if (file.isFile() && file.getName().toLowerCase().endsWith(FileExtensions.ATR_IMAGE)) {
 				try {
 					byte[] atrData = FileUtility.readBytes(file, AtrFile.MAXIMUM_SIZE, true);
 					println(file.getName() + ": ");

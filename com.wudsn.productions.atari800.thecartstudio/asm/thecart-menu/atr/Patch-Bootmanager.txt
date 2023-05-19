@@ -18,8 +18,31 @@
 0989: F0 E6             BEQ $0971
 098B: A9 18             LDA #$18
 
+; Patch
+0971: LDX $nnnn for SELECTED_ITEM_NUMBER
+0974: JMP $098B
+
+
 ; Bootmanager Menu Version 1996,2022
 ;
 ; Identifier Offset: $4f
 ; Identifier: "Bootmanager (c)1996,2022 by Homesoft"
 ;
+
+093B: A2 FF             LDX #$FF
+093D: 8E FC 02          STX CH
+0940: AD FC 02          LDA CH
+0943: C9 FF             CMP #$FF
+0945: F0 F9             BEQ $0940
+0947: 29 3F             AND #$3F
+0949: 8E FC 02          STX CH
+094C: E8                INX
+094D: DD E6 09          CMP $09E6,X
+0950: F0 06             BEQ $0958
+0952: E0 15             CPX #$15
+0954: D0 F6             BNE $094C
+0956: F0 E3             BEQ $093B
+
+; Patch
+093B: LDX $nnnn for SELECTED_ITEM_NUMBER
+093F: JMP $098B
