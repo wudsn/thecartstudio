@@ -1,7 +1,7 @@
 
 ;	>>> The!Cart - ExtendedMenu by JAC! <<<
 ;
-;	@com.wudsn.ide.asm.outputfile=cartmenu-extended.rom
+;	@com.wudsn.ide.lng.outputfile=cartmenu-extended.rom
 ;
 
 	.def alignment_mode	;Enforce alignment

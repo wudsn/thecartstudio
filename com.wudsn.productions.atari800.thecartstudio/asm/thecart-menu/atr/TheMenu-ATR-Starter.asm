@@ -34,8 +34,8 @@ start_atr_entry
 	m_clear_main_ram_and_zp
 	ldx #$ff			;Ensure stack is on top
 	txs	
-	jsr prepare_boot
-	jmp (starter_ptr)		;Jump to jump_boot
+	jsr prepare_simulate_boot
+	jmp (starter_ptr)		;Jump to jump_boot and from there to simulate_boot
 
 ;===============================================================
 
@@ -153,7 +153,7 @@ is_large
 
 ;===============================================================
 
-	.proc prepare_boot		;Setup boot parameters and vectors
+	.proc prepare_simulate_boot	;Setup boot parameters and vectors for simulate_boot
 	
 	mva #$31 ddevic
 	mva #1   dunit			;Unit 1
@@ -176,6 +176,11 @@ is_large
 	mwa boot_buffer+4 dosini	;Use DOSINI address from boot header
 
 	adw bootad #6 bootini		;Prepare initialization jump
+
+	mva #>clear_ram_start buffer_ptr+1 ;Moved here from simulate_boot to save space
+	lda #0
+	sta buffer_ptr
+	tay
 	rts
 
 	.proc jmp_siov_ptr		;JSR wrapper procedure
@@ -319,11 +324,11 @@ return_with_status
 
 	.proc simulate_boot		;Must be called immediately after VBI.
 
-	.proc clear_ram			;Clear RAM up to the DL
-	mva #>clear_ram_start buffer_ptr+1
-	lda #0
-	sta buffer_ptr
-	tay
+	.proc clear_ram			;Clear RAM up to the DL. IN: <A>=<Y>=0, buffer_ptr=#clear_ram_start
+;	mva #>clear_ram_start buffer_ptr+1
+;	lda #0
+;	sta buffer_ptr
+;	tay
 loop	sta (buffer_ptr),y
 	iny
 	bne loop
@@ -342,13 +347,7 @@ jsr_siov
 	dec dbsect
 	bne sector_loop
 
-; TODO JAC!
-	nop
-	nop
-	nop
-	nop
-	nop
-;	mwa #$0400 dbuflo		;Set to the value the OS would have used
+	mwa #$0400 dbuflo		;Set to the value the OS would have used
 jsr_bootini
 	jsr jump_bootini		;Must be relocated
 jsr_dosini
@@ -368,6 +367,11 @@ jsr_dosini
 	.endp
 
 	.endp				;End of simulate_boot
+
+	nop				;Currently unused buffer
+	nop
+	nop
+	nop
 
 	.endp				;End of starter
 
