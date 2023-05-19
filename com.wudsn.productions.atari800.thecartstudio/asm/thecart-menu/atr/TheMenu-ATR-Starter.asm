@@ -1,7 +1,7 @@
 
 ;	>>>  The!Cart - ExtendedMenu by JAC! <<<
 ;
-;	@com.wudsn.ide.asm.mainsourcefile=../CartMenu-Extended.asm
+;	@com.wudsn.ide.lng.mainsourcefile=../CartMenu-Extended.asm
 
 
 	.proc atr_starter	;The!Cart is OFF
@@ -31,6 +31,8 @@ start_atr_entry
 	jsr copy_starter
 	lda #>(starter_template+$ff)	;Clear everything starting at the relocatable parts
 	m_clear_main_ram_and_zp
+	ldx #$ff			;Ensure stack is on top
+	txs	
 	jsr prepare_boot
 	jmp (starter_ptr)		;Jump to jump_boot
 
@@ -177,9 +179,9 @@ is_large
 
 	.proc jmp_siov_ptr		;JSR wrapper procedure
 	jmp (jsr_ptr)
-	.endp
+	.endp				;End of jmp_siov_ptr
 
-	.endp
+	.endp				;End of prepare_boot
 
 ;===============================================================
 
@@ -364,6 +366,11 @@ jsr_dosini
 	.endp				;End of starter
 
 	m_info atr_starter.starter
-	.echo "Critical SIO simulation section has  ", [starter.simulate_boot-starter]+1, " bytes."
+	.echo "ATR SIO simulation section has ", .len starter, " bytes."
+	.if .len starter >$fa
+	.error "ATR SIO simulation section too big."
+	.endif
+
+	.echo "Critical ATR SIO simulation section has  ", [starter.simulate_boot-starter]+1, " bytes."
 
 	.endp				;End of atr_starter
