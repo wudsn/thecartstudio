@@ -1,17 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Format with "Spaces for tabs" and tab width 4. -->
+<!-- DOCTYPE and xmlns URIs must be "http". -->
+<!-- URLs must be XML encoded. -->
 <!-- Anchors are defined explicitly and not with element IDs, because the 
     HTML control in Swing only understands <a name="Example">Example</a> but 
     not element ids. -->
-<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <title>The!Cart Studio</title>
         <meta http-equiv="Content-Type"
             content="text/html; charset=UTF-8" />
         <meta name="author" content="Peter Dell, JAC!" />
         <meta name="viewport"
-            content="width=device-width, initial-scale=1.0">
-            <style type="text/css"> body { font-family: Arial, sans-serif;
+            content="width=device-width, initial-scale=1.0" />
+        <style type="text/css"> body { font-family: Arial, sans-serif;
                 font-size: 12px; } table tr { vertical-align: top }
                 table th { border-style: solid; border-width: 1px;
                 margin: 0px; text-align: left; background-color:
@@ -82,7 +84,7 @@
                 href="https://atariage.com/forums/topic/215811-thecart-new-128mb-flash-cartridge/"
                 target="_blank">AtariAge (English)</a>
             or in the
-            <a href="https://abbuc.de/forum/viewtopic.php?f=3&t=1007"
+            <a href="https://abbuc.de/forum/viewtopic.php?f=3&amp;t=1007"
                 target="_blank">ABBUC Forum (German)</a>
             .
         </p>
@@ -232,7 +234,7 @@
             "Unreadable menu bar with Ambiance theme in Java/Swing GTK
             L&amp;F" and causes the menu to appear too dark; making is
             barely readable with the standard desktop theme. Changing
-            the desktop theme fixes this. 
+            the desktop theme fixes this.
         </p>
         <h3>
             <a name="MacOSX">Mac OS X</a>
@@ -1479,42 +1481,43 @@
             first few banks of The!Cart, you may not be able to enter
             the menus or the built-in flasher anymore from The!Cart
             itself. Then you have the following options:
-            <ul>
-                <li>
-                    Download latest disk version of the flasher from
-                    <a
-                        href="https://www.horus.com/~hias/thecart/software"
-                        target="_blank">Atari flashing software 
+            </p>
+        <ul>
+            <li>
+                Download latest disk version of the flasher from
+                <a
+                    href="https://www.horus.com/~hias/thecart/software"
+                    target="_blank">Atari flashing software 
                     </a>
-                    .
-                </li>
-                <li>Insert the "thecart.atr" from the download archive
+                .
+            </li>
+            <li>Insert the "thecart.atr" from the download archive
                     in disk drive 1. 
                 </li>
-                <li>Hold down the OPTION key during power-on. You will
+            <li>Hold down the OPTION key during power-on. You will
                     then either end up in the simple menu and can try to
                     update from there. If there is no extended menu on
                     the cartridge, the cartridge disables itself
                     completely and the computer will boot from disk. 
                 </li>
-                <li>If even holding down OPTION does not disable
+            <li>If even holding down OPTION does not disable
                     The!Cart, hold down the SELECT key instead during
                     power-on. The cartridge disables itself completely
                     and the computer will boot from disk. 
                 </li>
-                <li>If even this does not disable The!Cart, you need a
+            <li>
+                    If even this does not disable The!Cart, you need a
                     Turbo-Freezer or similar monitor program, so you can
                     disable The!Cart during power-on by writing the
                     value $00 to address $D5A6. If you have a
                     Turbo-Freezer, hold down the freezer button and
                     power-on the computer. Enter the debugger by
-                    pressing "D" and enter "CD5A6<00". Then press RESET
-                    to let the computer boot. 
+                    pressing "D" and enter "CD5A6&lt;00"
                 </li>
-                <li>
-                    If all this fails, you can try
-                    <b>the strictly not recommended way</b>
-                    and hot-plug The!Cart. This may damage your
+            <li>
+                If all this fails, you can try
+                <b>the strictly not recommended way</b>
+                and hot-plug The!Cart. This may damage your
                     cartridge and you computer. First boot the flash
                     from disk without The!Cart inserted. You are
                     prompted to press the RESET button on The!Cart.
@@ -1522,17 +1525,16 @@
                     the RESET button on the cartridge and then press
                     RETURN on the computer. The flasher will report if
                     and which cartridge was detected.
-                </li>
-                <li>You can flash the cartridge as described in the
+            </li>
+            <li>You can flash the cartridge as described in the
                     previous section. If the problem remains, try
                     flashing again and answer the question "incremental
                     update" with "n". 
                 </li>
-                <li>Now your The!Cart works again. If not, feel free to
+            <li>Now your The!Cart works again. If not, feel free to
                     contacts us. 
                 </li>
-            </ul>
-        </p>
+        </ul>
         <h2>
             <a name="ExtendedMenu">Extended Menu</a>
         </h2>
@@ -1887,7 +1889,7 @@
         <h2 id="ChangeHistory">
             <a name="ChangeHistory">Change History</a>
         </h2>
-      <h4>2023-05-21</h4>
+        <h4>2023-05-21</h4>
         <div>
             <ul>
                 <li>Added content types for the new cartridge types
@@ -1901,7 +1903,7 @@
                 </li>
                 <li>Added menu support and download link for the 2022 version of the Boomanager menu by Mike Langer.
                     Now also new ATR images with this menu can be added as "Multiple Entries", the same way it was possible with the 1996 version.</li>
-                <li>Added the initialization of the stack pointer to SP=$ff before starting an entry. This increases compatibility.</li></li>
+                <li>Added the initialization of the stack pointer to SP=$ff before starting an entry. This increases compatibility.</li>
                 <li>Added the initialization of the diagnostic cart flag in Atari 5200 cartridges to $ff in the sample ROM generator.
                     This causes the Atari 5200 to skip the splash screen.</li>
                 <li>Fixed the initialization of the zero page in the generated sample ROMs to prevent crashes.</li>
