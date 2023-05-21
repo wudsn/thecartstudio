@@ -1887,6 +1887,28 @@
         <h2 id="ChangeHistory">
             <a name="ChangeHistory">Change History</a>
         </h2>
+      <h4>2023-05-21</h4>
+        <div>
+            <ul>
+                <li>Added content types for the new cartridge types
+                    "71 - Super Cart 64 KB 5200 cartridge",
+                    "72 - Super Cart 128 KB 5200 cartridge",
+                    "73 - Super Cart 256 KB 5200 cartridge",
+                    "74 - Super Cart 512 KB 5200 cartridge",
+                    "75 - Atarimax 1 MB Flash cartridge".
+                    These ".car" types are now recognized by The!Cart Studio for completeness.
+                    Please note that the The!Cart hardware cannot emulate these types.
+                </li>
+                <li>Added menu support and download link for the 2022 version of the Boomanager menu by Mike Langer.
+                    Now also new ATR images with this menu can be added as "Multiple Entries", the same way it was possible with the 1996 version.</li>
+                <li>Added the initialization of the stack pointer to SP=$ff before starting an entry. This increases compatibility.</li></li>
+                <li>Added the initialization of the diagnostic cart flag in Atari 5200 cartridges to $ff in the sample ROM generator.
+                    This causes the Atari 5200 to skip the splash screen.</li>
+                <li>Fixed the initialization of the zero page in the generated sample ROMs to prevent crashes.</li>
+                <li>Fixed typos, links, and font size in the HTML help documentation.</li>
+                <li>Added a viewport specification to the HTML help documentation for correct scaling on mobile devices.</li>
+            </ul>
+        </div>
         <h4>2020-08-13</h4>
         <div>
             <ul>
@@ -1899,26 +1921,26 @@
                     characters. 
                 </li>
                 <li>During the export of Maxflash and MegaCart entries,
-                    the title of the entry ins no longer replaced by
+                    the title of the entry is no longer replaced by the
                     version of the MaxFlash menu (e.g.
-                    "MaxflashMenu-$1f47-$ffffffff"). Instead the title
+                    "MaxflashMenu-$1f47-$ffffffff"). Instead, the title
                     is now kept and the version information is stored as
-                    comment the new column "Comment" (e.g.
+                    a comment in the new column "Comment" (e.g.
                     "comment=MaxflashMenu-$1f47-$ffffffff"). This way
-                    the entries keep their original or user defined
+                    the entries keep their original or user-defined
                     title. 
                 </li>
-                <li>All loaders now initializes PMBASE ($d407) to $00
-                    before starting the selected entry. This fixes
-                    player missile display issues with programs which
+                <li>Added the initialization of PMBASE ($d407) to $00
+                    before starting the selected entry to all loaders.
+                    This fixes player missile display issues with programs that
                     rely on being started on a freshly booted system.
                     For example the "Moon Patrol Redux" on
                     "GAMES449.atr". 
                 </li>
                 <li>The ATR loader now initializes DBUFLO/DBUGHI
                     ($304/$305) again to $400 after the boot sequence.
-                    This fixes loading issues with program which rely on
-                    this OS specific default. For example "Sexy Six Data
+                    This fixes loading issues with programs that rely on
+                    this OS-specific default. For example "Sexy Six Data
                     disk #1(19xx)(Sikor Soft)(PL).atr". 
                 </li>
             </ul>
@@ -1926,8 +1948,8 @@
         <h4>2020-05-21</h4>
         <div>
             <ul>
-                <li>Fixed ArayIndexOutOfBoundException when adding and
-                    ATR disk image which has a partial match for
+                <li>Fixed ArayIndexOutOfBoundException when adding an
+                    ATR disk image that has a partial match for
                     DISKINV/SIOV at the end of the file. 
                 </li>
                 <li>Fixed XEX detection for files where the last segment
@@ -1949,20 +1971,20 @@
                     indicator for an entry, the initial list of entries
                     in the extended menu only shows the favorites for
                     the active genre. This way you can use the joystick
-                    or cursor keys to select from restricted list of
+                    or cursor keys to select from the restricted list of
                     entries. As soon as you start typing a search term,
                     the favorite indicator becomes irrelevant and all
-                    entries are searched foe the search term. 
+                    entries are searched for the search term. 
                 </li>
-                <li>The search which was broken in the version
+                <li>The search which was broken in version
                     2019-12-24 is working again. 
                 </li>
                 <li>The XEX loader now also handles files without RUNAD
-                    segment and file where the RUNAD segment is not the
-                    last segement correctly. 
+                    segment and files where the RUNAD segment is not the
+                    last segment correctly. 
                 </li>
                 <li>The XEX loader now clears the cold start flag
-                    (COLDST, $244), like DOS would. This way programs
+                    (COLDST, $244), as a DOS would. This way programs
                     that perform the start via changing the DOS vectors
                     and jumping to a warm start can start correctly. 
                 </li>
@@ -1979,7 +2001,7 @@
                     if the select genre does not fit on the screen. This
                     is what you'd expect from a tabbed visualization. 
                 </li>
-                <li>The XEX loader now sets the BOOT? flag to $01, like
+                <li>The XEX loader now sets the BOOT? flag to $01, as
                     a DOS would. This fixes problems with programs that
                     rely on the XEX being loaded from a disk. 
                 </li>
