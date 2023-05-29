@@ -1435,7 +1435,7 @@ public final class Workbook {
 								throw new RuntimeException();
 							}
 						} catch (IOException ex) {
-							// ERROR: Cannot read content of file '{0}'.
+							// ERROR: Cannot read the content of file '{0}'.
 							// Original error message:
 							// {1}
 							throw new CoreException(com.wudsn.tools.base.Messages.E206, filePath,

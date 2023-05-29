@@ -134,7 +134,7 @@ public final class CartridgeTypeSampleCreator extends Main {
 			byte[] binary = ResourceUtility.loadResourceAsByteArray(resourcePath);
 			if (binary == null) {
 				// ERROR: Cannot open resource '{0}' for reading. Check
-				// class path and its contents.
+				// the classpath and its contents.
 				throw new CoreException(com.wudsn.tools.base.Messages.E216, resourcePath);
 			}
 			binaries.put(platform, binary);

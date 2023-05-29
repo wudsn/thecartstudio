@@ -127,7 +127,7 @@ public final class AtrProgrammingFile {
 			atrHeaderSize = inputStream.read(atrHeader);
 			bootSectorHeaderSize = inputStream.read(bootSectorHeader);
 		} catch (IOException ex) {
-			// ERROR: Cannot read content of file '{0}'.
+			// ERROR: Cannot read the content of file '{0}'.
 			// Original error message: {1}
 			throw new CoreException(com.wudsn.tools.base.Messages.E206, sourceFile.getAbsolutePath(),
 					ex.getLocalizedMessage());
@@ -143,7 +143,7 @@ public final class AtrProgrammingFile {
 			try {
 				inputStream.read(bootCode, bootSectorHeaderSize, bootCode.length - bootSectorHeaderSize);
 			} catch (IOException ex) {
-				// ERROR: Cannot read content of file '{0}'.
+				// ERROR: Cannot read the content of file '{0}'.
 				// Original error message: {1}
 				throw new CoreException(com.wudsn.tools.base.Messages.E206, sourceFile.getAbsolutePath(),
 						ex.getLocalizedMessage());
