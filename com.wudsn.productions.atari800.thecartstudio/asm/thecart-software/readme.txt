@@ -98,8 +98,8 @@ starting from bank 0.
 In case you want to use both The!Cart Studio on your PC and also
 do manual flashing from your Atari be careful:
 
-* Reserve some user space at the end of The!Cart in the Studio.
-* Only use the reserved user space area for manual programming.
+* Reserve some user-space at the end of The!Cart in the Studio.
+* Only use the reserved user-space area for manual programming.
 
 If you accidentally overwrite (parts of) the space used by
 The!Cart studio, use the full update option to reprogram the

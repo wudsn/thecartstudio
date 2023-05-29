@@ -130,15 +130,15 @@ public final class WorkbookEntryValidation {
 		} else {
 			RepositoryValidation rv = RepositoryValidation.createInstance(messageQueue);
 
-			// User space entries require a user space.
+			// User-space entries require a user-space.
 			if (root.getUserSpaceBanksCount() == 0) {
-				// ERROR: User space entries are not possible because no user
+				// ERROR: User-space entries are not possible because no user
 				// space defined in the workbook options.
 				messageQueue.sendMessage(entry, Attributes.TYPE, Messages.E421);
 				return;
 			}
 
-			// The start bank for user space entries must be in the user space.
+			// The start bank for user-space entries must be in the user-space.
 			UserSpaceContentProvider userSpaceContentProvider = new UserSpaceContentProvider();
 			userSpaceContentProvider.init(root);
 			int startBankNumber = userSpaceContentProvider.getStartBankNumber();

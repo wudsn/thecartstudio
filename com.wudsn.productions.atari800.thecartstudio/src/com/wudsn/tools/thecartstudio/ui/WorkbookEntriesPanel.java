@@ -261,7 +261,7 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 			case Columns.CONTENT_TYPE:
 				// Content type of file entries is only changeable, if it not a
 				// .CAR file.
-				// Content type of user user space entries is always
+				// Content type of user-space entries is always
 				// changeable.
 				return (entry.getType().equals(WorkbookEntryType.FILE_ENTRY)
 						&& entry.getFileHeaderType() != FileHeaderType.CART)
@@ -276,7 +276,7 @@ public final class WorkbookEntriesPanel extends AttributeTablePanel {
 			case Columns.START_BANK_FIXED:
 				// Start bank for file entries is fixed if the user requests
 				// this.
-				// Start bank for user space entries is always fixed.
+				// Start bank for user-space entries is always fixed.
 				return entry.getType().equals(WorkbookEntryType.FILE_ENTRY);
 
 			case Columns.START_BANK:

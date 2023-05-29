@@ -1041,7 +1041,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 		workbookEntriesPanel.getTable().setColumnVisible(WorkbookEntriesPanel.TableModel.Columns.START_BANK, true);
 
 		WorkbookEntry firstEntry = workbook.addUserSpaceEntry();
-		// INFO: User space entry added. Specify the content type and the start
+		// INFO: User-space entry added. Specify the content type and the start
 		// bank.
 		messageQueue.sendMessage(workbook, null, Messages.I132);
 		performShowWorkbookEntry(firstEntry, WorkbookEntry.Attributes.ID);

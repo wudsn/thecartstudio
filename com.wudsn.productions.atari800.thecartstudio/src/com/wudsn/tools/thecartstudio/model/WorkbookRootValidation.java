@@ -58,7 +58,7 @@ public final class WorkbookRootValidation {
 			throw new IllegalArgumentException("Parameter 'messageQueue' must not be null.");
 		}
 
-		// Adapt some values automatically. User space must be a multiple of the
+		// Adapt some values automatically. User-space must be a multiple of the
 		// alignment.
 		int userSpaceAlignmentSize = root.getUserSpaceAlignmentSize();
 		if (userSpaceAlignmentSize > 0) {
@@ -75,7 +75,7 @@ public final class WorkbookRootValidation {
 		sizeValid &= rv.isLongValid(root, WorkbookRoot.Attributes.BANK_SIZE, WorkbookRoot.MIN_BANK_SIZE,
 				WorkbookRoot.MAX_BANK_SIZE, root.getBankSize());
 		if (sizeValid) {
-			// User space must be between 0 and the complete image size.
+			// User-space size must be between 0 and the complete image size.
 			rv.isMemorySizeValid(root, WorkbookRoot.Attributes.BANK_SIZE, 0, root.getImageSize(),
 					root.getUserSpaceSize());
 		}

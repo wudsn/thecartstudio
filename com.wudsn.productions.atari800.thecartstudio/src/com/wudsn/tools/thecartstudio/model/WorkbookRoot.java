@@ -234,39 +234,39 @@ public final class WorkbookRoot {
 	}
 
 	/**
-	 * Gets the user space size in bytes.
+	 * Gets the user-space size in bytes.
 	 * 
-	 * @return The user space size in bytes, non-negative integer.
+	 * @return The user-space size in bytes, non-negative integer.
 	 */
 	public int getUserSpaceSize() {
 		return userSpaceSize;
 	}
 
 	/**
-	 * Gets the size of the user space alignment. This is the maximum of the actual
+	 * Gets the size of the user-space alignment. This is the maximum of the actual
 	 * bank size and the flask block size. Technically this is a limitation of the
 	 * flasher software, but there not really a point in having smaller blocks.
 	 * 
-	 * @return The user space bank size in bytes or <code>0</code>
+	 * @return The user-space bank size in bytes or <code>0</code>
 	 */
 	public int getUserSpaceAlignmentSize() {
 		return Math.max(bankSize, cartridgeType.getFlashBlockSize());
 	}
 
 	/**
-	 * Gets the number of user space banks.
+	 * Gets the number of user-space banks.
 	 * 
-	 * @return The number of user space banks, a non-negative integer.
+	 * @return The number of user-space banks, a non-negative integer.
 	 */
 	public int getUserSpaceBanksCount() {
 		return (userSpaceSize + bankSize - 1) / bankSize;
 	}
 
 	/**
-	 * Set the user space size in bytes.
+	 * Set the user-space size in bytes.
 	 * 
 	 * @param userSpaceSize
-	 *            The user space size in bytes, non-negative integer.
+	 *            The user-space size in bytes, non-negative integer.
 	 */
 	public void setUserSpaceSize(int userSpaceSize) {
 		this.userSpaceSize = userSpaceSize;
