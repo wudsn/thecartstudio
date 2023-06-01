@@ -124,7 +124,7 @@ no_return
 	and #~joystick.left
 	jmp set_key
 no_left
-	cpx #$07		;Map "CURSOR RIGHT" to "ROGHT"
+	cpx #$07		;Map "CURSOR RIGHT" to "RIGHT"
 	bne no_right
 is_right
 	and #~joystick.right
