@@ -88,9 +88,9 @@
 		<property name="applicationSupportURL" value="https://www.wudsn.com/index.php/productions-atari800/tools/thecartstudio" />
 		<property name="applicationHeaderType" value="gui" />
 		<property name="applicationMainClass" value="com.wudsn.tools.thecartstudio.TheCartStudio" />
-		<property name="applicationBinFolder" location="bin" />
-		<property name="applicationLibFolder" location="" />
-		<property name="applicationLibList" value="" />
+		<property name="applicationBinFolder" location="tst/out/bin" />
+		<property name="applicationLibFolder" location="tst/out" />
+		<property name="applicationLibList" value="TheCartStudio.jar" />
 		<property name="applicationPlatformLib" value="" />
 
 		<property name="applicationPlatformTextFile" location="${applicationBinFolder}/com/wudsn/tools/thecartstudio/TheCartStudio.os" />
@@ -148,20 +148,13 @@
 		<fail unless="examplesFolder" />
 		<fail unless="productionsFolder" />
 
-		<!-- Remove unwanted temporary files -->
-		<delete>
-			<fileset dir="tst/out">
-				<include name="*.jar" />
-			</fileset>
-		</delete>
-
 		<!-- ZIP code and source from Eclipse workspace to "productions" folder -->
 		<property name="productionFolder" value="${productionsFolder}\atari800\thecartstudio-daily" />
 		<echo message="Productions folder ${productionsFolder}" />
 		<echo message="Production folder ${productionFolder}" />
 
 		<zip destfile="${productionFolder}\thecartstudio.zip">
-			<fileset dir="tst/out" />
+			<fileset dir="tst/out" excludes="bin/**" />
 		</zip>
 
 		<zip destfile="${productionFolder}\thecartstudio-source.zip">
