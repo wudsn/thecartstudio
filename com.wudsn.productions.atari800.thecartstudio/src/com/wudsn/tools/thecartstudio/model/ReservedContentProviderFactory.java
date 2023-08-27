@@ -125,7 +125,7 @@ public final class ReservedContentProviderFactory {
 				throw new IllegalArgumentException("Parameter 'root' must not be null.");
 			}
 
-			// Entries shall be located at the end before the user-space.
+			// Entries shall be located at the end before the user space.
 			UserSpaceContentProvider userSpaceContentProvider = new UserSpaceContentProvider();
 			userSpaceContentProvider.init(root);
 

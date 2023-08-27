@@ -347,7 +347,7 @@ public final class Workbook {
 	}
 
 	/**
-	 * Adds a new user-space entry at the end of a the list. User-space entries have
+	 * Adds a new user space entry at the end of a the list. user space entries have
 	 * no file and there can be any number of them.
 	 * 
 	 * @return The new workbook entry, not <code>null</code>.

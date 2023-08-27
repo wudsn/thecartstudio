@@ -455,7 +455,7 @@ public final class Preferences implements MainWindowPreferences, AttributeTableP
 	}
 
 	/**
-	 * Sets the reserved user-space bank color.
+	 * Sets the reserved user space bank color.
 	 * 
 	 * @param color
 	 *            The color, not <code>null</code>.
@@ -468,9 +468,9 @@ public final class Preferences implements MainWindowPreferences, AttributeTableP
 	}
 
 	/**
-	 * Gets the reserved user-space bank color.
+	 * Gets the reserved user space bank color.
 	 * 
-	 * @return The reserved user-space bank color, not <code>null</code>.
+	 * @return The reserved user space bank color, not <code>null</code>.
 	 */
 	public Color getReservedUserSpaceBankColor() {
 		return reservedUserSpaceBankColor;
