@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.wudsn.tools.base"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.wudsn.tools.base.atari"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.wudsn.tools.base.atari.cartridge"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.wudsn.tools.base.atari"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.wudsn.tools.base.atari.cartridge"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
