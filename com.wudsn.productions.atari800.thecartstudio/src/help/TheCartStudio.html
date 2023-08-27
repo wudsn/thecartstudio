@@ -78,7 +78,7 @@
     <p><img src="images/linux-executable-message.png" alt="After unpacking" /></p>
     <p>Open the file properties and set the executable flag as shown below for the file.</p>
     <p><img src="images/linux-executable-properties.png" alt="Setting the executable bit" /></p>
-    <p>Note that there is a <a href="https://bugs.launchpad.net/ubuntu/+source/light-themes/+bug/932274" target="_blank" rel="noopener">known bug in Ubuntu</a> , for example 12.10 with openjdk7. It is tracked as an "Unreadable menu bar with Ambiance theme in Java/Swing GTK Look and Feel" and causes the menu to appear too dark, making it barely readable with the standard desktop theme. Changing the desktop theme fixes this.</p>
+    <p>You can run the "TheCartStudio.sh" from the terminal or via the "Run as a Program" entry in the context menu of your file explorer. If you get an error message like "<code>Exception in thread "main" java.lang.UnsatisfiedLinkError: Can't load library: /usr/lib/jvm/java-17-openjdk-amd64/lib/libawt_xawt.so</code>", you have the headless version of the JDK installed. You need the version which also supports UIs. Run "<code>sudo apt install openjdk-17-jdk</code>" to install a complete JDK.</p>
     <h3><a name="macOS"></a>macOS</h3>
     <p>The folder "TheCartStudio.app" in the download is a native package that contains a small Java stub, the "TheCartStudio.jar", and some additional configuration files. You can start the app directly from the Finder. It also sets Java's -Xms and -Xmx parameters as required to overcome the default of only 128MB heap space. Upon the first start, you must open the app directly from the Finder via the "Open" entry in the context menu. Then you must confirm the "TheCartStudio is from an unidentified developer. Are you sure you want to open it?" warning by pressing the "Open" button and authenticating the action with an administrator user.</p>
     <p><img src="images/macos-executable-message.png" alt="Confirming the start of the app" /></p>
@@ -541,6 +541,13 @@
         </tbody>
     </table>
     <h2 id="ChangeHistory"><a name="ChangeHistory"></a>Change History</h2>
+    <h4>2023-08-28</h4>
+    <div>
+        <ul>
+            <li>Added native 64-bit versions for Windows, macOS (Intel and ARM), and Linux based on my new toolset.</li>
+            <li>Reworked all English and German text documentation again for correctness and readability using Grammarly.</li>
+        </ul>
+    </div>
     <h4>2023-05-29</h4>
     <div>
         <ul>
