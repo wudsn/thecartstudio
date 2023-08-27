@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="all" name="Build all parts and create ZIPs for The!Cart Studio (daily version) in the productions folder">
-	<!--ANT 1.7 is required  -->
 
+	<!--ANT 1.7 is required  -->
 	<target name="all">
 
 		<antcall target="create_binaries" />
+		<antcall target="create_jar" />
 		<antcall target="create_executables" />
 		<antcall target="create_sample_files" />
 		<antcall target="create_productions" />
 	</target>
 
 	<target name="init">
-		<property name="year" value="2023" />
 		<property name="toolsFolder" value="../../WUDSN-Base" />
 		<property name="examplesFolder" value="C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples" />
 		<property name="productionsFolder" value="C:\jac\system\WWW\Sites\www.wudsn.com\productions" />
@@ -43,7 +43,7 @@
 
 	</target>
 
-	<target name="create_executables" depends="init">
+	<target name="create_jar" depends="init">
 		<!-- The Java part must have been build and the binaries must have been assembled separtely before -->
 
 		<!-- Create ".version" file in "bin" folder and set "version" property -->
@@ -52,6 +52,13 @@
 			<redirector output="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
 		</exec>
 		<loadfile property="version" srcFile="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
+
+		<!-- Remove unwanted temporary files -->
+		<delete>
+			<fileset dir="tst/out">
+				<include name="*" />
+			</fileset>
+		</delete>
 
 		<!-- Create JAR file -->
 		<jar destfile="tst/out/TheCartStudio.jar" filesetmanifest="merge">
@@ -65,23 +72,41 @@
 			<fileset dir="bin" />
 		</jar>
 
-		<!-- Remove unwanted temporary files -->
-		<delete>
-			<fileset dir="tst/out">
-				<include name="launch4j.log" />
-			</fileset>
-		</delete>
+	</target>
 
-		<!-- Create Mac OS X app folder -->
-		<jarbundler dir="tst/out" name="TheCartStudio" copyright="(C) 2013-${year} by Peter Dell" mainclass="com.wudsn.tools.thecartstudio.TheCartStudio" jar="tst/out/TheCartStudio.jar" jvmversion="1.6+" vmoptions="-Xms256M -Xmx1024M" shortname="The!Cart Studio" build="$${version}" icon="src/icons/main-48x48.icns" />
-		<copy todir="tst/out/TheCartStudio.app/Contents/MacOS" overwrite="true">
-			<fileset file="build/JavaApplicationStub" />
-		</copy>
+	<!-- ANT 1.7 is required  -->
+	<target name="create_executables" depends="init">
 
-		<!-- Create Windows executable -->
-		<exec executable="C:\jac\system\Java\Tools\RUN\launch4j\launch4jc.exe" failifexecutionfails="true" failonerror="true">
-			<arg value="build\TheCartStudio.launch4j.xml" />
-		</exec>
+		<tstamp>
+			<format property="currentYear" pattern="yyyy" locale="en,US" />
+		</tstamp>
+
+		<property name="applicationFolder" location="." />
+		<property name="applicationName" value="TheCartStudio" />
+		<property name="applicationNameLowerCase" value="thecartstudio" />
+		<property name="applicationTitle" value="The!Cart Studio" />
+		<property name="applicationSupportURL" value="https://www.wudsn.com/index.php/productions-atari800/tools/thecartstudio" />
+		<property name="applicationHeaderType" value="gui" />
+		<property name="applicationMainClass" value="com.wudsn.tools.thecartstudio.TheCartStudio" />
+		<property name="applicationBinFolder" location="bin" />
+		<property name="applicationLibFolder" location="" />
+		<property name="applicationLibList" value="" />
+		<property name="applicationPlatformLib" value="" />
+
+		<property name="applicationPlatformTextFile" location="${applicationBinFolder}/com/wudsn/tools/thecartstudio/TheCartStudio.os" />
+		<property name="iconFilePath" location="icons\application.ico" />
+		<property name="icnsFilePath" location="icons\application.icns" />
+		<property name="authors" value="Peter Dell" />
+		<property name="releaseYears" value="2019 - ${currentYear}" />
+		<property name="release" value="1.0.0" />
+		<property name="version" value="Daily" />
+		<property name="jreMinVersion" value="1.8.0" />
+		<property name="outFolder" value="${applicationFolder}/tst/out" />
+
+		<property name="buildFolder" location="${toolsFolder}/com.wudsn.tools.base.standalone" />
+
+		<ant dir="${buildFolder}" antfile="build/Makefile.ant" target="create_standalone_executables">
+		</ant>
 	</target>
 
 	<target name="create_sample_files" depends="init">
@@ -123,27 +148,28 @@
 		<fail unless="examplesFolder" />
 		<fail unless="productionsFolder" />
 
-		<property name="productionFolder" value="${productionsFolder}\atari800\thecartstudio-daily" />
-		<echo message="${productionsFolder}" />
-		<echo message="${productionFolder}" />
+		<!-- Remove unwanted temporary files -->
+		<delete>
+			<fileset dir="tst/out">
+				<include name="*.jar" />
+			</fileset>
+		</delete>
+
 		<!-- ZIP code and source from Eclipse workspace to "productions" folder -->
-		<!-- The regular ZIP task cannot preserve the executable flags for Unix, therefore we use a native Unix zip 
-		 	 <zip destfile="${productionsFolder}\atari800\thecartstudio\thecartstudio.zip">
-		 		<fileset dir="tst/out" />
-		     </zip>
-		-->
-		<exec executable="C:\jac\cygwin\bin\zip.exe" dir="tst/out">
-			<arg value="${productionFolder}\thecartstudio.zip" />
-			<arg value="-r" />
-			<arg value="*" />
-		</exec>
+		<property name="productionFolder" value="${productionsFolder}\atari800\thecartstudio-daily" />
+		<echo message="Productions folder ${productionsFolder}" />
+		<echo message="Production folder ${productionFolder}" />
+
+		<zip destfile="${productionFolder}\thecartstudio.zip">
+			<fileset dir="tst/out" />
+		</zip>
 
 		<zip destfile="${productionFolder}\thecartstudio-source.zip">
 			<fileset dir="${toolsFolder}/com.wudsn.tools.base" excludes="bin/**" />
 			<fileset dir="../com.wudsn.productions.atari800.thecartstudio" excludes="bin/**, mail/**, tst/**" />
 		</zip>
 
-		<!-- ZIP unit tests workbooks from workbooks and expoerts folder to "productions" folder -->
+		<!-- ZIP unit test workbooks from workbooks and exports folder to "productions" folder -->
 		<zip destfile="${productionFolder}\thecartstudio-test.zip">
 			<fileset dir="${examplesFolder}\Workbooks" includes="CAR-Correct-UnitTests-**    CAR-Correct-UnitTests-**/**" />
 			<fileset dir="${examplesFolder}\Exports" includes="CAR-Correct-UnitTests-*.car CAR-Correct-UnitTests-*.txt" />
