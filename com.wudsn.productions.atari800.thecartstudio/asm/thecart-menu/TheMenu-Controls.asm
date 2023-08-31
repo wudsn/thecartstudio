@@ -109,9 +109,7 @@ return_without_key
 	and #4
 	bne no_key
 
-	lda kbcode
-	and #63
-	tax
+	ldx kbcode
 	lda stick
 
 	cpx #$0c		;Map "RETURN" to "FIRE" 
@@ -119,23 +117,23 @@ return_without_key
 	and #~joystick.fire
 	jmp set_key
 no_return
-	cpx #$06		;Map "CURSOR LEFT" to "LEFT"
+	cpx #$86		;Map "CURSOR LEFT" to "LEFT"
 	bne no_left
 	and #~joystick.left
 	jmp set_key
 no_left
-	cpx #$07		;Map "CURSOR RIGHT" to "RIGHT"
+	cpx #$87		;Map "CURSOR RIGHT" to "RIGHT"
 	bne no_right
 is_right
 	and #~joystick.right
 	jmp set_key
 no_right
-	cpx #$0f		;Map "CURSOR UP" to "UP"
+	cpx #$8f		;Map "CURSOR UP" to "UP"
 	bne no_cursor_up
 	and #~joystick.up
 	jmp set_key
 no_cursor_up
-	cpx #$0e		;Map "CURSOR DOWN" to "DOWN"
+	cpx #$8e		;Map "CURSOR DOWN" to "DOWN"
 	bne no_cursor_down
 	and #~joystick.down
 	jmp set_key

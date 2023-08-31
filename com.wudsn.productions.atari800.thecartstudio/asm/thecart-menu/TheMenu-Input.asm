@@ -96,7 +96,7 @@ store	stx keyrep			;Twice the speed to repeat
 	and #127			;Mask out inverse bit
 
 	.proc check_ignored_keys
-	ldx #(.len ignored_keys)-1	;Check if the ASCII value is on the list of keys to ignore
+	ldx #(.len ignored_keys)-1	;Check if the ASCII value is in the list of keys to ignore
 loop	cmp ignored_keys,x
 	sne
 	rts				;Return if ignored key is found
@@ -192,14 +192,10 @@ text_input_done
 	
 	.local ignored_keys		;ASCII values of keys that should be ignored
 	.byte 28			;Ignore "CURSOR UP" with control
-	.byte '-'			;Ignore "CURSOR UP" without control
 	.byte 29			;Ignore "CURSOR DOWN" with control
-	.byte '='			;Ignore "CURSOR DOWN" without control
 
 	.byte 30			;Ignore "CURSOR UP" with control
-	.byte '+'			;Ignore "CURSOR UP" without control
 	.byte 31			;Ignore "CURSOR DOWN" with control
-	.byte '*'			;Ignore "CURSOR DOWN" without control
 
 	.byte $9b			;Ignore "RETURN"
 	.endl
