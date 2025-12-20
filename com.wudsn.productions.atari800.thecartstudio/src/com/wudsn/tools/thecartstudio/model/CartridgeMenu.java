@@ -584,8 +584,26 @@ public final class CartridgeMenu {
 				// greater
 				// then 8k.
 				int initialBankNumber = workbookEntry.getContentType().getCartridgeType().getInitialBankNumber();
+				
+				// thecart-software expects the bank numbers to be in 8k units so the
+				// initialBankNumber of 16k carts needs to be multiplied by 2.
+				// Initial bank of carts with bank size less than 8k (eg OSS) are
+				// handled by thecart-softare, depending on cartridge type.
+				int initialBankNumber8k = 0;
+				
+				switch (workbookEntry.getContentType().getCartridgeType().getBankSize()) {
+				case 0x2000:
+					initialBankNumber8k = initialBankNumber;
+					break;
+				case 0x4000:
+					initialBankNumber8k = initialBankNumber * 2;
+					break;
+				default:
+					break;
+				}
+
 				offset = entryOffset + Offsets.MENU_ENTRY_INITIAL_BANK_NUMBER;
-				setWord(result, offset, initialBankNumber);
+				setWord(result, offset, initialBankNumber8k);
 
 				int loaderBaseAddress = AtrLoader.getBaseAddress(workbookEntry);
 				offset = entryOffset + Offsets.MENU_ENTRY_LOADER_BASE_ADDRESS;
