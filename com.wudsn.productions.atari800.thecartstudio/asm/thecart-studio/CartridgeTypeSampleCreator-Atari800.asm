@@ -3,7 +3,7 @@
 ;
 ;	(c) 2013-06-07 JAC!	
 ;
-;	@com.wudsn.ide.asm.outputfile=..\..\src\data\CartridgeTypeSampleCreator-Atari800.rom
+;	@com.wudsn.ide.lng.outputfile=..\..\src\data\CartridgeTypeSampleCreator-Atari800.rom
 
 vbiv	= $222
 xitvbv	= $e462

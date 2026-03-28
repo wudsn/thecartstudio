@@ -3,7 +3,7 @@
 ;
 ;	(c) 2013-06-07 JAC!
 ;
-;	@com.wudsn.ide.asm.outputfile=..\..\src\data\CartridgeTypeSampleCreator-Atari5200.rom
+;	@com.wudsn.ide.lng.outputfile=..\..\src\data\CartridgeTypeSampleCreator-Atari5200.rom
 
 vbiv	= $202
 xitvbv	= $fcb7	;RTI
