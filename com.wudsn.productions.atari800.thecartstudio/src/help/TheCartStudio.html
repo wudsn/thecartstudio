@@ -5,7 +5,11 @@
 <!-- Validate using https://validator.w3.org/ -->
 <!-- URLs must be URL encoded. -->
 <!-- Anchors are defined explicitly and not with element IDs because the HTML control
-     in Swing only understands <a name="Example">Example</a> but not element ids. -->
+     in Swing only understands <a name="Example" href="">Example</a>  but not element IDs.
+     Therefore, the following message must be filtered out in the validator:
+     - The name attribute on the a element is obsolete. Consider putting an id attribute on the nearest container instead
+     - The name attribute is never allowed on the a element.
+-->
 <html lang="en">
 
 <head>
@@ -41,7 +45,7 @@
 </head>
 
 <body>
-<h1><a name="TheCartStudio"></a>The!Cart Studio</h1>
+<h1><a name="TheCartStudio" href=""></a>The!Cart Studio</h1>
 <p>Welcome to "The!Cart Studio", the free cartridge image authoring tool for <a href="https://www.wudsn.com/index.php/productions-atari800/hardware/thecart" target="_blank" rel="noopener">The!Cart</a>, <a href="https://www.atarimax.com/flashcart/documentation/" target="_blank" rel="noopener">Atarimax Maxflash Cartridges</a>, and free-style binary cartridge images. The program enables you to create workbooks for cartridge images that contain one or more ROMs or executables. The workbook can then be exported in different formats. Besides plain binary images for usage if an EPROM or external flash programming device, emulator cartridge images to run the cartridge in emulators and flash programming disk images which can be booted or loaded directly from the Atari to flash the target flash module. It would be best if you had a device and software that is capable of transferring the data from your PC to the Atari, like, for example, SIO2PC (available <a href="https://www.facebook.com/atari8warez/" target="_blank" rel="noopener">here</a> and <a href="https://lotharek.pl/productdetail.php?id=108" target="_blank" rel="noopener">here</a> ) with <a href="https://sourceforge.net/projects/aspeqt-a8w-edition/" target="_blank" rel="noopener">AspeQt</a> or <a href="https://lotharek.pl/products.php?id=41" target="_blank" rel="noopener">SIO2SD</a>. For "The!Cart", you do not need a USB programmer device or other PC-related hardware for programming. "The!Cart Studio" can also create header-free binary export files for a workbook. You burn or flash them to any cartridge, for example, using a USB programmer.</p>
 <p><img src="images/intro-sequence.png" alt="Sequence for creating workbooks and transferring them to the cartridge"></p>
 <p>You can watch the <a href="https://www.youtube.com/watch?v=fQnsY9z7jQ4" target="_blank" rel="noopener">YouTube video presentation</a> to understand how it works and what it looks like. You should read this English manual carefully to learn the details and features. If you have questions regarding "The!Cart" or "The!Cart Studio", you can contact me directly or post in the "The!Cart" thread on <a href="https://forums.atariage.com/topic/215811-thecart-new-128mb-flash-cartridge/" target="_blank" rel="noopener">AtariAge (English)</a> or the <a href="https://abbuc.de/forum/viewtopic.php?t=1007" target="_blank" rel="noopener">ABBUC Forum (German)</a>.</p>
@@ -65,25 +69,25 @@
 <li><a href="#CompatibilityPatches">Compatibility Patches</a></li>
 <li><a href="#ChangeHistory">Change History</a></li>
 </ul>
-<h2><a name="DownloadingTheProgram"></a>Downloading the Program</h2>
+<h2><a name="DownloadingTheProgram" href=""></a>Downloading the Program</h2>
 <p>This is version ${version} of the program. Click <a href="https://www.wudsn.com/productions/atari800/thecartstudio-daily/thecartstudio.zip" target="_blank" rel="noopener">here</a> to download the latest version of the program. The download is a single ".zip" archive file containing operating system-specific archives and a standalone ".jar" file. Extract the files from the system-specific archive for your operating system into a folder of your choice.</p>
 <p><img src="images/download-archive.png" alt="Download archive content"></p>
-<h2><a name="StartingTheProgram"></a>Starting the Program</h2>
+<h2><a name="StartingTheProgram" href=""></a>Starting the Program</h2>
 <p>"The!Cart Studio" is implemented in Java, making it compatible with all popular operating systems. To run the program, you must install Java Runtime Environment (JRE) or Java Development Kit (JDK/SDK) with version 1.8 or newer versions. "The!Cart Studio" requires enough RAM for the Java process to export images. The amount of available RAM is displayed in the "About" dialog. It should be twice the size of the cartridge you want to export. So, for a 128 MB "The!Cart" export, the program requires at least 256 MB. You can specify this when you start from the command line via "java -Xmx256M -jar TheCartStudio.jar". By default, "The!Cart Studio" checks if an update is available during the start. The check is performed in the background and does not impact the startup time. You can turn off this check in the options.</p>
 <p>For your convenience, native wrapper applications are provided. They set the required Java memory parameters.</p>
-<h3><a name="Windows"></a>Windows</h3>
+<h3><a name="Windows" href=""></a>Windows</h3>
 <p>Double-click "TheCartStudio.exe" to start the program. Alternatively, the following parameters are supported when running from the command line.</p>
 <p><img src="images/windows-console.png" alt="Starting in Windows command prompt"></p>
-<h3><a name="Linux"></a>Linux</h3>
+<h3><a name="Linux" href=""></a>Linux</h3>
 <p>After extracting the "TheCartStudio.sh" file from the download archive, the so-called "executable bit" should already be set. If not, you will see the following error when double-clicking the files.</p>
 <p><img src="images/linux-executable-message.png" alt="After unpacking"></p>
 <p>Open the file properties and set the executable flag as shown below for the file.</p>
 <p><img src="images/linux-executable-properties.png" alt="Setting the executable bit"></p>
 <p>You can run the "TheCartStudio.sh" from the terminal or via the "Run as a Program" entry in the context menu of your file explorer. If you get an error message like "<code>Exception in thread "main" java.lang.UnsatisfiedLinkError: Can't load library: /usr/lib/jvm/java-17-openjdk-amd64/lib/libawt_xawt.so</code>", you have the headless version of the JDK installed. You need the version that also supports UIs. Run "<code>sudo apt install openjdk-17-jdk</code>" to install a complete JDK.</p>
-<h3><a name="macOS"></a>macOS</h3>
+<h3><a name="macOS" href=""></a>macOS</h3>
 <p>The folder "TheCartStudio.app" in the download is a native package that contains a small Java stub, the "TheCartStudio.jar", and some additional configuration files. You can start the app directly from the Finder. It also sets Java's -Xms and -Xmx parameters as required to overcome the default of only 128MB heap space. Upon the first start, you must open the app directly from the Finder via the "Open" entry in the context menu. Then you must confirm the "TheCartStudio is from an unidentified developer. Are you sure you want to open it?" warning by pressing the "Open" button and authenticating the action with an administrator user.</p>
 <p><img src="images/macos-executable-message.png" alt="Confirming the start of the app"></p>
-<h2><a name="GeneralUsage"></a>General Usage</h2>
+<h2><a name="GeneralUsage" href=""></a>General Usage</h2>
 <p>The "The!Cart" enables you to create workbooks for cartridge images that contain one or more ROMs or executables. The workbook can then be exported in different formats. Besides, plain binary images (".BIN", ".ROM") for usage if an EPROM or external flash programming device, emulator cartridge images (".CAR") to run the cartridge in emulators, and flash programming images (".ATR") which can be booted or loaded directly from the Atari to flash the target flash module. Depending on your disk emulation, you can export the workbook as a single large programming disk image for use with <a href="https://sourceforge.net/projects/aspeqt-a8w-edition/" target="_blank" rel="noopener">AspeQt</a> or as multiple 16 MB sized programming disk images for use with <a href="https://lotharek.pl/products.php?id=41" target="_blank" rel="noopener">SIO2SD, </a>SIO2USB, or similar SIO device emulators. You can also export cartridge images in plain binary (".BIN") to burn or flash them to any cartridge using a programmer device.</p>
 <p><img src="images/general-sequence.png" alt="Detailed sequence for creating workbooks and transferring them to the cartridge"></p>
 <p>In case you are creating workbooks for "The!Cart", you can make use of the native cartridge emulation feature and reuse the existing software for the "Atari Maxflash" cartridge and "MegaCart". This means you can, on the one hand, directly use existing compilations and add them as a single file. On the other hand, you can use <a href="https://www.atarimax.com/flashcart/documentation/" target="_blank" rel="noopener">Maxflash Studio</a> and <a href="#MegaCart">MegaCart Studio</a> to create new compilations and images for these cartridges and then add them as a single file. Because the <a href="#ExtendedMenu">Extended Menu</a> of "The!Cart" also recognizes the menu systems of these two cartridge systems, it can optionally offer you the entries within these menus directly.</p>
@@ -121,15 +125,15 @@
 </tr>
 </tbody>
 </table>
-<h2><a name="UserInterface"></a>User Interface</h2>
+<h2><a name="UserInterface" href=""></a>User Interface</h2>
 <p>The user interface of "The!Cart Studio" is localized and currently comes with English and German screen texts. You can change the display language via the "Tools/Options..." menu entry. The default value is "Automatic", meaning that the language is determined automatically based on the operating system's language settings.</p>
 <p><img src="images/studio-options-dialog.png" alt="Options"></p>
 <p>Only the most frequently used columns are displayed in the various tables by default. You drag &amp; drop to change the order of the columns. Clicking on the column header with SHIFT or CONTROL held down extends the sort order by appending this column. This way, you can sort by genre and title, for example. Clicking a column header without pressing SHIFT or CONTROL resets the sort order to that single column. You can also use the context menu to hide visible columns, unhide invisible columns, reset visibility, and sort order to the default. All layout changes are saved automatically when the program is closed. This also applies to the size and position of the main window and to the different folders that were last used for loading/saving workbooks, adding entries, and exporting cartridge images.</p>
 <p><img src="images/workbook-entries-table-header-context-menu.png" alt="Workbook entries table header context menu"></p>
 <p>All relevant commands have a key binding, so you can use your keyboard to control the program.</p>
-<h2><a name="CreatingWorkbooks"></a>Creating Workbooks</h2>
+<h2><a name="CreatingWorkbooks" href=""></a>Creating Workbooks</h2>
 <p>In the "File" menu, you can find the usual "New", "Open", Save", "Save As", and "Close" actions. When "The!Cart Studio" is opened, and a new unnamed project is prepared. You can display the dialog to edit the workbook options via the "Edit/Workbook Options..." menu entry. <br><img src="images/workbook-options-dialog.png" alt="Workbook options"></p>
-<h2><a name="AddingEntries"></a>Adding Entries</h2>
+<h2><a name="AddingEntries" href=""></a>Adding Entries</h2>
 <p>You can add files for new entries via the "Edit/Add Entries..." menu entry. The file chooser has multi-selection enabled, which means you can select multiple files at once and add them in one go. Alternatively, you can use drag &amp; drop to drop one or multiple files onto the window to add entries.</p>
 <p><img src="images/add-entries-file-chooser.png" alt="Selecting one or more files to add"></p>
 <p>"The!Cart Studio" contains a database of popular ROMs and will assign the correct title automatically based on size and the CRC32 checksum of the file. If no matching entry is found in the data, the title of the workbook entry is defaulted from the file name by removing the file extension.</p>
@@ -251,7 +255,7 @@
 </tr>
 </tbody>
 </table>
-<h3><a name="FileFormatAndContentType"></a>File Format and Content Type</h3>
+<h3><a name="FileFormatAndContentType" href=""></a>File Format and Content Type</h3>
 <p>Several file formats are supported when adding entries. To properly handle the ROM-specific bank switching scheme, every entry must know its content type. For those file formats where the content type cannot be determined automatically, for example, because there are multiple possible options, you have to select it in the "Content Type" column. The value help in the "Content Type" column is automatically filtered based on the file length and content. So, it only offers the potentially matching content types. In addition, some file formats are even automatically converted before they are added to the workbook. Saving the workbook is possible anytime, even if there are entries with unknown content types. When the workbook is exported, the content type for all entries must be present. Here is a description of the supported file formats and their handling.</p>
 <table>
 <tbody>
@@ -272,7 +276,7 @@
 <td>Collections created with the <a href="https://www.atarimax.com/flashcart/documentation/" target="_blank" rel="noopener">Maxflash Studio</a> are sometimes available as "ATR Programming Images" instead of "BIN" or "ROM" cartridge images. They are bootable disk images that contain the program to flash the "Atarimax Maxflash" cartridge directly from the Atari. They cannot be run or tested in an emulator. These programming images are recognized by "The!Cart Studio". When you add such a file as an entry, it is first converted into a ".CAR" cartridge image, which is saved in the folder of the programming image. If the ".CAR" file already exists in that folder, it will be overwritten. The new ".CAR" file is added to the workbook. This way, you can even run and test the content of the ".CAR" cartridge image in an emulator before flashing.</td>
 </tr>
 <tr>
-<td style="white-space: nowrap; vertical-align: top;"><a name="ATRDiskImages"></a>ATR Disk Images</td>
+<td style="white-space: nowrap; vertical-align: top;"><a name="ATRDiskImages" href=""></a>ATR Disk Images</td>
 <td>This is the standard Atari disk image format emulators use. Many disk-based programs in this format can also be started from flash cartridges. However, there are some natural limitations arising from the fact that loading the ATR images requires a simulation of the SIO routines that are placed in the ROM of the original Atari OS. For example, the code for the simulation must be placed in the RAM and may be overwritten when the loading from the ATR disk image starts. In addition, the banks of the flash cartridge have to be activated during the SIO operation to load the data of the ATR disk image.<br>Consequently, a program that uses a display list, graphics, or interrupts in the cartridge memory area will run into problems. Also, programs that try to write data to the disk will fail when run from an ATR simulation. Two approaches are used for the simulation: <i>Modified ATR Disk Images</i> and <i>Modified Atari OS in RAM</i>. Which method works best depends on the ATR disk image and its programs.
 <p><b>Modified ATR Images</b> <br>This is the approach used by the "Extended Menu" of "The!Cart". When you add an ATR file directly to a workbook, the file is analyzed, and all potential code locations that call the Atari OS SIO routines are identified. For disks that contain a known DOS (DOS 2.0S, DOS 2.5, MyDOS) and its "DOS.SYS" file, only the sectors that belong to that file are patched by default. For disks that contain the <a href="#Bootmanager">Bootmanager by Mike Langer</a>, only the sectors of the Bootmanager are patched. For all other disks, the complete disk is scanned for usages of the SIO, which may potentially result in false positives. In this case, you must manually remove the patch from the parameters. The result of this analysis is stored in the "Parameters" column in the form "base=$100, $123=SIOV, $456=DSKINV". This column is hidden by default and can be shown via the context menu. When the workbook is exported to the Atari, the calls at the found offsets are modified to point to the SIO simulation placed at the address specified with the "base=$...." parameter. The advantage of this approach is that it also works on Atari 400 and Atari 800 machines that do not have RAM under the OS and for software that uses RAM under the OS, such as "Turbo Basic XL 1.5" or "The Brundles". Specifying the corresponding parameters will work even for software that uses non-standard SIO routines instead of the Atari OS SIO routines like, for example, "MyPicoDOS". The disadvantage of this approach is that it will not work with programs where the code that calls the SIO vectors is packed or encrypted in the ATR disk image. The following parameters are supported. Numbers are given in hexadecimal notation and are just example values. In the <a href="#CompatibilityPatches">Compatibility Patches</a>, you can find a list of known parameter combinations for programs that don't work with the default parameters.</p>
 <ul>
@@ -300,10 +304,10 @@
 </tr>
 </tbody>
 </table>
-<h3><a name="CartridgeDatabase"></a>Cartridge Database</h3>
+<h3><a name="CartridgeDatabase" href=""></a>Cartridge Database</h3>
 <p>Many popular ROMs' titles and content types are stored in the cartridge database. If your ROM is found in the database, the title and, if known, the content type are proposed. If no matching entry is found, the content type is set to "Unknown", and you have to select the appropriate content type manually before exporting the cartridge in and form.</p>
 <p>The cartridge database is based on the list by Tomasz Krasuski (Kr0tki) maintained at <a href="https://forums.atariage.com/topic/161828-hooked-on-8-bit-carts/">AtariAge</a>. It currently contains over 700 known titles and almost 700 known content types. The exact numbers are shown in the About dialog. You can support "The!Cart Studio" and improve the quality of the cartridge database by sending your workbook file without (!) the ROMs.</p>
-<h3><a name="DisplayMode"></a>Display Mode</h3>
+<h3><a name="DisplayMode" href=""></a>Display Mode</h3>
 <p>Via the column "Display Mode", you can select how the workbook entry is represented in the extended menu. Possible values are:</p>
 <ul>
 <li>Single Entry <br>The workbook entry is a single menu entry in the extended menu. The workbook entry title in the workbook is used as the menu entry title in the extended menu.</li>
@@ -339,10 +343,10 @@
 </tr>
 </tbody>
 </table>
-<h2><a name="PreviewingWorkbooks"></a>Previewing Workbooks</h2>
+<h2><a name="PreviewingWorkbooks" href=""></a>Previewing Workbooks</h2>
 <p>The menu entry "Tools/Preview" allows for a testing preview of the complete cartridge export and its menu in an emulator. The workbook is exported as a ".CAR" file with a fixed name into the user's temporary folder for the preview. A previously existing preview is overwritten automatically. If no path to an emulator executable is configured in the options, "The!Cart Studio" tries to open the ".CAR" file with the associated default program of the operating system. If that fails, it will ask you to maintain the full path to the emulator, for example, to "Altirra.exe" or "atari800.exe" in the options.</p>
-<h2><a name="ExportingWorkbooks"></a>Exporting Workbooks</h2>
-<h3><a name="ExportFormats"></a>Export Formats</h3>
+<h2><a name="ExportingWorkbooks" href=""></a>Exporting Workbooks</h2>
+<h3><a name="ExportFormats" href=""></a>Export Formats</h3>
 <table>
 <tbody>
 <tr>
@@ -373,9 +377,9 @@
 </tbody>
 </table>
 <p>The export also generates a ".txt" index file with the title and origin of all menu entries. This way, you can use the file system search of your operating system function to find games in exports. The index file also contains the information that, for example, "Amaurote 128 (130 XE)" is one of the menu entries that result from the "Multiple Entries" setting for the workbook entry with the title "GAMES403" stored in "GAMES403.ATR".</p>
-<h2><a name="PrintingWorkbooks"></a>Printing Workbooks</h2>
+<h2><a name="PrintingWorkbooks" href=""></a>Printing Workbooks</h2>
 <p>You can print the workbook's content, including the list of entries, via the menu entry "File/Print" (CTRL-P). The columns in the print output are the visible columns on the entries tab. Hence, you can configure the columns you want to see as described in the section <a href="#GeneralUsage">General Usage</a>. For example, you can make the column with the start bank visible to use the simple menu to start entries and see the banks assigned to user space entries. <br><img src="images/workbook-print-output.png" alt="Print output"></p>
-<h2><a name="ProgrammingFlashCartridges"></a>Programming Flash Cartridges</h2>
+<h2><a name="ProgrammingFlashCartridges" href=""></a>Programming Flash Cartridges</h2>
 <h3>The!Cart</h3>
 <ol>
 <li>Plug "The!Cart" in and power on your Atari.</li>
@@ -410,7 +414,7 @@
 <li>You can flash the cartridge as described in the previous section. If the problem remains, try flashing again and answer the "incremental update" question with "n".</li>
 <li>Now your "The!Cart" works again. If not, feel free to contact us.</li>
 </ul>
-<h2><a name="ExtendedMenu"></a>Extended Menu</h2>
+<h2><a name="ExtendedMenu" href=""></a>Extended Menu</h2>
 <div>Pressing the RESET button on the "The!Cart" cartridge and pressing the RESET button on your Atari will take you to the menu. If the cartridge contains the extended menu, holding OPTION while pressing RESET on the Atari starts the simple menu. This allows for creating the built-in flasher and updating the extended menu if it does not work correctly. Holding SELECT while pressing RESET on the Atari turns off the cartridge completely. This allows for starting booting the flasher from a disk drive. <br>You can use the joystick or the keyboard to control the extended menu. You can filter the list by selecting the tab of a genre. The "All" tab always contains all entries. You can narrow the list within a genre tab by typing any word or part of the menu entry title you want. The search will find the menu entry, whether lower or upper case. You can also use the joystick and the cursor keys to scroll through the result list. You can use the following controls:</div>
 <ul>
 <li>HELP / ATARI - Display the help menu</li>
@@ -426,14 +430,14 @@
 <li>TAB - Toggle the details display mode of the selected entry between readable and technical information</li>
 <li>ESC - Exit the extended menu and start the simple menu. From there, you can also start the flasher.</li>
 </ul>
-<h2><a name="CPLDLogicUpdates"></a>CPLD Logic Updates</h2>
+<h2><a name="CPLDLogicUpdates" href=""></a>CPLD Logic Updates</h2>
 The most recent version of the CPLD logic for the "The!Cart" cartridge supports a configuration lock (since 2013-12-01) and the "Flash MegaCart 4 MB" mode (since 2026-03-26).
 <ul>
 <li><div>The configuration lock ensures no software can unintentionally or maliciously change the contents of the "The!Cart" cartridge. By default, the configuration of "The!Cart" is locked when an entry is started. This means the configuration can no longer be changed via software until you press the "RESET" button on the "The!Cart" cartridge. You can prevent the configuration lock when starting an entry by pressing the "SHIFT" key as an additional modifier. This can be useful when using software built to access the "The!Cart" cartridge in native mode, for example, RAM disk drivers.</div></li>
 <li><div>The "Flash MegaCart 4 MB" mode is required to run cartridges like <a href="https://vega.atari.pl/main-page/street-fighter-ii/" target="_blank">Street Fighter II</a>.</div></li>
 </ul>
 <div>If you have version of "The!Cart" cartridge that still has the older CPLD logic, you can use a JTAG interface to update the CPLD logic as described in <a href="https://www.horus.com/~hias/thecart/jtag-update-docs/" target="_blank" rel="noopener">HOWTO: The!Cart CPLD logic update via JTAG</a>. Note that because The!Cart Studio does not know which version of the CPLD logic is present on your cartridge, it will always assume the latest version. If your CPLD logic is older than the mentioned dates of the updates, the feature will not work on your The!Cart.</div>
-<h2><a name="AdvancedTopics"></a>Advanced Topics</h2>
+<h2><a name="AdvancedTopics" href=""></a>Advanced Topics</h2>
 <p>Several advanced features of "The!Cart Studio" that are not so interesting for the regular user are also available.</p>
 <ul>
 <li>Displaying additional columns in the "Entries" tab <br>Only the most frequently used columns are in the entries tab by default. You can make more columns about the workbook entry visible using the context menu on the table's header row.</li>
@@ -441,7 +445,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>Defining User Space <br>By default, all banks of the flash cartridge are under the control of "The!Cart Studio". But if you want, you can reserve a portion of the flash cartridge for direct flashing from the Atari. This portion of the flash cartridge is called "User Space". You can define the size of the user space in the workbook options. You can enter the size in bytes, kilobytes, or megabytes, e.g., "1023 B", "8 KB" or "2 MB". The actual size of the user space is rounded to the next full bank, depending on the bank size. In addition, the size of user space automatically rounded to a multiple of the flash block size, i.e., to 64 KB for the flash target types "Atarimax 128 KB/ 1 MB" and "Flash MegaCart 4 MB" and to 128 KB for "The!Cart 128 MB". The user space is always placed in the last banks of the flash cartridge. This way, the ATR programming images are shorter, and the flash software does not overwrite the banks that belong to the user space. <br>Though the content of the user space is entirely under the control of the Atari, you can still define entries with "The!Cart Studio" to start the content in the user space from the cartridge menu. The menu entry "Edit/Add User Space Entry" adds a new user space entry to the list. This type of entry does not have an associated file in the project. Instead, manually specifying the content type and the start bank is mandatory. Therefore, these two columns become visible if a user space entry is added.</li>
 <li>Using a particular version of the "The!Cart" Atari flashing software and standard menu <br>"The!Cart Studio" uses the Atari flashing software and the standard menu in the ".jar" file by default. If you want to use a more recent or modified version of the <a href="https://www.horus.com/~hias/#thecart" target="_blank" rel="noopener">"The!Cart" Atari flashing software and standard menu</a> instead of the version which is currently included in "The!Cart Studio", you can put the "<code>cartmenu.rom</code>" file in the same folder as the "TheCartStudio.jar". Whether the built-in or the external software is used and which version it has is displayed in the "About" dialog.</li>
 </ul>
-<h2><a name="TroubleShooting"></a>Trouble Shooting</h2>
+<h2><a name="TroubleShooting" href=""></a>Trouble Shooting</h2>
 <p>In case of problems, post your question to the forums mentioned at the beginning of this document. Frequent mistakes are</p>
 <ul>
 <li>You have used the wrong flash module type and size in the workbook options.<br>Ensure you set the flash module type and size to your cartridge's actual type and size. This is especially important if you did not create the workbook but downloaded it from somewhere. Other people may have different hardware than you.</li>
@@ -451,7 +455,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>You have a "Flash MegaCart 4 MB" cartridge like "Street Fighter II", in your workbook, but it does not start on The!Cart.<br>Make sure you have the latest CPLD logic update. See <a href="#CPLDLogicUpdates">CPLD Logic Updates</a>.</li>
 </ul>
 <p>For testing, if your cartridge and the flasher work correctly, several test workbooks are available for <a href="https://www.wudsn.com/productions/atari800/thecartstudio/thecartstudio-test.zip" target="_blank" rel="noopener">download here</a>. If the computer does not even start with the cartridge inserted, you can try holding down the "OPTION" key during power-on to bypass the cartridge. Then, load the flasher program from the disk and flash the cartridge again.</p>
-<h2><a name="RelatedLinks"></a>Related Links</h2>
+<h2><a name="RelatedLinks" href=""></a>Related Links</h2>
 <ul>
 <li><a href="https://www.horus.com/~hias/atari/#thecart" target="_blank" rel="noopener">Atari flashing software and CPLD logic</a> on <a href="https://www.horus.com/~hias/atari" target="_blank" rel="noopener">HiassofT's Atari 8bit world</a> by Matthias Reichl.</li>
 <li><a href="https://sourceforge.net/projects/aspeqt-a8w-edition/" target="_blank" rel="noopener">AspeQt Atari serial peripheral emulator</a> and SIO2PC for transferring data to the Atari on <a href="https://www.facebook.com/atari8warez/" target="_blank" rel="noopener">Atari8Warez</a> by Ray Ataergin.</li>
@@ -459,7 +463,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li><a href="https://abbuc.de/~bernd/4mb-flash-megacart/english/index.php" target="_blank" rel="noopener" name="MegaCart">MegaCart and MegaCart Studio by Bernd Herale</a> is a 4MB flash cartridge for the Atari 8-bit line.</li>
 <li><a href="http://www.mushca.com/f/atari" target="_blank" rel="noopener" name="Homesoft">Homesoft</a> is a website with program compilations in ATR disk image format.</li>
 </ul>
-<h2><a name="CompatibilityPatches"></a>Compatibility Patches</h2>
+<h2><a name="CompatibilityPatches" href=""></a>Compatibility Patches</h2>
 <p>This is a list of patches for programs that don't work out of the box with newer or non-standard Operating Systems or with the ATR loader of "The!Cart". For them, you can adapt the default parameters determined by "The!Cart" Studio. Just enter the solution listed in the "Parameters" column of the respective workbook entry to patch the files during the export. Since the offsets specified here are specific for a given disk image, they may not work on others.</p>
 <table>
 <tbody>
@@ -501,7 +505,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 </tr>
 </tbody>
 </table>
-<h2 id="ChangeHistory"><a name="ChangeHistory"></a>Change History</h2>
+<h2 id="ChangeHistory"><a name="ChangeHistory" href=""></a>Change History</h2>
 <h3>2026</h3>
 <h4>2026-03-28</h4>
 <div>
