@@ -4,9 +4,9 @@ REM Run without parameters to assemble the menu.
 REM Run with parameter START to additionally create a ".car" and ".atr" file and run the ".car" file.
 
 REM Setup and paths.
-cd C:\jac\system\Java\Programming\Repositories\TheCartStudio\com.wudsn.productions.atari800.thecartstudio\asm\thecart-menu
+cd %~dp0
 setlocal
-set MADS=C:\jac\system\Atari800\Tools\ASM\MADS\mads.exe 
+set MADS=C:\jac\system\Atari800\Tools\ASM\MADS\bin\windows_x86_64\mads.exe
 set OUT=..\..\tst\out\
 set EXAMPLES=C:\jac\system\Atari800\Tools\ROM\TheCartStudio\Examples
 REM set EMU=C:\jac\system\Atari800\Tools\EMU\Atari800\atari800.exe
