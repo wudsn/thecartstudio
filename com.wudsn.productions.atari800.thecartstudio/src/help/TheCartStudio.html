@@ -388,7 +388,7 @@
 <li>The flasher will automatically detect if the attached storage device supports high-speed SIO.</li>
 <li>Press "1" for "Program Cartridge".</li>
 <li>If you use AspeQt and SIO2PC, insert the single large disk image created in the step <a href="#ExportingWorkbooks">Exporting Workbooks</a> into the emulated drive "D1:" in AspeQt.</li>
-<li>If you use SIO2USB, SIO2SD, or your alternative storage device, insert the first of the nine 16 MB disk images created in the step <a href="#ExportingWorkbooks">Exporting Workbooks</a> into the emulated drive "D1:" in AspeQt. If your storage device supports emulating multiple disk drives, insert the disk images 2 to 9 in the subsequent virtual drives. This way, you can leave the Atari alone longer during flashing.</li>
+<li>If you use SIO2USB, SIO2SD, or your alternative storage device, insert the first of the nine 16 MB disk images created in the step <a href="#ExportingWorkbooks">Exporting Workbooks</a> into the emulated drive "D1:" in AspeQt. If your storage device supports emulating multiple disk drives, insert the disk images 2-9 into the subsequent virtual drives. This way, you can leave the Atari alone longer during flashing.</li>
 <li>The flasher will prompt you with "drive number (1-15)".</li>
 <li>Press "1" and "RETURN" to start loading the data from the disk.</li>
 <li>The flasher will load the header information and display the workbook title, date, and number of used blocks. It indicates whether the export consists of multiple 16 MB images. In that case, you can search for further 16 MB disk images in all available drives.</li>
@@ -441,8 +441,8 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <p>Several advanced features of "The!Cart Studio" that are not so interesting for the regular user are also available.</p>
 <ul>
 <li>Displaying additional columns in the "Entries" tab <br>Only the most frequently used columns are in the entries tab by default. You can make more columns about the workbook entry visible using the context menu on the table's header row.</li>
-<li>Using fixed start banks <br>By default, entries are assigned automatically to a suitable start bank, and the user cannot change this assignment. For developers who want to create software that uses "The!Cart" directly, for example, in "Flexi-Mode" to access the 128 MB directly, it may be required to put certain content in certain banks. To do this, use the context menu to make the column "Start Bank Fixed" visible. This column offers a check box, and if the check box is active for an entry, the column "Start Bank" becomes editable for this workbook entry. The workbook entry is excluded from automatic bank assignment.</li>
-<li>Defining User Space <br>By default, all banks of the flash cartridge are under the control of "The!Cart Studio". But if you want, you can reserve a portion of the flash cartridge for direct flashing from the Atari. This portion of the flash cartridge is called "User Space". You can define the user space size in the workbook options. You can enter the size in bytes, kilobytes, or megabytes, e.g., "1023 B", "8 KB", or "2 MB". The actual user space size is rounded up to the next full bank, depending on the bank size. In addition, the size of the user space is automatically rounded to a multiple of the flash block size, i.e., to 64 KB for the flash target types "Atarimax 128 KB/ 1 MB" and "Flash MegaCart 4 MB" and to 128 KB for "The!Cart 128 MB". The user space is always placed in the last banks of the flash cartridge. This way, the ATR programming images are shorter, and the flash software does not overwrite the user-space banks. <br>Though the content of the user space is entirely under the control of the Atari, you can still define entries with "The!Cart Studio" to start the content in the user space from the cartridge menu. The menu entry "Edit/Add User Space Entry" adds a new user space entry to the list. This type of entry does not have an associated file in the project. Instead, manually specifying the content type and the start bank is mandatory. Therefore, these two columns become visible if a user space entry is added.</li>
+<li>Using fixed start banks <br>By default, entries are assigned automatically to a suitable start bank, and the user cannot change this assignment. For developers who want to create software that uses "The!Cart" directly, for example, in "Flexi-Mode" to access the 128 MB directly, it may be required to put certain content in certain banks. To do this, use the context menu to make the column "Start Bank Fixed" visible. This column offers a checkbox; if it is active for an entry, the "Start Bank" column becomes editable for that workbook entry. The workbook entry is excluded from automatic bank assignment.</li>
+<li>Defining User Space <br>By default, all banks of the flash cartridge are under the control of "The!Cart Studio". But if you want, you can reserve a portion of the flash cartridge for direct flashing from the Atari. This portion of the flash cartridge is called "User Space". You can define the user space size in the workbook options. You can enter the size in bytes, kilobytes, or megabytes, e.g., "1023 B", "8 KB", or "2 MB". The actual user space size is rounded up to the next full bank, depending on the bank size. In addition, the user space is automatically rounded to a multiple of the flash block size, i.e., to 64 KB for the flash target types "Atarimax 128 KB/ 1 MB" and "Flash MegaCart 4 MB", and to 128 KB for "The!Cart 128 MB". The user space is always placed in the last banks of the flash cartridge. This way, the ATR programming images are shorter, and the flash software does not overwrite the user-space banks. <br>Though the content of the user space is entirely under the control of the Atari, you can still define entries with "The!Cart Studio" to start the content in the user space from the cartridge menu. The menu entry "Edit/Add User Space Entry" adds a new user space entry to the list. This type of entry does not have an associated file in the project. Instead, manually specifying the content type and the start bank is mandatory. Therefore, these two columns become visible if a user space entry is added.</li>
 <li>Using a particular version of the "The!Cart" Atari flashing software and standard menu <br>"The!Cart Studio" uses the Atari flashing software and the standard menu in the ".jar" file by default. Suppose you want to use a more recent or modified version of the <a href="https://www.horus.com/~hias/#thecart" target="_blank" rel="noopener">"The!Cart" Atari flashing software and standard menu</a> instead of the version which is currently included in "The!Cart Studio", you can put the "<code>cartmenu.rom</code>" file in the same folder as the "TheCartStudio.jar". Whether the built-in or the external software is used and which version it has is displayed in the "About" dialog.</li>
 </ul>
 <h2><a name="TroubleShooting" href=""></a>Trouble Shooting</h2>
@@ -450,7 +450,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <ul>
 <li>You have used the wrong flash module type and size in the workbook options.<br>Ensure you set the flash module type and size to your cartridge's actual type and size. This is especially important if you did not create the workbook but downloaded it from somewhere. Other people may have different hardware than you.</li>
 <li>You have used the wrong menu in the workbook options.<br>Set the flash module type to "Extended Menu" to get the Google-like search. This is especially important if you did not create the workbook but downloaded it from somewhere. Older workbooks use the "Simple Menu".</li>
-<li>You have used the wrong flashing mode in the flasher.<br>Make sure you use "Program Cartridge" by default. You don't need to program raw files or images, as they are not required when using "The!Cart Studio". Make sure you use incremental flashing by default, if available, to save time. Non-incremental/complete flashing is only required if nothing else helps. In non-incremental flashing mode, all blocks (16 banks are one block) of "The!Cart" are explicitly erased to initialize the flash, even though the banks may have been empty already.</li>
+<li>You have used the wrong flashing mode in the flasher.<br>Make sure you use "Program Cartridge" by default. You don't need to program raw files or images; they aren't required when using "The!Cart Studio". Make sure you use incremental flashing by default, if available, to save time. Non-incremental/complete flashing is only required if nothing else helps. In non-incremental flashing mode, all blocks (16 banks are one block) of "The!Cart" are explicitly erased to initialize the flash, even though the banks may have been empty already.</li>
 <li>You used the flasher's "E) Erase cartridge" option.<br>This completely erases all content in the Flash ROM, including the menu and the flasher. An empty cartridge will cause the computer to lock up during the boot process. See the section "If "The!Cart" does not start anymore after flashing" for the required steps. The first flash process will again erase all blocks (16 banks are one block) to initialize the flash, even though the banks may have been empty already.</li>
 <li>You have a "Flash MegaCart 4 MB" cartridge like "Street Fighter II", in your workbook, but it does not start on The!Cart.<br>Make sure you have the latest CPLD logic update. See <a href="#CPLDLogicUpdates">CPLD Logic Updates</a>.</li>
 </ul>
@@ -464,7 +464,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li><a href="http://www.mushca.com/f/atari" target="_blank" rel="noopener" name="Homesoft">Homesoft</a> is a website with program compilations in ATR disk image format.</li>
 </ul>
 <h2><a name="CompatibilityPatches" href=""></a>Compatibility Patches</h2>
-<p>This is a list of patches for programs that don't work out of the box with newer or non-standard Operating Systems or with the ATR loader of "The!Cart". For them, you can adapt the default parameters determined by "The!Cart" Studio. Just enter the solution listed in the "Parameters" column of the respective workbook entry to patch the files during the export. Since the offsets specified here are specific to a given disk image, they may not work on others.</p>
+<p>This is a list of patches for programs that don't work out of the box with newer or non-standard Operating Systems or with the ATR loader of "The!Cart". For them, you can adapt the default parameters determined by "The!Cart" Studio. Just enter the solution listed in the "Parameters" column of the respective workbook entry to patch the files during the export. Since the offsets specified here are specific to a given disk image, they may not work on other disk images.</p>
 <table>
 <tbody>
 <tr>
@@ -494,7 +494,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <tr>
 <td>M.U.L.E.</td>
 <td>GAMES067.ATR</td>
-<td>The crack intro uses the normally unused stack area at $114 and page 4 at $400. Therefore, the base address of the ATR loader must be set to a different address.</td>
+<td>The crack intro uses the normally unused stack area at $114 and page 4 at $400. Therefore, the ATR loader's base address must be set to a different value.</td>
 <td>base=$0600, $011d=siov, $016a01=$ae, $016a02=selected_item_number, $016a04=$4c, $016a05=$8b, $016a06=$09</td>
 </tr>
 <tr>
@@ -618,7 +618,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <div>
 <ul>
 <li>Executable files (COM, EXE, XEX) can now be added directly to the workbook. Previously, they had to be copied to an ATR disk image or be included in an Atarimax ROM. The corresponding sections in the documentation have been updated. For now, only files with a valid RUNADR ($2e0) segment will start, just like under DOS 2.5.</li>
-<li><a href="#Bootmanager">Bootmanager by Mike Langer</a> is now included in the "The!Cart Studio" download and online help. While adding executable files directly to the workbook is possible, adding them to an ATR disk image with the boot manager first and then adding the ATR disk image has advantages. ATR disk images work with sectors of 128 or 256 bytes. So if multiple files are copied to a single disk, at most 127 or 255 bytes of space is wasted. If you add executable files directly, you waste 8191 bytes of space per file in the worst case.</li>
+<li><a href="#Bootmanager">Bootmanager by Mike Langer</a> is now included in the "The!Cart Studio" download and online help. While adding executable files directly to the workbook is possible, adding them to an ATR disk image with the boot manager first, then adding the ATR disk image, has advantages. ATR disk images work with sectors of 128 or 256 bytes. So if multiple files are copied to a single disk, at most 127 or 255 bytes of space is wasted. If you add executable files directly, you waste 8191 bytes of space per file in the worst case.</li>
 <li>Besides the HELP key, the ATARI/INVERSE key also displays a built-in help menu that explains all controls. This solves the problem of no HELP key on the Atari 400 and the Atari 800.</li>
 <li>If the application detects that a new version is available, it prompts the user if the download should be performed. If the user confirms downloading the latest version, the current application instance is automatically closed so its files can be replaced.</li>
 </ul>
@@ -659,13 +659,13 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <div>
 <ul>
 <li>Titles defaulted from the file name are correct if the file name contains multiple period characters.</li>
-<li>The ATR loader no longer sets a temporary blank display list to prevent flickering if the screen DMA is disabled via SDMCTL ($22F). This keeps the screen from remaining black after loading in cases where the program directly writes to DLISTL/DLISTH ($D402/$D403). This is the case for Bandits.</li>
+<li>The ATR loader no longer sets a temporary blank display list to prevent flickering if the screen DMA is disabled via SDMCTL ($22F). This prevents the screen from remaining black after loading when the program directly writes to DLISTL/DLISTH ($D402/$D403). This is the case for Bandits.</li>
 </ul>
 </div>
 <h4>2018-06-17</h4>
 <div>
 <ul>
-<li>The preview option ("CTRL-T") has been enhanced. When no or no valid path to an emulator is configured in the global options, and no default application for ".car" files is registered, a file chooser dialog now prompts for selecting the emulator executable to be used. If a valid executable is chosen, it is also saved in the global options. The JDK has a bug, so detection does not always work. See <a href="https://bugs.openjdk.java.net/browse/JDK-8204537">JDK-8204537</a>. You can work around this by manually entering the path in the options.</li>
+<li>The preview option ("CTRL-T") has been enhanced. When no valid path to an emulator is configured in the global options, and no default application for ".car" files is registered, a file chooser dialog now prompts for selecting the emulator executable to use. If a valid executable is chosen, it is also saved in the global options. The JDK has a bug, so detection does not always work. See <a href="https://bugs.openjdk.java.net/browse/JDK-8204537">JDK-8204537</a>. You can work around this by manually entering the path in the options.</li>
 <li>The ATR loader now clears the memory locations from $80 to $ff and from the end of the loader (around $2000) to $9fff before the boot process. This fixes incompatibilities with programs that assume these locations to be zero, such as Turbo-Basic XL 1.4.</li>
 </ul>
 </div>
@@ -675,7 +675,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>Fixed a bug added in the 2018-05-05 version that can prevent entries from being added when they are in the cartridge database.</li>
 <li>If the title derived from the file name and the title in the cartridge database are equal, no confirmation dialog is displayed anymore.</li>
 <li>The content type "XEGS 32 KB" is now correctly mapped to the "The!Cart" mode for "XEGS 32 KB" instead of "Switchable XEGS 32 KB" in the extended menu. With this, cartridges that use bank numbers with bit 7 set now work correctly, for example, "Castle Crisis".</li>
-<li>Usage of the SHIFT modifier is now the same in the expert and extended menus. When starting an entry with SHIFT, i.e., FIRE+SHIFT, RETURN+SHIFT, or RETURN+SHIFT+CONTROL, the configuration registers of "The!Cart" remain unlocked. Using the CONTROL modifier in addition, i.e., RETURN+CONTROL or RETURN+SHIFT+CONTROL, indicates that the inner menu of the cartridge containing the menu entry is started instead of starting the menu entry directly. Note that FIRE+CONTROL alone cannot be detected on the Atari due to how POKEY works.</li>
+<li>Usage of the SHIFT modifier is now the same in the expert and extended menus. When starting an entry with SHIFT, i.e., FIRE+SHIFT, RETURN+SHIFT, or RETURN+SHIFT+CONTROL, the configuration registers of "The!Cart" remain unlocked. Using the CONTROL modifier in addition, i.e., RETURN+CONTROL or RETURN+SHIFT+CONTROL, indicates that the inner menu of the cartridge containing the menu entry is started instead of starting the menu entry directly. Note that FIRE+CONTROL alone cannot be detected on the Atari because POKEY works the way it does.</li>
 <li>Built-in MyPicoDOS and flasher software from hias updated from version 4.05T (2014-04-07) to 4.06T (2017-09-24);
 <ol>
 <li>Added a ".CAR" file loader to load cartridge images up to 512k from the disk into the "The!Cart" RAM without flashing them. It is handy for fast test cycles during development.</li>
@@ -685,8 +685,8 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 </ol>
 </li>
 <li>The generated unit test cartridges now contain more details, including the mode "The!Cart" uses for emulation. In addition, the VBI is still active, so the cartridge can be frozen using TurboFreezer to analyze problems on the actual hardware.</li>
-<li>Import conversion for Williams 32 KB ROM is more robust now and always generates a new filename for the converted file.</li>
-<li>File and conversion errors occurring while adding new entries are now reported correctly in the status bar.</li>
+<li>Import conversion for the Williams 32 KB ROM is now more robust and always generates a new filename for the converted file.</li>
+<li>File and conversion errors occurring while adding new entries are now reported correctly in the status bar. </li>
 </ul>
 </div>
 <h4>2018-05-05</h4>
@@ -695,7 +695,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>Import of Maxflash Programming ATRs now automatically converts the ".ATR" file to a ".CAR" file only if the flash target type of the workbook supports the Atarimax bank switching scheme.</li>
 <li>Import of Williams 32 KB ".ROM" and ".CAR" files now automatically converts the file to a Williams 64 KB".CAR" file in case only the Williams 64 KB bank switching scheme is supported by the flash target type of the workbook.</li>
 <li>The new Atari800 cartridge types and corresponding content types for "Atrax 128 KB" (68), "aDawliah 32 KB" (69), and "aDawliah 64 KB" (70) have been added to the cartridge detection and unit test generation. Note that they are not supported by "The!Cart" itself. If you have used the supported "Atarax 128" (17) mode in your existing workbooks, you have to re-classify the corresponding entries now as "Decoded Atarax 128" (17). This is an incompatible change, but I want to be 100% in sync with Atari800 and its definitions.</li>
-<li>The cartridge database has been updated to Kr0tkis' version from 2018-04-24. Now, it contains 839 instead of 737 known titles and 807 instead of 717 known content types.</li>
+<li>The cartridge database has been updated to Kr0tkis' version from 2018-04-24. Now, it contains 839 known titles instead of 737, and 807 known content types instead of 717.</li>
 <li>If a matching entry in the cartridge database is found when adding a file, the user is prompted to decide if the proposed title from the database should be used.</li>
 <li>The About dialog now displays the number of supported content types.</li>
 </ul>
@@ -717,7 +717,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2015-09-20</h4>
 <div>
 <ul>
-<li>The "Multiple Entries" feature is now more reliable for corrupted Atarimax menus and can handle menus with more than 70 entries correctly now. "Maxflash Studio only reserves about 2000 bytes for the title texts. Title texts are stored as variable-length strings. Typically, the ROM space on the cartridge runs out for the workbook data before the title space runs out for the titles. However, due to a missing warning in Maxflash Studio, the title space can overwrite the content space if many long titles are used. The "The! Cart Studio" now tries to detect that situation and stops at the last correct entry. See <a href="https://www.atarimax.com/flashcart/forum/viewtopic.php?f=3&amp;t=1473">Maxflash Studio Menu corrupted when using &gt;70 entries</a>.</li>
+<li>The "Multiple Entries" feature is now more reliable for corrupted Atarimax menus and can handle menus with more than 70 entries correctly. "Maxflash Studio only reserves about 2000 bytes for the title texts. Title texts are stored as variable-length strings. Typically, the ROM space on the cartridge runs out for the workbook data before the title space runs out for the titles. However, due to a missing warning in Maxflash Studio, the title space can overwrite the content space if many long titles are used. The "The! Cart Studio" now tries to detect that situation and stops at the last correct entry. See <a href="https://www.atarimax.com/flashcart/forum/viewtopic.php?f=3&amp;t=1473">Maxflash Studio Menu corrupted when using &gt;70 entries</a>.</li>
 </ul>
 </div>
 <h4>2015-08-08</h4>
@@ -732,7 +732,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <ul>
 <li>"TheCartStudio.app" for macOS users now works correctly, allowing them to start the application directly from the Finder.</li>
 <li>The new modifier key, "CONTROL", is evaluated when starting an entry to turn off the default configuration lock. This can be useful when using software built to access the "The!Cart" cartridge in native mode, for example, RAM disk drivers. See <a href="#ExtendedMenu">Extended Menu</a> for details. Note: This was changed to "SHIFT" in newer versions.</li>
-<li>The new section, <a href="#TroubleShooting">Trouble Shooting</a>, was added to the documentation. It also contains a download link to an archive, including test workbooks for different sizes of cartridges and all supported cartridge types.</li>
+<li>The new section, <a href="#TroubleShooting">Trouble Shooting</a>, was added to the documentation. It also includes a download link to an archive containing test workbooks for cartridges of different sizes and all supported cartridge types.</li>
 <li>Description of the flashing process for "The!Cart" added to the section <a href="#ProgrammingFlashCartridges">Programming Flash Cartridges</a> of the documentation.</li>
 </ul>
 </div>
@@ -741,11 +741,11 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <ul>
 <li>The download now contains a "TheCartStudio.exe" for Windows users. This wrapper program has proper icons, a version and location test for the Java Runtime, and the required Java parameters to ensure enough heap memory is available.</li>
 <li>The download now contains a "TheCartStudio.sh" for Linux users. This script provides Java with the required parameters to ensure enough heap memory is available.</li>
-<li>The download now contains a "TheCartStudio.app" for macOS users. This one is still very experimental and is not yet tested as I don't own a macOS machine. But I wanted to get this version out now.</li>
-<li>Online help has been revised. New sections and diagrams now explain the workflow and creating and flashing workbooks. Also, the different options to add files directly or via Maxflash Studio and MegaCart Studio are now described.</li>
+<li>The download now contains a "TheCartStudio.app" for macOS users. This one is still very experimental and hasn't been tested yet, as I don't own a macOS machine. But I wanted to get this version out now.</li>
+<li>Online help has been revised. New sections and diagrams now explain the workflow and the process of creating and flashing workbooks. Also, the different options to add files directly or via Maxflash Studio and MegaCart Studio are now described.</li>
 <li>The selected line in the extended menu now uses black text and more constant and darker flashing. This reduces bending and artifacts on the CRT screen.</li>
 <li>Player missile graphics of the extended menu are now disabled correctly before an entry is started. That was an issue, for example, with Flop Magazine 56 Intro.</li>
-<li>An exception that occurred with ATR files that do neither have a boot manager menu nor are DOS 2.5 disks is fixed.</li>
+<li>An exception that occurred with ATR files that do not have a boot manager menu, nor are DOS 2.5 disks, is fixed.</li>
 <li>New Atari software version 2014-04-07 included. It includes a fix for the CAR or MyPicoDOS when loading OSS modules.</li>
 <li>The "-createSampleFiles" command now correctly creates separate folders "ROM-Correct", "ROM-Size-Too-Small", and "ROM-Size-Too-Large".</li>
 <li>Console output for error messages is now routed to "System.err", so the command line can adequately distinguish between information and error messages.</li>
@@ -756,54 +756,54 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <div>
 <ul>
 <li>The last entry from <a href="#Bootmanager">Bootmanager by Mike Langer</a> disks is now visible in the extended menu. Thanks to Frank for pointing out the bug.</li>
-<li>New cartridge type "67 - XEGS 64 KB cartridge (banks 8-15)" added to list of recognized cartridge and content types for completeness.</li>
+<li>New cartridge type "67 - XEGS 64 KB cartridge (banks 8-15)" added to the list of recognized cartridge and content types for completeness.</li>
 </ul>
 </div>
 <h4>2014-09-24</h4>
 <div>
 <ul>
 <li>Bootable ATRs without "DOS 2.x" or "MYDOS" are now correctly recognized again. They had worked before and became broken with the support for the <a href="#Bootmanager">Bootmanager by Mike Langer</a> ATR disk images.</li>
-<li>The new menu entry "Tools/Preview" allows for a testing preview of the complete cartridge export and its menu in an emulator, just as in the Maxflash Studio. The workbook is exported as a ".car" file with a fixed name into the user's temporary folder for the preview. A previously existing preview is overwritten automatically. If no path to an emulator executable is configured in the options, "The!Cart Studio" tries to open the ."car" file with the associated default program of the operating system. If that fails, it will ask you to maintain the full path to the emulator, for example, to "Altirra.exe" or "atari800.exe" in the options.</li>
+<li>The new menu entry "Tools/Preview" allows for a testing preview of the complete cartridge export and its menu in an emulator, just as in the Maxflash Studio. The workbook is exported as a ".car" file with a fixed name into the user's temporary folder for the preview. A previously existing preview is overwritten automatically. If no path to an emulator executable is configured in the options, "The!Cart Studio" tries to open the ."car" file with the associated default program of the operating system. If that fails, it will ask you to enter the full path to the emulator, for example, "Altirra.exe" or "atari800.exe", in the options.</li>
 <li>The modifier key for menu entries should now be "Command" instead of "Control" on macOS.</li>
-<li>The bank color buttons are now correctly displayed on Windows XP.</li>
+<li>The bank color buttons are now correctly displayed on Windows XP. </li>
 <li>The "Check for Updates during Start" setting in the options is now saved correctly when the program is closed.</li>
 </ul>
 </div>
 <h4>2014-09-22</h4>
 <div>
 <ul>
-<li>The export now generates a ".txt" index file with the title and origin of all menu entries. So, you can use the file system search of your operating system function to find games in exports. The index file also contains detailed information about the inner menu entries of workbook entries with the "Multiple Entries" setting. For example, "Amaurote 128 (130 XE)" will be listed for the workbook entry with the title "GAMES403" stored in "GAMES403.ATR"."</li>
+<li>The export now generates a ".txt" index file with the title and origin of all menu entries. So, you can use the file system search of your operating system's function to find games in exports. The index file also contains detailed information about the inner menu entries of workbook entries with the "Multiple Entries" setting. For example, "Amaurote 128 (130 XE)" will be listed for the workbook entry with the title "GAMES403" stored in "GAMES403.ATR".</li>
 <li>The resident part of the SIO simulation that must be present after booting has been reduced from 231 to 148 bytes. This makes it possible to use the stack area with "base=$100" also. Since that part of the stack will be unused in most cases, it has become the new default base address. Yet some programs may use that area, for example, during unpacking, so you'll have to try other values in case it doesn't work.</li>
-<li>The ATR analysis now patches DOS disks correctly in case the " at sector four but on other parts of the disk. Example: "<code>Asteroids.atr</code>" by Norbert Kehrer</li>
+<li>The ATR analysis now patches DOS disks correctly in case the " at sector four, but on other parts of the disk. Example: "<code>Asteroids.atr</code>" by Norbert Kehrer</li>
 <li>In the new appendix, <a href="#CompatibilityPatches">Compatibility Patches</a>, you can find a list of known parameter combinations for programs that don't work with the default parameters. This includes fixes for OS-B-only games (Popeye) or file versions with plain bugs (Bounty Bob).</li>
 <li>Pressing RETURN to start the selected entry correctly starts the menu entry even if the search is still active. Before, RETURN was incorrectly interpreted as ESC. As a result, the simple menu was started instead of a menu entry.</li>
 <li>Menu entries from double-density <a href="#Bootmanager">Bootmanager by Mike Langer</a> disks with more than nine entries (i.e., more than one directory sector) now appear correctly in the extended menu. Example: "GAMES009.ATR".</li>
-<li>The documentation has been extended with the description of starting Java with enough memory to export a large workbook. The About dialog now displays the amount of memory available in Java. Errors that occur during export due to insufficient memory are not displayed and are instead reported in the status bar. This was a problem on macOS 10.9, where the default Java heap size was 128 MB on some machines.</li>
+<li>The documentation has been extended with the description of starting Java with enough memory to export a large workbook. The About dialog now displays the amount of memory available in Java. Errors that occur during export due to insufficient memory are not displayed; instead, they are reported in the status bar. This was a problem on macOS 10.9, where the default Java heap size was 128 MB on some machines.</li>
 <li>The new parameter "$123=SELECTEDITEMNUMBER" can patch the menu code of ATR images to load the correct menu item. For <a href="#Bootmanager">Bootmanager by Mike Langer</a> disks, this is already done automatically now. So you can start all of them from the extended menu without bothering with the actual <a href="#Bootmanager">Bootmanager by Mike Langer</a> menu.</li>
 </ul>
 </div>
 <h4>2014-09-16</h4>
 <div>
 <ul>
-<li>"The!Cart Studio" automatically checks if a newer version is available on the website during startup. A dialog box is displayed if a more recent version is available, and the download can be triggered directly by pressing "Yes". For those with a slow internet connection or who don't like automatic updates, the check can be turned off in the options. You can then use the "About" dialog to display the local and the version available on the website.</li>
-<li>The analysis of the ATR for SIO patching has been improved. For disks that contain a known DOS (DOS 2.0S, DOS 2.5, MyDOS) and its "DOS.SYS" file, only the sectors that belong to that file are patched by default. For disks that contain the <a href="#Bootmanager">Bootmanager by Mike Langer</a>, only the sectors of the Bootmanager are patched. For all other disks, the complete disk is scanned for all usages of the SIO. That may result in some false positives you must manually remove from the parameters. If you added ATR files to a workbook before and did not manually modify the parameters, you should add those files again. This will set the parameter to the new default, reducing the risk of wrong patches.</li>
+<li>"The!Cart Studio" automatically checks if a newer version is available on the website during startup. A dialog box appears if a more recent version is available, and the download can be triggered by pressing "Yes". For those with a slow internet connection or who don't like automatic updates, the check can be turned off in the options. You can then use the "About" dialog to display the local version and the version available on the website.</li>
+<li>The analysis of the ATR for SIO patching has been improved. For disks that contain a known DOS (DOS 2.0S, DOS 2.5, MyDOS) and its "DOS.SYS" file, only the sectors that belong to that file are patched by default. For disks that contain the <a href="#Bootmanager">Bootmanager by Mike Langer</a>, only the sectors of the Bootmanager are patched. For all other disks, the entire disk is scanned for all SIO usages. That may result in some false positives, which you must manually remove from the parameters. If you added ATR files to a workbook before and did not manually modify the parameters, you should add those files again. This will set the parameter to the new default, reducing the risk of applying the wrong patch.</li>
 <li>Patches specified in the "Parameters" column for ATR files can also be used for direct patching and pokes. You can specify a patch or poke as "$1234=$56" to set the byte at offset "$1234" in the disk image content to "$56" during the export. For example to make "Popeye" work on OS-C/XL machines you can specify "base=$0400, $011d=siov, $1101a=$ea, $1101b=$ea, $1101c=$ea" as parameters for the "GAME009.ATR" from Homesoft.</li>
-<li>The ATR loader now correctly clears the RAM before the boot process. Before, the RAM was unintentionally filled with a pattern. This resulted in graphics garbage in some programs that do not initialize the RAM, like Master of the Lamps.</li>
+<li>The ATR loader now correctly clears the RAM before the boot process. Before, the RAM was unintentionally filled with a pattern. This resulted in graphics garbage in some programs that do not properly initialize RAM, such as Master of the Lamps.</li>
 </ul>
 </div>
 <h4>2014-09-11</h4>
 <div>
 <ul>
 <li>Detailed descriptions of all columns on the "Entries" tab and of the "Multiple Entries" setting for the "Display mode" have been added to the <a href="#AddingEntries">Adding Entries</a> section.</li>
-<li>"Multiple Entries" is now also supported for two disk-based menus. Disks that contain the "Bootmanager" by Mike Langer or "MyPicoDOS" by Matthias Reichl are now supported. The long file names maintained in these menus will be listed in the extended menu and can be used for searching. You can find the enormous archive of disk images that use "Bootmanager" on the <a href="http://www.mushca.com/f/atari" target="_blank" rel="noopener">Homesoft website</a>. As a test, all currently present 405 disk images with 2477 games have been added successfully and appeared correctly in the extended menu.</li>
-<li>Memory organization of the extended menu optimized. It works correctly now on an Atari 400 with only 16k of RAM. Isn't that cool with 128 MB of ROM? The result list is now automatically limited based on the available RAM in the Atari. On a 16k Atari, there is space for 512 entries in the result. On a 48k Atari, there is space for 12,800 entries in the result.</li>
+<li>"Multiple Entries" is now also supported for two disk-based menus. Disks that contain the "Bootmanager" by Mike Langer or "MyPicoDOS" by Matthias Reichl are now supported. The long file names maintained in these menus will be listed in the extended menu and can be used for searching. You can find the enormous archive of disk images that use "Bootmanager" on the <a href="http://www.mushca.com/f/atari" target="_blank" rel="noopener">Homesoft website</a>. As a test, all currently present 405 disk images with 2477 games have been added successfully and appear correctly in the extended menu.</li>
+<li>Memory organization of the extended menu optimized. It works correctly now on an Atari 400 with only 16k of RAM. Isn't that cool with 128 MB of ROM? The result list is now automatically limited by the available RAM on the Atari. On a 16k Atari, there is space for 512 entries in the result. On a 48k Atari, there is space for 12,800 entries in the result.</li>
 <li>Link to hias' website fixed in the documentation.</li>
 </ul>
 </div>
 <h4>2014-08-04</h4>
 <div>
 <ul>
-<li>The extended menu now also works with "The!Cart" cartridges with 32 MB and 64 MB.</li>
+<li>The extended menu now also works with "The!Cart" cartridges with 32 MB and 64 MB. </li>
 </ul>
 </div>
 <h4>2014-07-18</h4>
@@ -824,16 +824,16 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2014-07-02</h4>
 <div>
 <ul>
-<li>Java 1.6 is now sufficient to run and use "The!Cart Studio". This is particularly valuable for macOS users because Java 1.6 is the default, and Java 1.7 is still hard to install. The only limitation when using Java 1.6 is that multi-selection in the file dialog will not be possible. But you can typically bypass that restriction using drag &amp; and drop.</li>
+<li>Java 1.6 is now sufficient to run and use "The!Cart Studio". This is particularly valuable for macOS users because Java 1.6 is the default, and Java 1.7 is still hard to install. The only limitation when using Java 1.6 is that multi-selection in the file dialog will not be possible. But you can typically bypass that restriction using drag-and-drop.</li>
 <li>The SIO simulation for ATR entries based on the "Modified ATR Image" approach is complete in supporting both single and double-density disks and ATRs with non-standard sector counts. Due to a bug in the analysis code of the previous "The!Cart Studio" versions, you may have to re-add the ATRs again to trigger a new analysis.</li>
-<li>The screen is now temporarily disabled when loading from a simulated ATR. This speeds up the loading by a factor of about 25. Before, the routine was waiting for a blank screen area, which slowed it down dramatically and also could not work correctly in many cases. So I decided to make the loading so fast that you don't even realize there would be a loading screen.</li>
+<li>The screen is now temporarily disabled when loading from a simulated ATR. This speeds up loading by about 25 times. Before, the routine waited for a blank screen area, which slowed it down dramatically and often did not work correctly. So I decided to make the loading so fast that you don't even realize there is a loading screen.</li>
 <li>A restriction has been added to prevent interchange issues with workbooks created on different platforms (Windows, Linux, Mac, Unicode vs. Non-Unicode). The problem appeared, for example, for "Q¤Bert," which causes a very cool, unique character on some file systems. The file names for files that are added to the workbook are now restricted to the following interoperable subset of the ASCII range:
 <pre>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&amp;'()+,-.;=@[]^_ </pre>
 </li>
-<li>Names of the genres are now automatically sorted in the workbook options. Empty genre names are now filtered out implicitly. The length of the genre name and the total allowed number of genres (128) are checked now. Changes to the genres list are detected correctly now.</li>
+<li>Names of the genres are now automatically sorted in the workbook options. Empty genre names are now filtered out implicitly. The length of the genre name and the total number of allowed genres (128) are now checked. Changes to the genres list are now detected correctly.</li>
 <li>Direct start for inner menu entries now starts the correct entry number in case some Atarimax cartridge banks are occupied by an Atari OS, for example, OS-B.</li>
-<li>Some initialization errors in direct start inner menu entries are fixed now. Handling cold start and warm start settings for Atarimax menus is working better currently. This is important for reset-proof games that use a warm start for the initial startup, like Frogger.</li>
-<li>The colors of the banks in the summary panel and the "Banks" tab can now be configured individually in the options. In addition, there is a "Reset" button to reset the colors to the default values. Pressing "Cancel" in the options dialog now actually discards all the changes performed in the options dialog.</li>
+<li>Some initialization errors in direct start inner menu entries are fixed now. Handling cold-start and warm-start settings for Atarimax menus is working better now. This is important for reset-proof games that use a warm start for the initial startup, like Frogger.</li>
+<li>The colors of the banks in the summary panel and the "Banks" tab can now be configured individually in the options. In addition, there is a "Reset" button that restores the colors to their default values. Pressing "Cancel" in the options dialog now actually discards all changes made there.</li>
 </ul>
 </div>
 <h4>2014-04-03</h4>
@@ -851,10 +851,10 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2014-03-02</h4>
 <div>
 <ul>
-<li>The filtering via genres is now working in the extended menu. Use a joystick or cursor left and right to step through the genres. Visualization of the selected genre is not yet how I want it to be, but it works.</li>
+<li>The filtering via genres is now working in the extended menu. Use a joystick or the cursor left and right to step through the genres. The visualization of the selected genre isn't yet how I want it, but it works for now.</li>
 <li>The HELP key now displays a built-in help menu that explains all controls.</li>
 <li>Initialization error in the direct start for MegaCart's inner menu entries fixed (DLI vectors, BASIC not off after warm start).</li>
-<li>Some cartridges, like Asteroids, have the property that pressing the RESET button on "The!Cart" sometimes brings you to the extended menu by incident. This is the case simply because they use the same memory area, and pressing the button swaps the code. This can lead to garbage on the screen and a non-working menu. Now, the menu detects that the RESET button of "The!Cart" is still pressed during initialization (which is usually not the case). It then performs a cold start to ensure proper initialization once the button is released.</li>
+<li>Some cartridges, like Asteroids, have the property that pressing the RESET button on "The!Cart" sometimes brings you to the extended menu by accident. This is the case simply because they use the same memory area, and pressing the button swaps the code. This can lead to garbage on the screen and a non-working menu. Now, the menu detects that the RESET button of "The!Cart" is still pressed during initialization (which is usually not the case). It then performs a cold start to ensure proper initialization once the button is released.</li>
 <li>Keyboard definitions are now included directly in the extended menu, so it works correctly if an "OldRunner" OS is active.</li>
 <li>TAB - Toggle the details display of the selected entry between readable and technical information.</li>
 </ul>
@@ -865,7 +865,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>Display type "Multiple Entries" is now also supported for an additional older version of the Maxflash Studio menu. For the very first version, this also includes the direct start. It looks like there were as many releases of that software as for "The!Cart Studio".</li>
 <li>Direct start of MegaCart's inner menu entries from the extended menu is supported for the latest version of the MegaCart Studio menu. Thanks to Bernd for his support in making this possible so quickly.</li>
 <li>Holding down "SHIFT" when starting an entry from an inner menu turns off the immediate start and takes you to the inner menu instead.</li>
-<li>New Atari software version 2014-02-24 included. It includes fixes for handling the SPI EEPROM, which stores the configuration of the simple menu.</li>
+<li>New Atari software version 2014-02-24 included. It includes fixes for SPI EEPROM handling, which stores the configuration of the simple menu.</li>
 </ul>
 </div>
 <h4>2014-02-22</h4>
@@ -873,7 +873,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <ul>
 <li>Display type "Multiple Entries" is now also supported for seven additional older versions of the Maxflash Studio menu. Those were the ones with "&lt;A&gt;,&lt;B&gt;,&lt;C&gt;" lists. So you can see and search the entries from the contained menu directly in the extended menu.</li>
 <li>Direct start of Atarimax's inner menu entries from the extended menu is supported for the latest version of the Maxflash Studio menu.</li>
-<li>First - very experimental - support for ATR loading based on binary translation. Only non-encrypted single/enhanced density disks may work. This ATR loader supports loading programs that use the RAM under the OS. You are better off putting all other ATR stuff into a Maxflash or MegaCart Studio image.</li>
+<li>First - very experimental - support for ATR loading based on binary translation. Only non-encrypted single- or enhanced-density disks may work. This ATR loader supports loading programs that use the RAM under the OS. You are better off putting all other ATR stuff into a Maxflash or MegaCart Studio image.</li>
 <li>Sort order in the extended menu is now case insensitive.</li>
 <li>New Atari software version 2014-02-17 included for improved high-speed handling.</li>
 <li>Timing bugs fixed that could cause the menu or cart to freeze during boot or ROM start, for example, Asteroids.</li>
@@ -882,9 +882,9 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2014-02-16</h4>
 <div>
 <ul>
-<li>Display type "Multiple Entries" is now also supported for the content types "MegaCart 512 K" and "MegaCart 2 MB" and two older versions of the Maxflash Studio menu. So you can see and search the entries from the contained menu directly in the extended menu.</li>
+<li>Display type "Multiple Entries" is now also supported for the content types "MegaCart 512 K" and "MegaCart 2 MB", and two older versions of the Maxflash Studio menu. So you can see and search the entries from the contained menu directly in the extended menu.</li>
 <li>Entries are automatically sorted by title when you save a workbook, so they are sorted by default when you open the workbook the next time. Clicking on the column header, of course, changes the display sorting just like before.</li>
-<li>The recurring lockup with a black screen introduced in the last version should be solved now. After 28 years of Atari programming, I discovered that display list interrupts are triggered, even if the display list DMA and the screen are switched off. This again caused the VBI not to update the shadow register to switch the DMA on because it assumed that if the VBI interrupts an interrupt, this is probably the serial I/O. But this time, it wasn't. Fortunately, I have my Turbo Freezer to find what is different on the actual machine - because the issue never occurs in the emulator. Phew.</li>
+<li>The recurring lockup with a black screen introduced in the last version should be solved now. After 28 years of Atari programming, I discovered that display list interrupts are triggered, even if the display list DMA and the screen are switched off. This caused the VBI not to update the shadow register to enable DMA, because it assumed that if the VBI interrupts an interrupt, it is probably the serial I/O. But this time, it wasn't. Fortunately, I have my Turbo Freezer to find what is different on the actual machine, because the issue never occurs in the emulator. Phew.</li>
 </ul>
 </div>
 <h4>2014-02-13</h4>
@@ -894,12 +894,12 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>Scroll speed and acceleration adapted.</li>
 <li>Cursor keys now control the scrolling without pressing "CONTROL". This also means these characters are no longer available for typing in, which should not be a problem.</li>
 <li>Clearing of result lines when restricting the result now works correctly.</li>
-<li>For Atarimax 128K/1 MB cartridges created with the recent Maxflash Studio, the display type "Multiple Entries" is now supported. The entries of the Atarimax menu will also appear in the extended menu search. Selecting such an entry starts the Atarimax menu it comes from. Direct start support will be added later. Due to a potential bug in the Maxflash Studio, only the first 70 entries of the Atarimax menu are accepted to be on the safe side.</li>
+<li>For Atarimax 128K/1 MB cartridges created with the recent Maxflash Studio, the display type "Multiple Entries" is now supported. Entries in the Atarimax menu will also appear in the extended menu search. Selecting such an entry starts the Atarimax menu it comes from. Direct start support will be added later. Due to a potential bug in Maxflash Studio, only the first 70 entries in the Atarimax menu are accepted, on the safe side.</li>
 <li>New flash target types "The!Cart 32 MB" and "The!Cart 64 MB" were added to the workbook options because these sizes are requested and shipped now.</li>
 <li>New cartridge types "65 - The!Cart 32 MB" and "66 - The!Cart 64 MB" were added as they are because these sizes are requested and shipped now and are also supported by Atari800.</li>
 <li>Definition of initial banks fixed. Now all cartridge types use initial bank 0 (again) except for CARTRIDGE_OSS_034M_16 (bank 1), CARTRIDGE_ATMAX_1024 (bank 127), and CARTRIDGE_MEGA_4096 (bank 254).</li>
-<li>New Atari software version 2014-02-09 included. This fixes the problem that SDX64, Express, and Diamond cartridges were not started correctly due to a wrong initial bank register (was 7, must be 0). It also adds a new option to the flasher when starting the cartridge. You can now enter the default (extended menu) or, if you want, enter the simple menu directly. When entering the simple menu this way, the auto-start feature is disabled, so you don't start with the wrong bank after flashing new content.</li>
-<li>The Command line option to generate sample cartridge files now generates the correct files for "Megacart 2MB" and all Atari 5200 cartridge types.</li>
+<li>New Atari software version 2014-02-09 included. This fixes the problem that SDX64, Express, and Diamond cartridges were not starting correctly due to an incorrect initial bank register (7 instead of 0). It also adds a new option to the flasher when the cartridge is started. You can now enter the default (extended menu) or, if you want, enter the simple menu directly. When entering the simple menu this way, the auto-start feature is disabled, so you don't start with the wrong bank after flashing new content.</li>
+<li>The command-line option to generate sample cartridge files now generates the correct files for "Megacart 2MB" and all Atari 5200 cartridge types.</li>
 </ul>
 </div>
 <h4>2014-01-23</h4>
@@ -925,7 +925,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <li>only ask for a disk when data will be read from it</li>
 <li>added retry option on I/O errors</li>
 <li>Don't print empty bank numbers.</li>
-<li>In non-incremental flashing mode, program checksum block after data has been programmed (like in incremental flashing mode)</li>
+<li>In non-incremental flashing mode, program the checksum block after data has been programmed (like in incremental flashing mode)</li>
 </ul>
 </li>
 <li>Display the software version in "The!Cart" simple menu</li>
@@ -934,7 +934,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 </li>
 <li>The cartridge database was broken after refactoring and is now working again.</li>
 <li>The first version of output for entry number, "The!Cart" flash module type, start bank number, and boot bank number in the status bar of the extended menu.</li>
-<li>Columns with ATASCII strings (titles, genres) are now sorted with binary order, not locale-dependent collation. This means "Atarimax 1 MB" now appears before "Atarimax 128 KB", both in the "The!Cart Studio" and the menu.</li>
+<li>Columns with ATASCII strings (titles, genres) are now sorted with binary order, not locale-dependent collation. This means "Atarimax 1 MB" now appears before "Atarimax 128 KB" in both "The!Cart Studio" and the menu.</li>
 <li>A new flash target type, "Turbo Freezer 2005 448 KB", was added, which can be used to create ".BIN" files with 56 banks and 8k, 16k, OSS, and SDX bank switching.</li>
 <li>Flash target type "User Defined" now allows all content types so that you can create arbitrary image files with it.</li>
 </ul>
@@ -942,7 +942,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2014-01-14</h4>
 <div>
 <ul>
-<li>The first version of "Extended Menu" was implemented. Displays the first 20 entries of the menu are displayed. You can use the cursor keys plus return or the joystick in port 1 with the fire button to select. Press ESC to enter the simple menu.</li>
+<li>The first version of "Extended Menu" was implemented. The first 20 entries of the menu are displayed. You can use the cursor keys plus Return, or the joystick on port 1 with the fire button, to select. Press ESC to enter the simple menu.</li>
 <li>The cartridge type for "64 - MegaCart 2 MB" is fixed. It was 63 instead of 64, so the ".CAR" files were incorrectly recognized.</li>
 </ul>
 </div>
@@ -974,7 +974,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <div>
 <ul>
 <li>The new file selection dialog is as close as possible to the native file selection dialog of the underlying operating system now. This enables proper browsing, context menus, and more.</li>
-<li>New algorithm to position the blocks for the banks on the "Banks" tab. The size and position of the blocks now adapt better to use the available size of the window. The 16,384 blocks can be adequately seen also in 1024x768 resolution.</li>
+<li>New algorithm to position the blocks for the banks on the "Banks" tab. The size and position of the blocks now adapt better to the available window size. The 16,384 blocks can be adequately seen also in 1024x768 resolution.</li>
 <li>New color schema for banks, including separate colors for user space.</li>
 </ul>
 </div>
@@ -983,15 +983,15 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <ul>
 <li>All relevant Atari characters are now allowed in titles: <i>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_</i></li>
 <li>Titles, for example, when derived from the file name, are now automatically truncated to the allowed 40 characters.</li>
-<li>Banks assignment problem when using the "Overwrite" option for equally named files fixed. It could cause overlapping bank assignments and corrupted output of banks.</li>
-<li>Error message in for ".CAR" files with incorrect content size fixed.</li>
+<li> The bank's assignment problem when using the "Overwrite" option for equally named files has been fixed. It could cause overlapping bank assignments and corrupted bank output.</li>
+<li>Error message for ".CAR" files with incorrect content size fixed.</li>
 </ul>
 </div>
 <h4>2013-12-11</h4>
 <div>
 <ul>
-<li>Import of "ATR Programming Images" for "Atarimax 1 MB" and "Atarimax 128 KB" extended. With two different extraction algorithms, it can now recognize nine different versions of the Maxflash software (2003-11-03,2003-05-29, 2004-08-25, 2005-04-09, 2009-08-15, 2011-10-03, 2012-04-07). It was tested against 99 other "ATR Programming Images" and successfully created working "CAR Images" for them.</li>
-<li>New cartridge types "CARTRIDGE_MEGAMAX_2048=MegaMax 2 MB" and "CARTRIDGE_MEGA_4096=Flash MegaCart 4 MB" were added to the recognized content types following the new Atari800 definition. Please note that this is just for the completion of the Studio. Only the MegaMax 2 MB can be emulated by the "The!Cart" itself.</li>
+<li>Import of "ATR Programming Images" for "Atarimax 1 MB" and "Atarimax 128 KB" extended. With two different extraction algorithms, it can now recognize nine versions of the Maxflash software (2003-11-03, 2003-05-29, 2004-08-25, 2005-04-09, 2009-08-15, 2011-10-03, 2012-04-07). It was tested against 99 other "ATR Programming Images" and successfully created working "CAR Images" for them.</li>
+<li>New cartridge types "CARTRIDGE_MEGAMAX_2048=MegaMax 2 MB" and "CARTRIDGE_MEGA_4096=Flash MegaCart 4 MB" were added to the recognized content types following the new Atari800 definition. Please note that this is only for completing the Studio. Only the MegaMax 2 MB can be emulated by "The!Cart" itself.</li>
 <li>A new flash module type, "Flash MegaCart 4 MB", was added to the "Flash Module" presets in the workbook options. Please note that this is just a preset; no flasher is included.</li>
 <li>The workbook options' new "Cartridge Type" field allows explicit cartridge type specification for user-defined flash module types. This cartridge type is used when the workbook is exported as a ".CAR" cartridge image.</li>
 <li>The size of user space is now automatically rounded to a multiple of the flash block size, i.e., to 64 KB for the flash target types "Atarimax 128 KB/ 1 MB" and "Flash MegaCart 4 MB" and to 128 KB for "The!Cart 128 MB".</li>
@@ -1028,7 +1028,7 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2013-12-01</h4>
 <div>
 <ul>
-<li>New Atari Software version 2013-11-30 included. External software is now also found if the name of the "TheCart.jar" was changed manually.</li>
+<li>New Atari Software version 2013-11-30 included. External software is now also found even after the name "TheCart.jar" was manually changed.</li>
 <li>The default bank for user space entries is now the first bank of the user space.</li>
 <li>Table of contents with links added to help.</li>
 <li>Help content is now displayed with the correct small font.</li>
@@ -1037,13 +1037,13 @@ The most recent version of the CPLD logic for the "The!Cart" cartridge supports 
 <h4>2013-11-26</h4>
 <div>
 <ul>
-<li>A new menu entry, "Edit/Add User Space Entry", was added to define cartridge menu entries for those parts of the flash cartridge in the user space. The user space is part of the flash cartridge that is not touched by "The!Cart Studio" but is flashed directly from the Atari. The size of the user space can be specified in the workbook options.</li>
+<li>A new menu entry, "Edit/Add User Space Entry", was added to define cartridge menu entries for those parts of the flash cartridge in the user space. The user space is part of the flash cartridge that "The!Cart Studio" does not touch, but is flashed directly from the Atari. The user space size can be specified in the workbook options.</li>
 </ul>
 </div>
 <h4>2013-11-25</h4>
 <div>
 <ul>
-<li>New Atari Software version 2013-11-03 included. This version supports delayed autorun for the last used ROM. In addition, a newer version of the "<code>cartmenu.rom</code>" can be placed manually into the folder where "TheCartStudio.jar" is placed. It will be loaded automatically, then. Whether the built-in or the external software is used and which version it has is displayed in the "About" dialog.</li>
+<li>New Atari Software version 2013-11-03 included. This version supports delayed autorun for the last used ROM. In addition, a newer version of the "<code>cartmenu.rom</code>" can be manually placed in the same folder as "TheCartStudio.jar". It will be loaded automatically, then. Whether the built-in or the external software is used and which version it has is displayed in the "About" dialog.</li>
 </ul>
 </div>
 <h4>2013-11-04</h4>
