@@ -78,6 +78,9 @@ public final class TheCartMode {
 	// Sic!Cart 512k
 	public static final int TC_MODE_SIC = 0x24;
 
+	// 4MB MegaCart
+	public static final int TC_MODE_MEGA_4096 = 0x25;
+	
 	// Switchable MegaCarts
 	public static final int TC_MODE_MEGA_16 = 0x28;
 	public static final int TC_MODE_MEGA_32 = 0x29;
