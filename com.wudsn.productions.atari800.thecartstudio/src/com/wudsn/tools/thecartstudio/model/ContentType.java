@@ -37,6 +37,9 @@ import com.wudsn.tools.thecartstudio.model.megacart.MegacartMenu;
 /**
  * Value set representing all known content types, including all cartridge
  * types.
+ * 
+ * See https://github.com/atari800/atari800/blob/master/DOC/cart.txt.
+ * Order, texts and values are taken from there.
  */
 public final class ContentType extends ValueSet {
 

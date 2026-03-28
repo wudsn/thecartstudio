@@ -581,16 +581,15 @@ public final class CartridgeMenu {
 
 				// Some cartridge types do not have relative start bank 0.
 				// Therefore The!Cart supports "uneven" start banks in modes
-				// greater
-				// then 8k.
+				// greater then 8k.
 				int initialBankNumber = workbookEntry.getContentType().getCartridgeType().getInitialBankNumber();
-				
-				// thecart-software expects the bank numbers to be in 8k units so the
+
+				// The thecart-software expects the bank numbers to be in 8k units so the
 				// initialBankNumber of 16k carts needs to be multiplied by 2.
-				// Initial bank of carts with bank size less than 8k (eg OSS) are
-				// handled by thecart-softare, depending on cartridge type.
-				int initialBankNumber8k = 0;
-				
+				// The initial bank of carts with bank size less than 8k (e.g., OSS) is
+				// handled by the thecart-softare, depending on cartridge type.
+				int initialBankNumber8k;
+
 				switch (workbookEntry.getContentType().getCartridgeType().getBankSize()) {
 				case 0x2000:
 					initialBankNumber8k = initialBankNumber;
@@ -599,6 +598,7 @@ public final class CartridgeMenu {
 					initialBankNumber8k = initialBankNumber * 2;
 					break;
 				default:
+					initialBankNumber8k = 0;
 					break;
 				}
 
