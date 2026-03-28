@@ -1,7 +1,7 @@
 /*
    rom2atr8.cpp - create ATR with 8k sectors from ROM image
 
-   Copyright (C) 2011 Matthias Reichl <hias@horus.com>
+   Copyright (C) 2011-2026 Matthias Reichl <hias@horus.com>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

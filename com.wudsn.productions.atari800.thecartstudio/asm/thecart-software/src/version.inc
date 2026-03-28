@@ -1,6 +1,6 @@
 ;  version.inc - macros to get the current software version
 ;
-;  Copyright (C) 2014 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2014-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,6 @@
 ;  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 	.macro VERSION_DATE
-	.byte "20170924"
+	.byte "20260322"
 	.endm
 

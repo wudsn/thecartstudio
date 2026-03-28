@@ -1,6 +1,6 @@
 ;  flash.inc - common definitions and addresses for The!Cart
 ;
-;  Copyright (C) 2011-2014 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2011-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@ TC_MODE_16K		= $21		; 16k banks at $8000-$BFFF
 TC_MODE_MEGAMAX16	= $22		; MegaMax 16k mode (up to 2MB)
 TC_MODE_BLIZZARD	= $23		; Blizzard 16k
 TC_MODE_SIC		= $24		; Sic!Cart 512k
+TC_MODE_MEGA_4096	= $25		; 4MB MegaCart
 
 TC_MODE_MEGA_16		= $28		; switchable MegaCarts
 TC_MODE_MEGA_32		= $29
@@ -101,6 +102,7 @@ SDX64_BANKCTL		= $D5E0
 DIAMOND64_BANKCTL	= $D5D0
 EXPRESS64_BANKCTL	= $D570
 SIC_BANKCTL		= $D500
+MEGA_4096_BANKCTL	= $D500
 
 ; Atarimax banking registers
 AMAXBANK		= $D500

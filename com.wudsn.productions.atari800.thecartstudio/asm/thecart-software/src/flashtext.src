@@ -1,6 +1,6 @@
 ;  flashtext - TheCart flash writer texts
 ;
-;  Copyright (C) 2013-2014 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2013-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 TTITLE
 	.BYTE 125
-	.BYTE "The!Cart Flash Writer V1.02",155
-	.BYTE "(c) 2014 by Matthias Reichl",155,155
+	.BYTE "The!Cart Flash Writer V1.03",155
+	.BYTE "(c) 2013-2026 by Matthias Reichl",155,155
 TTITLEL	= * - TTITLE
 
 TPRESS	.BYTE "Press button on The!Cart then RETURN",155

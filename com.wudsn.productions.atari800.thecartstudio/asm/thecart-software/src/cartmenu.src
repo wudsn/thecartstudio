@@ -1,6 +1,6 @@
 ;  cartmenu - cart configuration program adapted for "thecart"
 ;
-;  Copyright (C) 2004-2017 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2004-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -172,7 +172,7 @@ BARLINE	.BYTE 3
 	.DC 8 $FF
 	.BYTE $C0
 	.SBYTE "  THE!CART  CONFIG  "
-	.SBYTE "    (c) 2014-2017 HiassofT & mega-hz    "
+	.SBYTE "    (c) 2013-2026 HiassofT & mega-hz    "
 ;THELPT	.SBYTE "      HELP      "
 
 ; keyhelp macro
@@ -351,29 +351,31 @@ THELPMC
 ;	        0123456789012345678998765432109876543210
 	.SBYTE "             MegaCart mode              "
 
-	.DC 5 0
-	KH "1", "16k"		; 6
-	.DC 5 0
-	KH "2", "32k"		; 6
-	.DC 6 0
-	KH "3", "64k"		; 6
-	.DC 6 0
-
-	.DC 5 0
-	KH "4", "128k"		; 7
-	.DC 4 0
-	KH "5", "256k"		; 7
-	.DC 5 0
-	KH "6", "512k"		; 7
-	.DC 5 0
-
-	.DC 5 0
-	KH "7", "1024k"		; 8
 	.DC 3 0
-	KH "8", "2048k"		; 8
+	KH "1", "16k"		; 6
+	.DC 3 0
+	KH "2", "32k"		; 6
+	.DC 3 0
+	KH "3", "64k"		; 6
+	.DC 3 0
+	KH "4", "128k"		; 7
+	.DC 3 0
+
+	.DC 3 0
+	KH "5", "256k"		; 7
+	.DC 2 0
+	KH "6", "512k"		; 7
+	.DC 2 0
+	KH "7", "1MB"		; 6
+	.DC 3 0
+	KH "8", "2MB"		; 6
 	.DC 4 0
+
+	.DC 3 0
+	KH "9", "4MB"		; 6
+	.DC 21 0
 	KHESC "back"		; 7
-	.DC 5 0
+	.DC 2 0
 
 THELPB	
 	.DC 40 0
@@ -936,6 +938,7 @@ KTMEGA
 	.BYTE '6, TC_MODE_MEGA_512
 	.BYTE '7, TC_MODE_MEGA_1024
 	.BYTE '8, TC_MODE_MEGA_2048
+	.BYTE '9, TC_MODE_MEGA_4096
 	.BYTE $FF
 
 
@@ -1332,6 +1335,7 @@ MODETAB
 	DM TC_MODE_MEGAMAX16, "MegaMax 16k"
 	DM TC_MODE_BLIZZARD, "Blizzard 16k"
 	DM TC_MODE_SIC, "Sic! 512k"
+	DM TC_MODE_MEGA_4096, "MegaCart 4MB"
 
 	DM TC_MODE_MEGA_16, "MegaCart 16k"
 	DM TC_MODE_MEGA_32, "MegaCart 32k"
@@ -1339,8 +1343,8 @@ MODETAB
 	DM TC_MODE_MEGA_128, "MegaCart 128k"
 	DM TC_MODE_MEGA_256, "MegaCart 256k"
 	DM TC_MODE_MEGA_512, "MegaCart 512k"
-	DM TC_MODE_MEGA_1024, "MegaCart 1024k"
-	DM TC_MODE_MEGA_2048, "MegaCart 2048k"
+	DM TC_MODE_MEGA_1024, "MegaCart 1MB"
+	DM TC_MODE_MEGA_2048, "MegaCart 2MB"
 
 	DM TC_MODE_XEGS_32, "XEGS 32k"
 	DM TC_MODE_XEGS_64, "XEGS 64k"

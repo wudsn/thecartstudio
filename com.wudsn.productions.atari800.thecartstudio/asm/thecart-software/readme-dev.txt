@@ -1,5 +1,5 @@
 The!Cart programming information
-(c) 2013 Matthias Reichl
+(c) 2013-2026 Matthias Reichl
 
 1. General information
 
@@ -69,14 +69,15 @@ $21: standard 16k cart at $8000-$BFFF
 $22: MegaMax 16k mode (up to 2MB), AtariMax 8Mbit banking
 $23: Blizzard 16k
 $24: Sic!Cart 512k
+$25: 4MB Mega cart
 $28: 16k Mega cart
 $29: 32k Mega cart
 $2A: 64k Mega cart
 $2B: 128k Mega cart
 $2C: 256k Mega cart
 $2D: 512k Mega cart
-$2E: 1024k Mega cart
-$2F: 2048k Mega cart
+$2E: 1MB Mega cart
+$2F: 2MB Mega cart
 $30: 32k XEGS cart
 $31: 64k XEGS cart
 $32: 128k XEGS cart

@@ -1,5 +1,5 @@
 The!Cart software
-(c) 2013-2017 Matthias Reichl <hias@horus.com>
+(c) 2013-2026 Matthias Reichl <hias@horus.com>
 
 1. What's in this package
 
@@ -9,10 +9,35 @@ This package contains the Atari software and source code for The!Cart:
 - simple configuration menu (cartmenu.rom)
 
 Software updates are available here:
-http://www.horus.com/~hias/thecart/
+https://www.horus.com/~hias/thecart/
 
 
 2. Version history:
+
+2026-03-22
+==========
+* Update highspeed SIO and MyPicoDos code to latest versions
+
+2025-12-20
+==========
+* Drop fixed 4MB MegaCart start bank, this is now handled correctly
+  in The!Cart Studio
+
+2025-12-18
+==========
+* Add support for 4MB MegaCart instead of 4MB XCart
+  This requires CPLD logic version 2025-12-18 or newer
+
+2025-12-17
+==========
+* Add support for 4MB XCart
+  This mode requires CPLD logic version 2025-12-17 or newer
+
+2025-02-23
+==========
+* Update MyPicoDos to version 4.07
+
+* Update highspeed SIO code to 1.35
 
 2017-09-24
 ==========
@@ -98,8 +123,8 @@ starting from bank 0.
 In case you want to use both The!Cart Studio on your PC and also
 do manual flashing from your Atari be careful:
 
-* Reserve some user-space at the end of The!Cart in the Studio.
-* Only use the reserved user-space area for manual programming.
+* Reserve some user space at the end of The!Cart in the Studio.
+* Only use the reserved user space area for manual programming.
 
 If you accidentally overwrite (parts of) the space used by
 The!Cart studio, use the full update option to reprogram the

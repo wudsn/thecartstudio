@@ -4,8 +4,6 @@ BINS = flash.com diag.com ramtest.com cartmenu.rom
 
 EXE = rom2atr8 rom2atr8.exe romtool romtool.exe
 
-OPENSSL_MINGW = /opt/mingw/openssl-1.0.1e
-
 .PHONY: all clean dep
 
 all: thecart.atr cart.rom $(EXE)
@@ -17,8 +15,10 @@ ASMINC = -Ihisio -Ilibflash16
 ASMFLAGS ?=
 #ASMFLAGS ?= -v -s
 
-MINGW_CXX=i686-w64-mingw32-g++
-MINGW_STRIP=i686-w64-mingw32-strip
+MINGW_CXX ?= i686-w64-mingw32-g++
+MINGW_STRIP ?= i686-w64-mingw32-strip
+MINGW_OPENSSL ?= /opt/mingw/openssl-3.4.1
+MINGW_OPENSSL_STATIC_LIBS ?= -lws2_32 -lgdi32 -lcrypt32
 
 HISIOSRC = hisio.src \
 	hisio/hisiocode-break.src hisio/hisiocode-check.src hisio/hisiocode-cleanup.src \
@@ -101,22 +101,33 @@ thecart.atr: $(BINS)
 	cp -f $(BINS) disk
 	dir2atr -b MyDos4534 -d 720 $@ disk
 
-prodtool.atr: $(PRODSRC)
+prodtool.bin: $(PRODSRC)
 	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -r -o$@ $<
 
-prodtool-d406.atr: $(PRODSRC)
+prodtool-d406.bin: $(PRODSRC)
+	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -dCARTSWITCH_D406 -r -o$@ $<
+
+prodtool.atr: prodtool-atr.src prodtool.bin
+	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -r -o$@ $<
+
+prodtool-d406.atr: prodtool-atr.src prodtool-d406.bin
+	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -dCARTSWITCH_D406 -r -o$@ $<
+
+prodtool.rom: prodtool-rom.src prodtool.bin
+	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -r -o$@ $<
+
+prodtool-d406.rom: prodtool-rom.src prodtool-d406.bin
 	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -dCARTSWITCH_D406 -r -o$@ $<
 
 spitest2.atr: $(SPITEST2SRC)
 	$(ATASM) $(ASMINC) $(ASMFLAGS) -dTHECART -r -o$@ $<
 
 shatest: shatest.cpp
-	g++ -W -Wall -o $@ $< -lssl
+	g++ -W -Wall -o $@ $< -lcrypto
 
 shatest.exe: shatest.cpp Makefile
-	#i586-mingw32msvc-g++ -W -Wall -I $(OPENSSL_MINGW)/include -o $@ $< -L $(OPENSSL_MINGW)/lib -static -leay32
-	i586-mingw32msvc-g++ -W -Wall -I $(OPENSSL_MINGW)/include -o $@ -static $< -L $(OPENSSL_MINGW)/lib -lcrypto
-	i586-mingw32msvc-strip $@
+	$(MINGW_CXX) -W -Wall -I $(MINGW_OPENSSL)/include -o $@ -static $< -L $(MINGW_OPENSSL)/lib -lcrypto $(MINGW_OPENSSL_STATIC_LIBS)
+	$(MINGW_STRIP) $@
 
 CXXFLAGS = -g -W -Wall -D_LARGEFILE64_SOURCE -DMYIDE_DEBUG
 
@@ -130,10 +141,10 @@ romtool_32: $(TOOLOBJ:%.o=%.cpp)
 	$(CXX) $(LDFLAGS) -m32 -o $@ $^ -lcrypto
 
 romtool.exe: $(TOOLOBJ:%.o=%.cpp)
-	$(MINGW_CXX) -W -Wall -I $(OPENSSL_MINGW)/include -o $@ -static $^ -L $(OPENSSL_MINGW)/lib -lcrypto
+	$(MINGW_CXX) -W -Wall -I $(MINGW_OPENSSL)/include -o $@ -static $^ -L $(MINGW_OPENSSL)/lib -lcrypto $(MINGW_OPENSSL_STATIC_LIBS)
 	$(MINGW_STRIP) $@
 clean:
-	rm -f *.com thecart.atr spitest2.atr *.rom $(EXE)
+	rm -f *.com thecart.atr spitest2.atr *.rom prodtool*.atr prodtool*.bin $(EXE)
 
 dep:
 	rm -f .depend

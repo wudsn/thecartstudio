@@ -3,7 +3,7 @@
 ;  a special adapter is needed, setting PA7=high enables the
 ;  destination cart, setting PA7=low the source cart.
 ;
-;  Copyright (C) 2013-2014 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2013-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -34,26 +34,7 @@ RAMTYPE=TRAM512
 ;LIMITSIZE=$8	; 512k
 ;LIMITSIZE=$40	; 4MB
 
-
-;************************************
-; ATR file header
-;************************************
-
-	* = START-16
-
-        .WORD $0296 ; magic
-        .WORD (END-START+15)/16
-        .WORD 128
-        .WORD 0,0,0,0,0
-
-; boot header complete file
-
-        .BYTE 0
-
-        .BYTE (END-START+127)/128
-
-        .WORD START
-        .WORD XRTS
+	* = START+6
 
 	JMP FLASHMAIN
 
@@ -658,5 +639,4 @@ SPIMAXTIME	.BYTE 0
 	SPIBUF = (*+255) & $ff00
 	SPIBUF2 = (*+511) & $ff00
 
-END     = *
 

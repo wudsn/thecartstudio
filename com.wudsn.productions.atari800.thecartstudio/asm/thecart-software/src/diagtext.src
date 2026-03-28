@@ -1,6 +1,6 @@
 ;  diagtext - TheCart diagnostics texts
 ;
-;  Copyright (C) 2013-2014 Matthias Reichl <hias@horus.com>
+;  Copyright (C) 2013-2026 Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 TTITLE
 	.BYTE 125
 	.BYTE "The!Cart Diagnostics V0.05",155
-	.BYTE "(c) 2013 by Matthias Reichl",155,155
+	.BYTE "(c) 2013-2026 by Matthias Reichl",155,155
 TTITLEL	= * - TTITLE
 
 TMENU	.BYTE 155

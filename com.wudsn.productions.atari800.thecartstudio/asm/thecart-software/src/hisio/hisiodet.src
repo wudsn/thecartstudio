@@ -1,6 +1,6 @@
 ;  highsiodet.src - check for highspeed drives
 ;
-;  Copyright (c) by Matthias Reichl <hias@horus.com>
+;  Copyright (c) 2006-2026 by Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -24,13 +24,14 @@ HISIO
 
 .if .not .def HIPATCH
 	LDA DUNIT
-	BNE ?DOSIO
+	BNE ?DOSIO ; DUNIT = 0 clears speed table
 
 .if .def MAXDRIVENO
 	LDX #MAXDRIVENO-1
 .else
-	LDX #7		; DUNIT = 0 clears speed table
+	LDX #7
 .endif
+
 ?CLRLP
 ?ABS01	STA SPEEDTB,X
 	DEX
@@ -44,6 +45,7 @@ HISIO
 
 	SEC		; bytes in SIO table are now speed+1
 	SBC #1		; to prevent endless loop in case device sends speed byte 0
+DOHIENTRY
 ?ABS03	STA SIOSPEED
 ?ABS04	JMP DOHISIO
 
@@ -82,6 +84,9 @@ HISIO
 
 ?NOULTRA 
 .if .not .def USONLY
+?ABS12A	JSR ?GETST2
+	BMI ?CHKNOHI	; bail out early if drive is not responding
+
 	LDA #TURFLG	; Turbo 1050?
 ?ABS12	JSR ?GETST
 	BPL ?SETSPD
@@ -96,12 +101,15 @@ HISIO
 	BPL ?SETSPD
 .endif
 
+?CHKNOHI
 	LDA #STDSPD	; no, just use standard SIO speed
 	BNE ?SETSP2
 
 .if .not .def USONLY
 ?GETST
 ?ABS16	STA SIOSPEED
+
+?GETST2
 	LDA #4
 	STA DBYTLO
 	LDX #$53
@@ -138,4 +146,4 @@ HISIO
 ?ABS20	JMP ?DOSIO
 
 ?CMD3F	.BYTE $3F,$40
-?ABS21	.WORD HIBUF,1,1,$20
+?ABS21	.WORD HIBUF,2,1,$20

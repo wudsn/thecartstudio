@@ -1,6 +1,6 @@
 ;  highsio.inc - definitions for highspeed SIO code
 ;
-;  Copyright (c) 2003-2010 by Matthias Reichl <hias@horus.com>
+;  Copyright (c) 2003-2026 by Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -35,7 +35,13 @@
 	DRETRY = $39	; data frame retries
 
 ; default number of command frame retries
+.if .def SIO2BT
+	DEFCRETRY = $05
+	T2TIMEOUT = $10
+.else
 	DEFCRETRY = $0E
+	T2TIMEOUT = $02
+.endif
 
 ; number of command frame retries when checking highspeed mode
 	DETCRETRY = $05
@@ -75,7 +81,12 @@
 	DAUX1 = $30A
 	DAUX2 = $30B
 
+	AUDF1 = $D200
+	AUDC1 = $D201
+	AUDF2 = $D202
+	AUDC2 = $D203
 	AUDF3 = $D204
+	AUDC3 = $D205
 	AUDF4 = $D206
 	AUDC4 = $D207
 	AUDCTL = $D208

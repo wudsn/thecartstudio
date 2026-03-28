@@ -1,6 +1,6 @@
 ;  highsiocode-check.src - highspeed SIO routine, status checks
 ;
-;  Copyright (c) 2003-2009 by Matthias Reichl <hias@horus.com>
+;  Copyright (c) 2003-2026 by Matthias Reichl <hias@horus.com>
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 
 ?CHKST	
 .if .def FASTVBI
-	LDY #2
+	LDY #T2TIMEOUT
 	LDX #1
 ?ABS68	JSR ?SMYTOUT
 .else
-	LDY #$02
+	LDY #T2TIMEOUT
 ?ABS68	JSR ?STIMOUT
 .endif
 	LDA #MSKRECV

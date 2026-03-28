@@ -1,0 +1,135 @@
+;  prodtool-rom - Turbo Freezer 2011 ROM version of Production Tool
+;
+;  Copyright (C) 2018-2026 Matthias Reichl <hias@horus.com>
+;
+;  This program is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  This program is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with this program; if not, write to the Free Software
+;  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+	.include "cio.inc"
+	.include "libflash.inc"
+	.include "flash.inc"
+	.include "flashdef.inc"
+
+; temp vectors for copying
+SRCADR  = $E0
+DSTADR  = $E2
+
+; turbo freezer 2011 mode register (0=off)
+TF_MODE	= $D594
+TF_MODE_OFF	= 0
+
+PRUNA	= START - $100
+
+	ORG = $A000
+
+	* = ORG
+
+PTOOL	= *
+	.DC 6 0
+.if .def CARTSWITCH_D406
+	.incbin "prodtool-d406.bin"
+.else
+	.incbin "prodtool.bin"
+.endif
+PTPG	= (*-PTOOL+255) / 256
+
+
+; disable The!Cart
+INIT	LDA #TC_MODE_OFF
+	STA TC_MODE
+
+	LDX #PSETL
+	LDY #0
+CLP1	LDA PSETUP,Y	; copy init routine
+	STA PRUNA,Y
+	INY
+	DEX
+	BNE CLP1
+
+	LDA #<PTOOL
+	STA SRCADR
+	LDA #>PTOOL
+	STA SRCADR+1
+	LDA #<START
+	STA DSTADR
+	LDA #>START
+	STA DSTADR+1
+	LDX #PTPG
+	LDY #0
+CLP2	LDA (SRCADR),Y	; copy production tool code
+	STA (DSTADR),Y
+	INY
+	BNE CLP2
+	INC SRCADR+1
+	INC DSTADR+1
+	DEX
+	BNE CLP2
+	JMP PRUNA
+
+; disable cartridge emu and basic, open screen and
+; then start production tool
+
+PSETUP	SEI
+	LDA #0
+	STA $D40E
+	LDA #TF_MODE_OFF
+	STA TF_MODE
+	LDA $D013
+	STA $3FA
+	LDA #$40
+	STA $D40E
+	CLI
+
+	LDA $D301
+	ORA #2
+	STA $D301
+	LDA $BFFF
+	EOR #$FF
+	STA $BFFF
+	CMP $BFFF
+	BNE NBASOFF
+
+	LDA #$C0
+	STA 106
+	STA 740
+	LDA #1
+	STA 1016
+	LDA #$90
+	STA DSTADR+1
+	LDX #48
+	LDA #0
+	STA DSTADR
+	TAY
+CLRLP	STA (DSTADR),Y
+	DEY
+	BNE CLRLP
+	INC DSTADR+1
+	DEX
+	BNE CLRLP
+NBASOFF	CLOSE 0
+	OPEN 0,12,0,EDITOR-PSETUP+PRUNA
+	JMP START+6
+EDITOR	.BYTE "E:", 155
+PSETL	= * - PSETUP
+
+XRTS	RTS
+
+XEND	= *
+	
+	.DC ($BFFA-*) $FF
+	.WORD INIT
+	.BYTE 0
+	.BYTE 0
+	.WORD INIT
+

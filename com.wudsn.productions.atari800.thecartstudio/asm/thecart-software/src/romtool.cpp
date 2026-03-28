@@ -439,7 +439,7 @@ int main(int argc, char** argv)
 	char* outext;
 	int len;
 
-	printf("romtool V0.4 (c) 2013 Matthias Reichl <hias@horus.com>\n");
+	printf("romtool V0.4 (c) 2013-2026 Matthias Reichl <hias@horus.com>\n");
 
 	if (argc < 2) {
 		goto usage;

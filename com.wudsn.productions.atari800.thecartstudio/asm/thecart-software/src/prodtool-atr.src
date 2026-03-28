@@ -1,0 +1,50 @@
+;  prodtool-atr - ATR version of production tool
+;
+;  Copyright (C) 2018-2026 Matthias Reichl <hias@horus.com>
+;
+;  This program is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  This program is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with this program; if not, write to the Free Software
+;  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+	.include "cio.inc"
+	.include "libflash.inc"
+	.include "flash.inc"
+	.include "flashdef.inc"
+
+;************************************
+; ATR file header
+;************************************
+
+	* = START-16
+
+        .WORD $0296 ; magic
+        .WORD (XEND-START+15)/16
+        .WORD 128
+        .WORD 0,0,0,0,0
+
+; boot header complete file
+
+        .BYTE 0
+
+        .BYTE (XEND-START+127)/128
+
+        .WORD START
+        .WORD START+9
+
+.if .def CARTSWITCH_D406
+	.incbin "prodtool-d406.bin"
+.else
+	.incbin "prodtool.bin"
+.endif
+
+XEND	= *
