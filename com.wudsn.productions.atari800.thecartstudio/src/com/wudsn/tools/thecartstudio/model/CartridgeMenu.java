@@ -419,7 +419,7 @@ public final class CartridgeMenu {
 
 					// Adapt default menu start vector (2 bytes) from cartridge
 					// initialization to jump table..
-					System.arraycopy(extendedMenuContent, Offsets.CARTCS, simpleMenuContent,
+					System.arraycopy(extendedMenuContent, Offsets.CARTCS, extendedMenuContent,
 							Offsets.ENTRY_DEFAULT_CARTSTART + 1, 2);
 
 					// Copy second part (flasher and PicoDos)
