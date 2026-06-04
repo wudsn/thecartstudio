@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -68,7 +69,7 @@ public final class ContentTypesDialog extends SimpleDialog {
 			addColumn(Attributes.ID, Column.HIDDEN | Column.SORTABLE);
 			addColumn(Attributes.SIZE, Column.VISIBLE | Column.SORTABLE);
 			addColumn(Attributes.CARTRIDGE_TYPE_NUMERIC_ID, Column.VISIBLE | Column.SORTABLE);
-			addColumn(Attributes.THE_CART_MODE, Column.VISIBLE | Column.SORTABLE, null, new DefaultTableCellRenderer() {
+			DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
 				@Override
 				protected void setValue(Object value) {
 					int theCartMode = ((Integer) value).intValue();
@@ -78,7 +79,9 @@ public final class ContentTypesDialog extends SimpleDialog {
 						setText(TextUtility.formatAsDecimal(theCartMode));
 					}
 				}
-			}, null);
+			};
+			renderer.setHorizontalAlignment(JLabel.RIGHT);
+			addColumn(Attributes.THE_CART_MODE, Column.VISIBLE | Column.SORTABLE, null, renderer, null);
 			addColumn(Attributes.BANK_SIZE, Column.HIDDEN | Column.SORTABLE);
 			addColumn(Attributes.INITIAL_BANK_NUMBER, Column.HIDDEN | Column.SORTABLE);
 
