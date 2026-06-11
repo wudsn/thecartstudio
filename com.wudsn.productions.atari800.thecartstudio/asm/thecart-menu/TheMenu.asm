@@ -145,6 +145,8 @@ skip_signature
 
 	sei			;Prevent VBI stage 2 before disabling The!Cart
 	mva #0 the_cart.primary_bank_enable
+	sta wsync
+	sta wsync
 	mva trig3 gintlk	;Make sure cartridge status is up to date
 	cli			;Enable VBI state 2 again
 

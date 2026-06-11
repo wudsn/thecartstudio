@@ -30,6 +30,8 @@
 	lda #the_cart_mode.tc_mode_off	;Disable and lock the cartridge
 	sta the_cart.mode
 	sta the_cart.configuration_lock
+	sta wsync
+	sta wsync
 	mva trig3 gintlk		;Make sure cartridge status is up to date
 	cli
 	jmp coldsv
@@ -40,6 +42,8 @@
 	ldx #<0
 	ldy #>0
 	jsr menu_core.set_bank
+	sta wsync
+	sta wsync
 	mva trig3 gintlk
 	cli				;Enabled VBI stage 2
 	rts
