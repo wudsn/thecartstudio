@@ -44,14 +44,20 @@
 	</target>
 
 	<target name="create_jar" depends="init">
-		<!-- The Java part must have been build and the binaries must have been assembled separtely before -->
+		<!-- The binaries must have been assembled separately before -->
 
-		<!-- Create ".version" file in "bin" folder and set "version" property -->
+		<!-- Compile via Maven, resolving com.wudsn.tools.base(.atari)(.atari.cartridge) from the local repo -->
+		<exec executable="cmd" failonerror="true" failifexecutionfails="true">
+			<arg value="/c" />
+			<arg value="mvn -q compile" />
+		</exec>
+
+		<!-- Create ".version" file in the Maven output folder and set "version" property -->
 		<exec executable="C:\jac\bin\wbin\date.exe">
 			<arg value="+%Y-%m-%d %H:%M:%S" />
-			<redirector output="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
+			<redirector output="target\classes\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
 		</exec>
-		<loadfile property="version" srcFile="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
+		<loadfile property="version" srcFile="target\classes\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
 
 		<!-- Remove unwanted temporary files -->
 		<delete>
@@ -60,17 +66,12 @@
 			</fileset>
 		</delete>
 
-		<!-- Create JAR file -->
-		<jar destfile="tst/out/TheCartStudio.jar" filesetmanifest="merge">
-			<manifest>
-				<attribute name="Main-Class" value="com.wudsn.tools.thecartstudio.TheCartStudio" />
-				<attribute name="Class-Path" value="." />
-			</manifest>
-			<fileset dir="${toolsFolder}/com.wudsn.tools.base/bin" />
-			<fileset dir="${toolsFolder}/com.wudsn.tools.base.atari/bin" />
-			<fileset dir="${toolsFolder}/com.wudsn.tools.base.atari.cartridge/bin" />
-			<fileset dir="bin" />
-		</jar>
+		<!-- Package the merged (shaded) JAR containing this project plus com.wudsn.tools.base(.atari)(.atari.cartridge) -->
+		<exec executable="cmd" failonerror="true" failifexecutionfails="true">
+			<arg value="/c" />
+			<arg value="mvn -q package" />
+		</exec>
+		<copy file="target/TheCartStudio.jar" tofile="tst/out/TheCartStudio.jar" overwrite="true" />
 
 	</target>
 
@@ -176,7 +177,7 @@
 		</copy>
 
 		<!-- Merge version from ".version file" into help file -->
-		<loadfile property="version" srcFile="bin\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
+		<loadfile property="version" srcFile="target\classes\com\wudsn\tools\thecartstudio\TheCartStudio.version" />
 		<echo message="${version}" />
 		<replace file="${productionFolder}\help\TheCartStudio.html">
 			<replacefilter token="$${version}" value="${version}" />
