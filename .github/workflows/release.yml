@@ -1,0 +1,167 @@
+name: Release
+
+# Builds a portable, no-install-needed app image for Windows, Linux and
+# macOS via jpackage (bundling the JVM, so end users need no Java install of
+# their own) and publishes them as assets on a GitHub Release.
+#
+# Trigger: push a tag matching v*, e.g. `git tag v1.0.0 && git push origin v1.0.0`
+# (the release pipeline starts fresh at v1.0.0; it does not continue the
+# version numbering used by the wudsn.com-hosted daily builds).
+#
+# Can also be run manually (workflow_dispatch):
+# - With the release_tag input left empty: a plain test build - no release is
+#   published, only build artifacts you can download from the workflow run.
+# - With release_tag set to an EXISTING release's tag (e.g. v1.0.0): rebuilds
+#   whatever the triggering branch currently is and republishes those binaries
+#   to that release, without moving the git tag itself - useful for shipping
+#   a fixed build under the same version number without creating a new tag.
+#   softprops/action-gh-release updates the existing release's assets/notes
+#   in place; the tag keeps pointing at whatever commit it always did.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Existing release tag to rebuild and republish assets for (leave empty for a plain test build)"
+        required: false
+        type: string
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout TheCartStudio
+        uses: actions/checkout@v4
+        with:
+          path: TheCartStudio
+
+      - name: Checkout WUDSN-Base
+        uses: actions/checkout@v4
+        with:
+          repository: wudsn/wudsn-base
+          path: wudsn-base
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Install WUDSN-Base into the local Maven repo
+        run: mvn -B -ntp install
+        working-directory: wudsn-base
+
+      - name: Build the TheCartStudio shaded jar
+        run: mvn -B -ntp package
+        working-directory: TheCartStudio/com.wudsn.productions.atari800.thecartstudio
+
+      - name: Determine app version
+        id: version
+        shell: bash
+        # macOS's app-image bundler rejects an app-version whose first number
+        # is 0 ("The first number in an app-version cannot be zero or
+        # negative"), which the 1.x version line (see the trigger comment
+        # above) satisfies anyway.
+        env:
+          RELEASE_TAG_INPUT: ${{ github.event.inputs.release_tag }}
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            TAG="${GITHUB_REF_NAME}"
+          elif [[ -n "${RELEASE_TAG_INPUT}" ]]; then
+            TAG="${RELEASE_TAG_INPUT}"
+          fi
+          if [[ -n "${TAG:-}" ]]; then
+            echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=1.0.0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build portable app image with jpackage
+        shell: bash
+        run: |
+          ICON_ARGS=()
+          if [[ "${{ matrix.platform }}" == "windows" ]]; then
+            ICON_ARGS=(--icon TheCartStudio/com.wudsn.productions.atari800.thecartstudio/icons/application.ico)
+          elif [[ "${{ matrix.platform }}" == "macos" ]]; then
+            ICON_ARGS=(--icon TheCartStudio/com.wudsn.productions.atari800.thecartstudio/icons/application.icns)
+          fi
+          jpackage \
+            --type app-image \
+            --name TheCartStudio \
+            --input TheCartStudio/com.wudsn.productions.atari800.thecartstudio/target \
+            --main-jar TheCartStudio.jar \
+            --main-class com.wudsn.tools.thecartstudio.TheCartStudio \
+            --app-version "${{ steps.version.outputs.version }}" \
+            --add-modules ALL-MODULE-PATH \
+            --dest dist \
+            "${ICON_ARGS[@]}"
+
+      - name: Archive app image (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: Compress-Archive -Path dist/TheCartStudio -DestinationPath thecartstudio-windows-x64.zip
+
+      - name: Archive app image (Linux)
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: tar czf thecartstudio-linux-x64.tar.gz -C dist TheCartStudio
+
+      - name: Archive app image (macOS)
+        if: matrix.platform == 'macos'
+        shell: bash
+        run: tar czf thecartstudio-macos-x64.tar.gz -C dist TheCartStudio.app
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thecartstudio-${{ matrix.platform }}
+          path: thecartstudio-${{ matrix.platform }}-*.*
+          if-no-files-found: error
+
+  release:
+    if: github.ref_type == 'tag' || github.event.inputs.release_tag != ''
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Determine release tag
+        id: tag
+        shell: bash
+        env:
+          RELEASE_TAG_INPUT: ${{ github.event.inputs.release_tag }}
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${RELEASE_TAG_INPUT}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # tag_name targets an existing release/tag when republishing via
+      # release_tag - the action updates that release's assets/notes in
+      # place rather than creating a new one, and does not move the git tag.
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          files: artifacts/*/*
+          generate_release_notes: true
