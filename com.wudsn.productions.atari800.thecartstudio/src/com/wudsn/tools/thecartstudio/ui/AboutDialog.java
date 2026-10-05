@@ -42,6 +42,14 @@ import com.wudsn.tools.thecartstudio.model.ContentType;
 
 /**
  * About dialog with version information and credits.
+ * <p>
+ * TODO: Extend WUDSN Base's ModalDialog with OK only (super(parent, title,
+ * false)) instead of SimpleDialog, like the About dialogs of DIS6502 and
+ * RASTER Music Tracker (DIS6502 plan 17): initComponents and dataToUI become
+ * the constructor and a showDialog() calling showModal(getOKButton()), and
+ * setSize(230, 200) goes, since showModal packs. A ModalDialog disposes
+ * itself after use, so TheCartStudio.performAboutDialog must create a new
+ * dialog each time instead of keeping one in the field aboutDialog.
  * 
  * @author Peter Dell
  */
