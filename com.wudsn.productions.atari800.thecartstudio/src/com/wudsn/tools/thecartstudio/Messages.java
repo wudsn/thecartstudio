@@ -29,6 +29,9 @@ import com.wudsn.tools.base.repository.NLS;
  */
 public final class Messages extends NLS {
 
+	/** The user-defined short upper-case identifier prefixing all message numbers of this class. */
+	public static final String ID = "TCS"; // The!Cart Studio
+
 	// UI
 	public static Message I100;
 	public static Message I101;
