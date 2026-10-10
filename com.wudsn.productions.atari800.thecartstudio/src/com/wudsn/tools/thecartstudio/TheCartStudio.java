@@ -563,7 +563,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 	private void performOpenFileConfirmed(File file) {
 		if (file == null) {
 			workbookFileChooser.setDialogTitle(Texts.WorkbookFileChooserDialog_Open_Title);
-			FileFilter filefilter = FileUtility.createFileExtensionFileFilter(Workbook.FILE_EXTENSION,
+			FileFilter filefilter = FileUtility.createFileNameExtensionFilter(Workbook.FILE_EXTENSION,
 					Texts.WorkbookFileChooserDialog_FilterDescription);
 			workbookFileChooser.setFileFilter(filefilter);
 			workbookFileChooser.setCurrentDirectory(new File(preferences.getLastWorkbookFolderPath()));
@@ -727,7 +727,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 		workbookFileChooser.setSelectedFile(file);
 
 		workbookFileChooser.setDialogTitle(Texts.WorkbookFileChooserDialog_SaveAs_Title);
-		FileFilter filefilter = FileUtility.createFileExtensionFileFilter(Workbook.FILE_EXTENSION,
+		FileFilter filefilter = FileUtility.createFileNameExtensionFilter(Workbook.FILE_EXTENSION,
 				Texts.WorkbookFileChooserDialog_FilterDescription);
 		workbookFileChooser.setFileFilter(filefilter);
 
@@ -865,7 +865,7 @@ public final class TheCartStudio implements ActionListener, Listener {
 
 		String fileExtension = ExportFormat.getFileExtension(exportFormat);
 		String filterDescription = ExportFormat.getFileFilterDescription(exportFormat);
-		FileFilter filefilter = FileUtility.createFileExtensionFileFilter(fileExtension, filterDescription);
+		FileFilter filefilter = FileUtility.createFileNameExtensionFilter(fileExtension, filterDescription);
 
 		// Propose file name with proper file extension when dialog is opened.
 		File file = exportFileChooser.getSelectedFile();
